@@ -1,0 +1,32 @@
+<!--<div style="-->
+<!--position: absolute;-->
+<!--width: 200px;-->
+<!--height: 200px;-->
+<!--background: red;-->
+<!--top: 0;-->
+<!--clip-path: url(#clipping);-->
+<!--">-->
+
+<!--</div>-->
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 45 60"
+  height="600"
+  width="450" #svgContainer>
+  <g transform='translate(0,-237)'>
+    <path style="
+    fill: none;
+    stroke: red;
+    stroke-width: 0.5px;
+"></path>
+    <clipPath id="clipping">
+      <path transform='translate(0,-237)' [attr.d]="clippingMask"/>
+    </clipPath>
+  </g>
+  <g clip-path="url(#clipping)">
+    <rect x="0" y="0" width="45" height="10" fill="red"/>
+    <rect x="0" y="10" width="45" height="5" fill="blue"/>
+    <rect x="0" y="15" width="45" height="10" fill="orange"/>
+    <rect x="0" y="25" width="45" height="50" fill="green"/>
+  </g>
+</svg>
