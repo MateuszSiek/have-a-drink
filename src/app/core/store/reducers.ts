@@ -1,8 +1,10 @@
-import { ActionReducerMap } from '@ngrx/store';
+import { ActionReducerMap, MetaReducer } from '@ngrx/store';
+import { storeFreeze } from 'ngrx-store-freeze';
 
 import { DrinkRecipe } from '../models/visualisation';
 import { Actions, ActionTypes, LoadComplete, SetCurrentDrink } from './actions';
 import { getNextInArray, getPrevInArray } from '../utils/utils';
+import { environment } from '../../../environments/environment';
 
 
 export interface AppState {
@@ -20,8 +22,6 @@ export const initialState: DrinksState = {
   loaded : false,
   loading: false,
 };
-
-export const reducers: ActionReducerMap<AppState> = { DRINKS: reducer };
 
 export function reducer( state = initialState, action: Actions ): DrinksState {
   switch ( action.type ) {
@@ -60,3 +60,7 @@ export function reducer( state = initialState, action: Actions ): DrinksState {
       return state;
   }
 }
+
+export const reducers: ActionReducerMap<AppState> = { DRINKS: reducer };
+
+export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [storeFreeze]: [];

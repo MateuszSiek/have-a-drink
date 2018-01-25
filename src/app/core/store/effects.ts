@@ -5,7 +5,7 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
 
-import { Actions, ActionTypes, LoadComplete, SetCurrentDrink } from './actions';
+import { ActionTypes, LoadComplete, SetCurrentDrink } from './actions';
 import { DRINKS } from '../data/drinks';
 
 @Injectable()
@@ -20,7 +20,7 @@ export class DrinksEffects {
   @Effect()
   public setCurrentDrink$: Observable<Action> = this.actions$.pipe(
     ofType(ActionTypes.LoadComplete),
-    map(( action: LoadComplete ) => new SetCurrentDrink(action.payload[ 0 ]))
+    map(( action: LoadComplete ) => new SetCurrentDrink(action.payload[ 1 ]))
   );
 
   constructor( private actions$: Actions ) {}

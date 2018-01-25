@@ -5,15 +5,14 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import { reducers } from './store/reducers';
+import { metaReducers, reducers } from './store/reducers';
 import { StoreService } from './services/store.service';
 import { DrinksEffects } from './store/effects';
 
 @NgModule({
   imports     : [
-    BrowserModule,
     CommonModule,
-    StoreModule.forRoot(reducers),
+    StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot([ DrinksEffects ]),
     StoreDevtoolsModule.instrument({
       maxAge: 5
