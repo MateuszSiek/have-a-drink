@@ -1,28 +1,10 @@
-<!--<div style="-->
-<!--position: absolute;-->
-<!--width: 200px;-->
-<!--height: 200px;-->
-<!--background: red;-->
-<!--top: 0;-->
-<!--clip-path: url(#clipping);-->
-<!--">-->
-
-<!--</div>-->
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  viewBox="0 0 45 60"
-  height="600"
-  width="450" #svgContainer>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 60" #svgContainer>
+  <g clip-path="url(#clipping-mask)" class="g--ingredients"></g>
+  <!--<rect height="60" width="22.5" x="22.5" y="0" clip-path="url(#clipping-mask)" class="rect&#45;&#45;glass-shadow"></rect>-->
   <g transform='translate(0,-237)'>
-    <path style="
-    fill: none;
-    stroke: red;
-    stroke-width: 0.5px;
-"></path>
-    <clipPath id="clipping">
-      <path transform='translate(0,-237)' [attr.d]="clippingMask"/>
+    <path class="path--glass-path" d=""></path>
+    <clipPath id="clipping-mask">
+      <path transform='translate(0,-237)' d=""></path>
     </clipPath>
-  </g>
-  <g clip-path="url(#clipping)" class="ingredients-layers">
   </g>
 </svg>

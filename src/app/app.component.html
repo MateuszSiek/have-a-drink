@@ -1,1 +1,8 @@
-<app-visualisation></app-visualisation>
+<h1>{{drinkName | uppercase}}</h1>
+<div>
+  <app-visualisation></app-visualisation>
+</div>
+<div>
+  <button (click)="loadNextDrink()">next</button>
+  <button (click)="loadPrevDrink()">prev</button>
+</div>

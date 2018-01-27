@@ -13,7 +13,7 @@ import { BrowserModule } from '@angular/platform-browser';
   ],
   declarations: [
     AppComponent,
-    VisualisationComponent
+    VisualisationComponent,
   ],
   providers   : [],
   bootstrap   : [ AppComponent ]
