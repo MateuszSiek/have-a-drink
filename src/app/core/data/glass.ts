@@ -2,7 +2,8 @@ import { Glass } from '../models/visualisation';
 
 export const GLASS_DATA: Glass[] = [
   {
-    id           : 'glass_1',
+    id           : 1,
+    name         : 'glass_1',
     maskHeight   : 29,
     maskTopMargin: 1,
     path         : `m 36.859205,296.89163 c 0,0 0.181959,-0.91939 -0.398941,-1.20985 l -10.435602,-3.56571
@@ -37,7 +38,8 @@ export const GLASS_DATA: Glass[] = [
     29.9732025,0.0114 42.9236835,-0.009 z`
   },
   {
-    id           : 'glass_2',
+    id           : 2,
+    name         : 'glass_2',
     maskHeight   : 57,
     maskTopMargin: 1,
     path         : `m 29.086658,296.55503 c 0,0 1.326887,-0.0874 1.827842,-0.46759 0.439989,-0.33394 0.827404,-0.49985
@@ -63,7 +65,8 @@ export const GLASS_DATA: Glass[] = [
     0,-4.21813 -0.01662,-1.50134 -0.0513,-4.18048 -0.09971,-4.5032 7.098985,0.10887 15.60373,-0.0223 19.251379,0.0161 z`
   },
   {
-    id           : 'glass_3',
+    id           : 3,
+    name         : 'glass_3',
     maskHeight   : 32,
     maskTopMargin: 2,
     path         : `m 33.87425,294.6311 c 5.499598,0.7074 7.056207,1.76313 7.189864,1.4886 0.104584,-0.21481

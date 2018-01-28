@@ -3,31 +3,34 @@ import { GLASS_DATA } from './glass';
 
 export const DRINKS: DrinkRecipe[] = [
   {
-    name       : 'Drink 1',
+    id         : 1,
+    name       : 'qwerty',
     glass      : GLASS_DATA[ 0 ],
     ingredients: [
-      { name: 'lemon', amount: 0.1, colour: 'yellow' },
-      { name: 'water', amount: 0.2, colour: 'blue' },
-      { name: 'vodka', amount: 0.2, colour: 'red' },
+      { id: 1, name: 'lemon', amount: 0.1, colour: 'yellow' },
+      { id: 1, name: 'water', amount: 0.2, colour: 'blue' },
+      { id: 1, name: 'vodka', amount: 0.2, colour: 'red' },
     ]
   }, {
-    name       : 'Drink 2',
+    id         : 2,
+    name       : 'yqertw',
     glass      : GLASS_DATA[ 1 ],
     ingredients: [
-      { name: 'lemon', amount: 0.1, colour: 'yellow' },
-      { name: 'water', amount: 0.5, colour: 'blue' },
-      { name: 'orange', amount: 0.2, colour: 'orange' },
-      { name: 'vodka', amount: 0.15, colour: 'pink' },
+      { id: 1, name: 'lemon', amount: 0.1, colour: 'yellow' },
+      { id: 1, name: 'water', amount: 0.5, colour: 'blue' },
+      { id: 1, name: 'orange', amount: 0.2, colour: 'orange' },
+      { id: 1, name: 'vodka', amount: 0.15, colour: 'pink' },
     ]
   }, {
-    name       : 'Drink 3',
+    id         : 3,
+    name       : 'ryqertwq',
     glass      : GLASS_DATA[ 2 ],
     ingredients: [
-      { name: 'lemon', amount: 0.1, colour: 'yellow' },
-      { name: 'water', amount: 0.5, colour: 'blue' },
-      { name: 'orange', amount: 0.2, colour: 'orange' },
-      { name: 'vodka', amount: 0.15, colour: 'pink' },
-      { name: 'water', amount: 0.5, colour: 'blue' },
+      { id: 1, name: 'lemon', amount: 0.1, colour: 'yellow' },
+      { id: 1, name: 'water', amount: 0.5, colour: 'blue' },
+      { id: 1, name: 'orange', amount: 0.2, colour: 'orange' },
+      { id: 1, name: 'vodka', amount: 0.15, colour: 'pink' },
+      { id: 1, name: 'water', amount: 0.5, colour: 'blue' },
     ]
   }
 ];

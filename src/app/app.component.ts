@@ -9,7 +9,6 @@ import { DrinkRecipe } from './core/models/visualisation';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
-  public drinkName: string;
 
   constructor( private storeService: StoreService, private cdRef: ChangeDetectorRef, ) {
 
@@ -17,10 +16,6 @@ export class AppComponent implements OnInit {
 
   public ngOnInit(): void {
     this.storeService.loadDrinks();
-    this.storeService.getCurrentDrink().subscribe(( drink: DrinkRecipe | undefined ) => {
-      this.drinkName = drink.name;
-      this.cdRef.detectChanges();
-    });
   }
 
   public loadNextDrink(): void {
