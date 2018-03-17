@@ -1,0 +1,28 @@
+@import 'abstracts';
+
+html, body {
+  //background: radial-gradient(#1f3d4e, #03101f);
+  background: url("../assets/parchment_background.jpg") no-repeat center;
+  background-size: cover;
+  height: 100%;
+  margin: 0;
+  color: $black;
+  font-family: 'Oswald', sans-serif;
+  text-align: center;
+}
+
+button {
+  padding: 0.5rem 2rem;
+  background: rgba($gray, 0.4);
+  outline: none;
+  border: solid $gray 1px;
+  color: white;
+  font-size: 1rem;
+  text-transform: uppercase;
+  margin: 1rem;
+  box-shadow: 0px 2px 6px 0px rgba($gray, 0.4);
+}
+
+button:hover {
+  background: rgba($gray, 0.3);
+}

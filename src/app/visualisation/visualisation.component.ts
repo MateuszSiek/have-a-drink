@@ -1,142 +1,196 @@
 import {
-  ChangeDetectionStrategy, Component, ElementRef, EventEmitter, OnDestroy, OnInit,
-  ViewChild
+	ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, OnDestroy, OnInit,
+	ViewChild
 } from '@angular/core';
+import { interpolatePath } from 'd3-interpolate-path';
+import * as d3 from 'd3';
 
-import * as SnapTS from 'snapsvg';
+// import * as SnapTS from 'snapsvg';
 
 import { Observable } from 'rxjs/Observable';
 import { bindCallback } from 'rxjs/observable/bindCallback';
 import { filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
 import { IngredientViewLayer, ViewData, VisualisationService } from './service/visualisation.service';
-
-declare const Snap: any;
-declare const mina: any;    // if you want to use animations of course
+import { D3Selection } from '../title/title.component';
+import { Ingredient } from '../core/models/visualisation';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 const VIEWBOX_HEIGHT = 60;
 
+
 @Component({
-  selector       : 'app-visualisation',
-  templateUrl    : './visualisation.component.html',
-  styleUrls      : [ './visualisation.component.scss' ],
-  providers      : [ VisualisationService ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+	selector       : 'app-visualisation',
+	templateUrl    : './visualisation.component.html',
+	styleUrls      : [ './visualisation.component.scss' ],
+	providers      : [ VisualisationService ],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VisualisationComponent implements OnInit, OnDestroy {
-  @ViewChild('svgContainer') public svgContainer: ElementRef;
+	@ViewChild('svgContainer') public svgContainer: ElementRef;
 
-  public snapSvg: SnapTS.Paper;
+	public ingredients: Ingredient[] = [];
+	public listTop: number = 0;
+	public listHeight: number = 0;
 
-  private ngOnDestroy$: EventEmitter<boolean> = new EventEmitter();
+	public svgD3Selection: D3Selection;
 
-  constructor( private visualisationService: VisualisationService ) {}
+	public animating: boolean = true;
 
-  public ngOnDestroy(): void {
-    this.ngOnDestroy$.emit(true);
-  }
+	private ngOnDestroy$: EventEmitter<boolean> = new EventEmitter();
 
-  public ngOnInit(): void {
-    this.snapSvg = Snap(this.svgContainer.nativeElement);
-    this.visualisationService.getViewData()
-      .pipe(
-        takeUntil(this.ngOnDestroy$),
-        filter(( data: ViewData | undefined ) => !!data), // TODO handle undefined data
-        switchMap(( data: ViewData ) => this.renderDrink(data))
-      )
-      .subscribe();
-  }
+	constructor( private visualisationService: VisualisationService, private cdRef: ChangeDetectorRef ) {}
 
-  /*
-  * Main function used to trigger whole render cycle,
-  * from cleaning previous render through rendering new glass and updating mask to rendering ingredients
-  * @returns observable which is triggered once whole visualisation was re-rendered
-   */
-  private renderDrink( { mask, path, drinkLayers }: ViewData ): Observable<void> {
-    return this.cleanUpCurrentRender()
-      .pipe(
-        tap(() => this.setClippingMask(mask)),
-        switchMap(() => this.renderGlass(path)),
-        switchMap(() => this.renderIngredients(drinkLayers)),
-        take(1)
-      );
-  }
+	public ngOnDestroy(): void {
+		this.ngOnDestroy$.emit(true);
+	}
 
-  /*
-  * Function used to update view mask used to clip ingredients rectangle
-  * so that only the part of view in the glass is visible
-   */
-  private setClippingMask( path: string ): void {
-    this.snapSvg.select('#clipping-mask path').attr({ d: path });
-  }
+	public ngOnInit(): void {
+		console.log(this);
+		this.svgD3Selection = d3.select(this.svgContainer.nativeElement);
+		this.visualisationService.getViewData()
+		.pipe(
+			takeUntil(this.ngOnDestroy$),
+			filter(( data: ViewData | undefined ) => !!data), // TODO handle undefined data
+			tap(() => {
+				this.animating = true;
+				this.cdRef.detectChanges();
+			}),
+			tap(( data: ViewData ) => {
+				const glass = data.recipe.glass;
+				this.listTop = (glass.maskTopMargin / VIEWBOX_HEIGHT) * 100;
+				this.listHeight = (glass.maskHeight / VIEWBOX_HEIGHT) * 100;
+				this.ingredients = data.recipe.ingredients;
+				this.cdRef.detectChanges();
+			}),
+			switchMap(( data: ViewData ) => this.renderDrink(data)),
+			tap(() => {
+				console.log('done');
+				this.animating = false;
+				this.cdRef.detectChanges();
+			}),
+		)
+		.subscribe();
+	}
 
-  /*
-  * Before creating new render we should clean up previous one.
-  * In this case we are animating ingredients layers to create effect of emptying the glass
-  * @returns observable which is triggered once animation has finished
-   */
-  private cleanUpCurrentRender(): Observable<void> {
-    return bindCallback(
-      ( cb: () => void ) => {
-        const ingredientsView: SnapTS.Element = this.snapSvg.select('.g--ingredients g');
-        if ( ingredientsView ) {
-          ingredientsView.animate({
-            // transitioning the view to the bottom and scaling in to 0
-            // to create effect of emptying the glass
-            transform: `t 0 ${VIEWBOX_HEIGHT} s1 0`,
-            opacity  : 0
-          }, 400, mina.linear, () => {
-            // once animation is finished we can destroy view elements
-            Snap(this.snapSvg.select('.g--ingredients')).clear();
-            cb();
-          });
-        }
-        else {
-          cb();
-        }
-      }
-    )();
-  }
+	/*
+	 * Main function used to trigger whole render cycle,
+	 * from cleaning previous render through rendering new glass and updating mask to rendering ingredients
+	 * @returns observable which is triggered once whole visualisation was re-rendered
+	 */
+	private renderDrink( { mask, path, drinkLayers }: ViewData ): Observable<void> {
+		return this.cleanUpCurrentRender()
+		.pipe(
+			tap(() => this.setClippingMask(mask)),
+			switchMap(() => this.renderGlass(path)),
+			switchMap(() => this.renderIngredients(drinkLayers)),
+			take(1)
+		);
+	}
 
-  /*
-  * Function responsible for rendering ingredients rectangles inside `.ingredients-layers` view element in the template.
-  * Once rectangle for every ingredient is appended to the view animation is triggered
-  * @returns observable which is triggered once animation has finished
-   */
-  private renderIngredients( layers: IngredientViewLayer[] ): Observable<void> {
-    return bindCallback(
-      ( cb: () => void ) => {
-        const container: SnapTS.Paper = Snap(this.snapSvg.select('.g--ingredients'))
-          .g() // adding additional grouping element which will be animated
-          .attr({
-            // set scale to 0 and move to the bottom of view so then we can scale it up and update position
-            // to create illusion of filling the glass up from the bottom
-            transform: `t 0 ${VIEWBOX_HEIGHT} s1 0`,
-            opacity  : 0
-          });
+	/*
+	 * Function used to update view mask used to clip ingredients rectangle
+	 * so that only the part of view in the glass is visible
+	 */
+	private setClippingMask( path: string ): void {
+		this.svgD3Selection.select('#clipping-mask path').attr('d', path);
+	}
 
-        layers.forEach(( layer: IngredientViewLayer ) => { // appending ingredients rectangles to the view
-          container.rect(0, layer.y, 45, layer.h).attr({ 'fill': layer.colour });
-        });
+	/*
+	 * Before creating new render we should clean up previous one.
+	 * In this case we are animating ingredients layers to create effect of emptying the glass
+	 * @returns observable which is triggered once animation has finished
+	 */
+	private cleanUpCurrentRender(): Observable<void> {
+		return bindCallback(
+			( cb: () => void ) => {
+				const ingredientsView: D3Selection = this.svgD3Selection.select('.g--ingredients g');
+				if ( ingredientsView.node() ) {
+					ingredientsView
+					.transition()
+					.duration(1000)
+					.attr('transform', `translate(0,${VIEWBOX_HEIGHT})`)
+					.on('end', cb)
+					.remove();
+				}
+				else {
+					cb();
+				}
+			}
+		)();
+	}
 
-        container.animate({
-          transform: 't 0 0 s1 1',
-          opacity  : 1
-        }, 600, mina.linear, cb);
-      }
-    )();
-  }
+	/*
+	 * Function responsible for rendering ingredients rectangles inside `.ingredients-layers` view element in the template.
+	 * Once rectangle for every ingredient is appended to the view animation is triggered
+	 * @returns observable which is triggered once animation has finished
+	 */
+	private renderIngredients( layers: IngredientViewLayer[] ): Observable<void> {
+		return bindCallback(
+			( cb: () => void ) => {
+				const container: D3Selection = this.svgD3Selection.select('.g--ingredients')
+				.append('g') // adding additional grouping element which will be animated
+				.attr('transform', `translate(0,${VIEWBOX_HEIGHT})`);
 
-  /*
-  * Function responsible for rendering/updating glass path with animation.
-  * @returns observable which is triggered once animation has finished
-   */
-  private renderGlass( path: string = '' ): Observable<void> {
-    return bindCallback(
-      ( cb: () => void ) => { // callback function
-        this.snapSvg.select('path').animate({ d: path }, 300, mina.easeinout, cb);
-      }
-    )();
-  }
+				layers.forEach(( layer: IngredientViewLayer ) => { // appending ingredients rectangles to the view
+					container.append('rect')
+					.attr('x', 0)
+					.attr('y', layer.y)
+					.attr('width', 45)
+					.attr('height', layer.h)
+					.style('fill', layer.colour);
+				});
 
+				container.transition()
+				.duration(500)
+				.attr('transform', 'translate(0,0)')
+				.on('end', cb);
+			}
+		)();
+	}
+
+	/*
+	 * Function responsible for rendering/updating glass path with animation.
+	 * @returns observable which is triggered once animation has finished
+	 */
+	private renderGlass( path: string = '' ): Observable<void> {
+		return bindCallback(
+			( cb: () => void ) => { // callback function
+				const currentPath = this.svgD3Selection.select('path');
+				currentPath
+				.transition()
+				.duration(800)
+				.attrTween('d', this.pathTween(currentPath!.node() as SVGPathElement, path, 0.5))
+				.on('end', cb);
+			}
+		)();
+	}
+
+	private pathTween( currentPath: SVGPathElement, d1: string, precision: number ): any {
+		return function (): any {
+			const newPath: SVGPathElement = currentPath.cloneNode() as SVGPathElement;
+			const n0 = currentPath.getTotalLength();
+			const n1 = (newPath.setAttribute('d', d1), newPath).getTotalLength();
+			// Uniform sampling of distance based on specified precision.
+			const distances = [ 0 ];
+			let i = 0;
+			const dt = precision / Math.max(n0, n1);
+			while ( (i += dt) < 1 ) {
+				distances.push(i);
+			}
+			distances.push(1);
+
+			// Compute point-interpolators at each distance.
+			const points = distances.map(( t: number ) => {
+				const p0 = currentPath.getPointAtLength(t * n0);
+				const p1 = newPath.getPointAtLength(t * n1);
+				return d3.interpolate([ p0.x, p0.y ], [ p1.x, p1.y ]);
+			});
+
+			return ( t: number ) => {
+				return t < 1 ? 'M' + points.map(( p: any ) => p(t)).join('L') : d1;
+			};
+		};
+
+	}
 }

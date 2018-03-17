@@ -1,4 +1,7 @@
+@import 'abstracts';
+
 h1 {
+  color: $black;
   position: relative;
 }
 
@@ -9,7 +12,7 @@ h1 div {
   transform: translate(-50%, 0);
 }
 
-.div--text-container span{
+.div--text-container span {
   display: inline-block;
 }
 

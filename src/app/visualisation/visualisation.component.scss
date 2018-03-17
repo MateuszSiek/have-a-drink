@@ -1,14 +1,61 @@
+@import 'abstracts';
+
 svg {
-  width: 25rem;
+  //width: 25rem;
+  flex-basis: 25rem;
+}
+
+.vis-container {
+  height: 35rem;
+  padding: 0rem 2rem;
+  display: flex;
+  .__placeholder {
+    flex: 1;
+  }
+  .__labels {
+    flex: 1;
+    text-align: left;
+  }
+}
+
+ul {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  li {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    opacity: 0;
+    animation: fadeIn 0.5s forwards;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .path--glass-path {
-  fill: rgba(white, 0.1);
-  stroke: white;
+  fill: rgba($gray, 0.1);
+  stroke: $gray;
   stroke-width: 0.1px;
+  stroke-dasharray: 1, 1.2;
 }
 
-.rect--glass-shadow {
-  opacity: 0.1;
-  fill: #5d5d5d;
+.drink-description {
+  font-weight: 200;
+  font-size: 1.3rem;
+  max-width: 60rem;
+  margin: auto;
+  padding: 0rem 2rem;
 }
