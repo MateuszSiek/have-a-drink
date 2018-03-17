@@ -1,5 +1,5 @@
 export interface Glass {
-	id: number;
+	id: string;
 	name: string;
 	path: string;
 	mask: string;
@@ -8,18 +8,18 @@ export interface Glass {
 }
 
 export interface DrinkRecipe {
-	id: number;
+	id: string;
 	name: string;
+	description: string;
+	active: boolean;
 	glass: Glass;
 	ingredients: Ingredient[];
+	ingredientsAmount: { [key: string]: number };
 }
 
-export interface IngredientDef {
-	id: number;
+export interface Ingredient {
+	id: string;
 	name: string;
 	colour: string;
-}
-
-export interface Ingredient extends IngredientDef {
-	amount: number;
+	type: string; // eg gin, vodka, juice etc
 }

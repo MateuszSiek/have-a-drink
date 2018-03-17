@@ -2,10 +2,8 @@ import {
 	ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, OnDestroy, OnInit,
 	ViewChild
 } from '@angular/core';
-import { interpolatePath } from 'd3-interpolate-path';
-import * as d3 from 'd3';
 
-// import * as SnapTS from 'snapsvg';
+import * as d3 from 'd3';
 
 import { Observable } from 'rxjs/Observable';
 import { bindCallback } from 'rxjs/observable/bindCallback';
@@ -14,9 +12,9 @@ import { filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { IngredientViewLayer, ViewData, VisualisationService } from './service/visualisation.service';
 import { D3Selection } from '../title/title.component';
 import { Ingredient } from '../core/models/visualisation';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 
 const VIEWBOX_HEIGHT = 60;
+const ANIM_DURRATION = 400;
 
 
 @Component({
@@ -46,7 +44,6 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 	}
 
 	public ngOnInit(): void {
-		console.log(this);
 		this.svgD3Selection = d3.select(this.svgContainer.nativeElement);
 		this.visualisationService.getViewData()
 		.pipe(
@@ -65,7 +62,6 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 			}),
 			switchMap(( data: ViewData ) => this.renderDrink(data)),
 			tap(() => {
-				console.log('done');
 				this.animating = false;
 				this.cdRef.detectChanges();
 			}),
@@ -108,7 +104,7 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 				if ( ingredientsView.node() ) {
 					ingredientsView
 					.transition()
-					.duration(1000)
+					.duration(ANIM_DURRATION)
 					.attr('transform', `translate(0,${VIEWBOX_HEIGHT})`)
 					.on('end', cb)
 					.remove();
@@ -142,7 +138,7 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 				});
 
 				container.transition()
-				.duration(500)
+				.duration(ANIM_DURRATION)
 				.attr('transform', 'translate(0,0)')
 				.on('end', cb);
 			}
@@ -159,8 +155,8 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 				const currentPath = this.svgD3Selection.select('path');
 				currentPath
 				.transition()
-				.duration(800)
-				.attrTween('d', this.pathTween(currentPath!.node() as SVGPathElement, path, 0.5))
+				.duration(ANIM_DURRATION)
+				.attrTween('d', this.pathTween(currentPath!.node() as SVGPathElement, path, 1))
 				.on('end', cb);
 			}
 		)();

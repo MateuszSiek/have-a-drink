@@ -8,6 +8,8 @@ export enum ActionTypes {
 	SetCurrentDrink  = '[Drinks] Set current',
 	SetNextDrink     = '[Drinks] Set next',
 	SetPreviousDrink = '[Drinks] Set previous',
+	SetDrinkById     = '[Drinks] Set drink by id',
+	SetDrinkByName   = '[Drinks] Set drink by name',
 }
 
 export class Load implements Action {
@@ -47,10 +49,24 @@ export class SetPreviousDrink implements Action {
 	constructor( public payload: any = null ) { }
 }
 
+export class SetDrinkById implements Action {
+	public readonly type: ActionTypes.SetDrinkById = ActionTypes.SetDrinkById;
+
+	constructor( public payload: string ) { }
+}
+
+export class SetDrinkByName implements Action {
+	public readonly type: ActionTypes.SetDrinkByName = ActionTypes.SetDrinkByName;
+
+	constructor( public payload: string ) { }
+}
+
 export type Actions =
 	| Load
 	| LoadComplete
 	| LoadFail
 	| SetCurrentDrink
 	| SetNextDrink
-	| SetPreviousDrink;
+	| SetPreviousDrink
+	| SetDrinkById
+	| SetDrinkByName;

@@ -9,16 +9,16 @@ svg {
   height: 35rem;
   padding: 0rem 2rem;
   display: flex;
-  .__placeholder {
+  .drinks-list {
     flex: 1;
   }
-  .__labels {
+  .ingredients-list {
     flex: 1;
     text-align: left;
   }
 }
 
-ul {
+.ingredients-list ul {
   position: relative;
   margin: 0;
   padding: 0;

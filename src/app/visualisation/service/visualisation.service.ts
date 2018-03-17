@@ -29,6 +29,10 @@ export class VisualisationService implements OnDestroy {
 		this.ngOnDestroy$.emit(true);
 	}
 
+	public getAllDrinks(): Observable<DrinkRecipe[]> {
+		return this.storeService.getAllDrinks();
+	}
+
 	/*
 	 * @returns observable stream with drink view data so on any update in the store view can fetch new data
 	 */
@@ -57,7 +61,8 @@ export class VisualisationService implements OnDestroy {
 		const { maskHeight, maskTopMargin } = glass;
 		const ingredients = recipe.ingredients;
 		// total sum of all ingredients
-		const ingredientsTotal = ingredients.reduce(( a: number, i: Ingredient ) => a + i.amount, 0);
+		const ingredientsTotal = ingredients
+		.reduce(( a: number, i: Ingredient ) => a + (recipe.ingredientsAmount[ i.id ] || 0), 0);
 		// multiplier used to translate drink proportions to view px
 		const ingredientScale = maskHeight / ingredientsTotal;
 
@@ -65,10 +70,11 @@ export class VisualisationService implements OnDestroy {
 		// to eachother
 		let topDist = maskTopMargin;
 		return ingredients.map(( i: Ingredient ) => {
-			const ingredientHeightScaled = i.amount * ingredientScale;
+			const amount = recipe.ingredientsAmount[ i.id ] || 0;
+			const ingredientHeightScaled = amount * ingredientScale;
 			const viewLayer: IngredientViewLayer = {
-				y     : topDist,
-				h     : ingredientHeightScaled,
+				y     : topDist || 0,
+				h     : ingredientHeightScaled || 0,
 				colour: i.colour
 			};
 			topDist += ingredientHeightScaled;

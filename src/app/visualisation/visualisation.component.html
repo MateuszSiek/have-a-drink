@@ -1,6 +1,6 @@
 <div class="vis-container">
-    <div class="__placeholder">
-
+    <div class="drinks-list">
+        <app-drinks-list></app-drinks-list>
     </div>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 60" #svgContainer>
         <g clip-path="url(#clipping-mask)" class="g--ingredients"></g>
@@ -11,17 +11,14 @@
             </clipPath>
         </g>
     </svg>
-    <div class="__labels">
-        <ul [style.top.%]="listTop" [style.height.%]="listHeight" *ngIf="!animating">
+    <div class="ingredients-list">
+        <ul class="ingredients-list" [style.top.%]="listTop" [style.height.%]="listHeight" *ngIf="!animating">
             <li *ngFor="let ingredient of ingredients; index as i" [style.animation-delay.ms]="i*100">
-                <span>{{ingredient.name}}</span>
+                <span>{{ingredient.amount}} {{ingredient.name}}</span>
             </li>
         </ul>
     </div>
 </div>
 <div class="drink-description">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-    aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-    sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+    <app-description></app-description>
 </div>

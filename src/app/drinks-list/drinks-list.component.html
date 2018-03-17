@@ -1,0 +1,25 @@
+<div>
+    <ul>
+        <li *ngFor="let drink of drinks"
+            (click)="selectDrinkById(drink.id)"
+            [class.active]="currentDrink?.id === drink.id">
+            {{drink.name}}
+        </li>
+        <!--<li *ngFor="let drink of drinks"-->
+            <!--(click)="selectDrinkById(drink.id)"-->
+            <!--[class.active]="currentDrink?.id === drink.id">-->
+            <!--{{drink.name}}-->
+        <!--</li>-->
+        <!--<li *ngFor="let drink of drinks"-->
+            <!--(click)="selectDrinkById(drink.id)"-->
+            <!--[class.active]="currentDrink?.id === drink.id">-->
+            <!--{{drink.name}}-->
+        <!--</li>-->
+        <!--<li *ngFor="let drink of drinks"-->
+            <!--(click)="selectDrinkById(drink.id)"-->
+            <!--[class.active]="currentDrink?.id === drink.id">-->
+            <!--{{drink.name}}-->
+        <!--</li>-->
+    </ul>
+    <div></div>
+</div>

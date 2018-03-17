@@ -3,15 +3,16 @@ import { Observable } from 'rxjs/Observable';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { SnapshotAction } from 'angularfire2/database/interfaces';
 
-import { DrinkRecipe, Glass, IngredientDef } from '../models/visualisation';
+import { DrinkRecipe, Glass, Ingredient } from '../models/visualisation';
 
 type FBGLass = Glass;
-type FBIngredient = IngredientDef;
+type FBIngredient = Ingredient;
 
 interface FBDrink {
 	id?: string;
 	active: boolean;
 	name: string;
+	description: string;
 	glass: { [key: string]: Glass };
 	ingredients: { [key: string]: FBIngredient };
 }
@@ -37,7 +38,7 @@ export class FirebaseService {
 	}
 
 	// INGREDIENTS
-	public getIngredients(): Observable<IngredientDef[]> {
+	public getIngredients(): Observable<Ingredient[]> {
 		return this.ingredientsRef.snapshotChanges().map(( changes: SnapshotAction[] ) => {
 			return changes.map(c => ({ ...c.payload.val(), id: c.payload.key }));
 		});

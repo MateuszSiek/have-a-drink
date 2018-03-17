@@ -1,6 +1,6 @@
-import { Ingredient, IngredientDef } from '../models/visualisation';
+import { Ingredient } from '../models/visualisation';
 
-const INGREDIENTS: IngredientDef[] = [
+const INGREDIENTS: Ingredient[] = [
   { id: 1, name: 'white rum', colour: '#FFFFFF' },
   { id: 2, name: 'soda', colour: '#FEE898' },
   { id: 3, name: 'sugar syrup', colour: '#FFFFFF' },

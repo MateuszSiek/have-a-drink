@@ -7,8 +7,8 @@ export const getAppState = ( state: AppState ) => state.DRINKS;
 
 export const getCurrentDrink: MemoizedSelector<AppState, DrinkRecipe | undefined> =
 	             createSelector(getAppState, ( state: DrinksState ) => state && state.currentDrink);
-export const getDrinks: MemoizedSelector<AppState, DrinkRecipe[] | undefined> =
-	             createSelector(getAppState, ( state: DrinksState ) => state && state.drinks);
+export const getDrinks: MemoizedSelector<AppState, DrinkRecipe[]> =
+	             createSelector(getAppState, ( state: DrinksState ) => state && state.drinks || []);
 
 export const getCurrentDrinkName: MemoizedSelector<AppState, string | undefined> =
 	             createSelector(getCurrentDrink, ( state?: DrinkRecipe ) => state && state.name);
