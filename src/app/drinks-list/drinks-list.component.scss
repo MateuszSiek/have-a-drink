@@ -1,12 +1,20 @@
 @import 'abstracts';
 
-div {
+.search-box input {
+  width: 100%;
+  padding: 0.2rem 0.3rem;
+  background: none;
+  border: none;
+  outline: none;
+  border-bottom: $gray dashed 1px;
+}
+
+.main-container {
   height: 100%;
   border: $gray dashed 1px;
   overflow: scroll;
   max-width: 16rem;
   font-size: 0.9rem;
-  padding: 0 0.5rem;
 }
 
 ul {
@@ -32,4 +40,9 @@ li.active {
 
 li:not(.active):hover {
   background: rgba($gray, 0.3);
+}
+
+.filters span {
+  margin: 5px;
+  padding: 5px;
 }

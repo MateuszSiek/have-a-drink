@@ -1,25 +1,38 @@
-<div>
-    <ul>
-        <li *ngFor="let drink of drinks"
-            (click)="selectDrinkById(drink.id)"
-            [class.active]="currentDrink?.id === drink.id">
-            {{drink.name}}
-        </li>
-        <!--<li *ngFor="let drink of drinks"-->
+<div class="main-container">
+    <div class="search-box">
+        <input type="text" name="search" placeholder="Search drinks" [formControl]="searchControl">
+    </div>
+    <div class="list">
+        <ul>
+            <li *ngFor="let drink of visibleDrinks"
+                (click)="selectDrinkById(drink.id)"
+                [class.active]="currentDrink?.id === drink.id">
+                {{drink.name}}
+            </li>
+            <!--<li *ngFor="let drink of drinks"-->
             <!--(click)="selectDrinkById(drink.id)"-->
             <!--[class.active]="currentDrink?.id === drink.id">-->
             <!--{{drink.name}}-->
-        <!--</li>-->
-        <!--<li *ngFor="let drink of drinks"-->
+            <!--</li>-->
+            <!--<li *ngFor="let drink of drinks"-->
             <!--(click)="selectDrinkById(drink.id)"-->
             <!--[class.active]="currentDrink?.id === drink.id">-->
             <!--{{drink.name}}-->
-        <!--</li>-->
-        <!--<li *ngFor="let drink of drinks"-->
+            <!--</li>-->
+            <!--<li *ngFor="let drink of drinks"-->
             <!--(click)="selectDrinkById(drink.id)"-->
             <!--[class.active]="currentDrink?.id === drink.id">-->
             <!--{{drink.name}}-->
-        <!--</li>-->
-    </ul>
-    <div></div>
+            <!--</li>-->
+        </ul>
+    </div>
+
+    <div class="filters">
+        <div> Base alcohol</div>
+        <button *ngFor="let type of alcoholTypes"
+                (click)="toogggleFilterType(type)"
+                [class.active]="filters.types[type]" class="sm-button">
+            {{type}}
+        </button>
+    </div>
 </div>

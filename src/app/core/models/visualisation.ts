@@ -21,5 +21,6 @@ export interface Ingredient {
 	id: string;
 	name: string;
 	colour: string;
+	alcohol: boolean;
 	type: string; // eg gin, vodka, juice etc
 }

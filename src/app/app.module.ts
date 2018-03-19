@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DescriptionComponent } from './description/description.component';
 import { DrinksListComponent } from './drinks-list/drinks-list.component';
 import { RouterModule, Routes } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const appRoutes: Routes = [
 	// { path: '', component: AppComponent },
@@ -21,6 +22,7 @@ const appRoutes: Routes = [
 		BrowserModule,
 		RouterModule.forRoot(appRoutes),
 		BrowserAnimationsModule,
+		ReactiveFormsModule
 	],
 	declarations: [
 		AppComponent,

@@ -7,7 +7,6 @@ import { Observable } from 'rxjs/Observable';
 import { map, switchMap } from 'rxjs/operators';
 
 import { ActionTypes, LoadComplete, SetCurrentDrink, SetDrinkByName } from './actions';
-import { DRINKS } from '../data/drinks';
 import { DrinkRecipe } from '../models/visualisation';
 import { FirebaseService } from '../services/firebase.service';
 
