@@ -1,48 +1,70 @@
 @import 'abstracts';
 
-.search-box input {
-  width: 100%;
-  padding: 0.2rem 0.3rem;
-  background: none;
-  border: none;
-  outline: none;
-  border-bottom: $gray dashed 1px;
-}
-
 .main-container {
+  display: flex;
+  flex-direction: column;
   height: 100%;
-  border: $gray dashed 1px;
-  overflow: scroll;
+  border: $border-line;
   max-width: 16rem;
   font-size: 0.9rem;
 }
 
-ul {
-  list-style-type: none;
-  max-width: 14rem;
-  margin: auto;
-  padding: 0 0.5rem;
-  text-align: left;
-  text-transform: uppercase;
+.search-box {
+  border: $border-line;
+  position: relative;
+  input {
+    width: 100%;
+    padding: 0.2rem 0.3rem;
+    background: none;
+    border: none;
+    outline: none;
+  }
+  button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    background: rgba($gray, 0.1);
+    outline: none;
+  }
 }
 
-li {
-  background: rgba($gray, 0.1);
-  margin: 0.5rem 0rem;
-  padding: 0.3rem;
-  text-align: center;
-  cursor: pointer;
+.list {
+  flex: 1;
+  overflow: auto;
+  ul {
+    list-style-type: none;
+    max-width: 14rem;
+    margin: auto;
+    padding: 0 0.5rem;
+    text-align: left;
+    text-transform: uppercase;
+  }
+
+  li {
+    background: rgba($gray, 0.1);
+    margin: 0.5rem 0rem;
+    padding: 0.3rem;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  li.active {
+    background: rgba($gray, 0.4);
+  }
+
+  li:not(.active):hover {
+    background: rgba($gray, 0.3);
+  }
 }
 
-li.active {
-  background: rgba($gray, 0.4);
-}
-
-li:not(.active):hover {
-  background: rgba($gray, 0.3);
-}
-
-.filters span {
-  margin: 5px;
-  padding: 5px;
+.filters {
+  border-top: $border-line;
+  span {
+    margin: 5px;
+    padding: 5px;
+  }
+  .reset {
+    background: $lightRed;
+  }
 }
