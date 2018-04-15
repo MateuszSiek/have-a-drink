@@ -7,11 +7,9 @@ import { bindCallback } from 'rxjs/observable/bindCallback';
 
 import * as d3 from 'd3';
 
-import * as SnapTS from 'snapsvg';
-import { StoreService } from '../core/services/store.service';
-import { BaseType } from 'd3-selection';
-import { DrinkRecipe } from '../core/models/visualisation';
 import { switchMap } from 'rxjs/operators';
+import { StoreService } from '../../core/services/store.service';
+import { DrinkRecipe } from '../../core/models/visualisation';
 
 export type D3Selection = d3.Selection<d3.BaseType, any, d3.BaseType, undefined>;
 

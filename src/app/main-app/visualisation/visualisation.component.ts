@@ -11,7 +11,7 @@ import { filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
 import { IngredientViewLayer, ViewData, VisualisationService } from './service/visualisation.service';
 import { D3Selection } from '../title/title.component';
-import { Ingredient } from '../core/models/visualisation';
+import { Ingredient } from '../../core/models/visualisation';
 
 const VIEWBOX_HEIGHT = 60;
 const ANIM_DURRATION = 400;

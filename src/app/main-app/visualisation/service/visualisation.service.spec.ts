@@ -1,9 +1,9 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { IngredientViewLayer, ViewData, VisualisationService } from './visualisation.service';
-import { StoreService } from '../../core/services/store.service';
-import { MockStoreService } from '../../../../testing/stub/store.service.stub';
-import { STUB_DRINKS } from '../../../../testing/fixtures/drinks';
+import { StoreService } from '../../../core/services/store.service';
+import { MockStoreService } from '../../../../../testing/stub/store.service.stub';
+import { STUB_DRINKS } from '../../../../../testing/fixtures/drinks';
 import { Observable } from 'rxjs/Observable';
 
 describe('VisualisationService', () => {

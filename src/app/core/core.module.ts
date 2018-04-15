@@ -14,6 +14,7 @@ import { StoreService } from './services/store.service';
 import { DrinksEffects } from './store/effects';
 import { environment } from '../../environments/environment';
 import { FirebaseService } from './services/firebase.service';
+import { BrowserModule } from '@angular/platform-browser';
 
 const FirebaseModules = [
 	AngularFireModule.initializeApp(environment.firebase),
@@ -23,7 +24,7 @@ const FirebaseModules = [
 
 @NgModule({
 	imports     : [
-		CommonModule,
+		BrowserModule,
 		StoreModule.forRoot(reducers, { metaReducers }),
 		EffectsModule.forRoot([ DrinksEffects ]),
 		StoreDevtoolsModule.instrument({

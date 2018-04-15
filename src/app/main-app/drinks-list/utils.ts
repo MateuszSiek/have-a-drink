@@ -1,5 +1,5 @@
-import { DrinkRecipe, Ingredient } from '../core/models/visualisation';
 import { Filters } from './drinks-list.component';
+import { DrinkRecipe, Ingredient } from '../../core/models/visualisation';
 
 export function getFilteredDrinks( allDrinks: DrinkRecipe[], filters: Filters ): DrinkRecipe[] {
 	const drinkName = filters.query;
