@@ -1,30 +1,33 @@
 import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { storeFreeze } from 'ngrx-store-freeze';
 
-import { DrinkRecipe } from '../models/visualisation';
 import { Actions, ActionTypes, LoadComplete, SetCurrentDrink } from './actions';
-import { getNextInArray, getPrevInArray } from '../utils/utils';
 import { environment } from '../../../environments/environment';
+import { DrinkRecipe } from '../../core/models/visualisation';
+import { getNextInArray, getPrevInArray } from '../../core/utils/utils';
 
 
-export interface AppState {
-	DRINKS: DrinksState;
-}
-
-export interface DrinksState {
+export interface MainAppState {
 	loaded: boolean;
 	loading: boolean;
 	drinks: DrinkRecipe[];
 	currentDrink?: DrinkRecipe;
 }
+//
+// export interface DrinksState {
+// 	loaded: boolean;
+// 	loading: boolean;
+// 	drinks: DrinkRecipe[];
+// 	currentDrink?: DrinkRecipe;
+// }
 
-export const initialState: DrinksState = {
+export const mainAppInitialState: MainAppState = {
 	loaded : false,
 	loading: false,
 	drinks : []
 };
 
-export function reducer( state = initialState, action: Actions ): DrinksState {
+export function mainAppReducer( state = mainAppInitialState, action: Actions ): MainAppState {
 	switch ( action.type ) {
 		case ActionTypes.Load: {
 			return {
@@ -35,6 +38,7 @@ export function reducer( state = initialState, action: Actions ): DrinksState {
 
 		case ActionTypes.LoadComplete: {
 			return {
+				...state,
 				loaded : true,
 				loading: false,
 				drinks : action.payload,
@@ -73,6 +77,5 @@ export function reducer( state = initialState, action: Actions ): DrinksState {
 	}
 }
 
-export const reducers: ActionReducerMap<AppState> = { DRINKS: reducer };
+// export const reducers: ActionReducerMap<MainAppState> = mainAppReducer;
 
-export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [ storeFreeze ] : [];

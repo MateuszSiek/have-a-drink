@@ -8,8 +8,8 @@ import { bindCallback } from 'rxjs/observable/bindCallback';
 import * as d3 from 'd3';
 
 import { switchMap } from 'rxjs/operators';
-import { StoreService } from '../../core/services/store.service';
 import { DrinkRecipe } from '../../core/models/visualisation';
+import { StoreService } from '../services/store.service';
 
 export type D3Selection = d3.Selection<d3.BaseType, any, d3.BaseType, undefined>;
 

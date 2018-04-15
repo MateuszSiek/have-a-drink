@@ -1,10 +1,10 @@
 import { Action } from '@ngrx/store';
-import { DrinkRecipe } from '../models/visualisation';
+import { DrinkRecipe } from '../../core/models/visualisation';
 
 export enum ActionTypes {
 	Load             = '[Drinks] Load',
 	LoadComplete     = '[Drinks] Load Complete',
-	LoadFail         = '[Collection] Load Fail',
+	LoadFail         = '[Drinks] Load Fail',
 	SetCurrentDrink  = '[Drinks] Set current',
 	SetNextDrink     = '[Drinks] Set next',
 	SetPreviousDrink = '[Drinks] Set previous',

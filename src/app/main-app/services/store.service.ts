@@ -2,16 +2,16 @@ import { Store } from '@ngrx/store';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { AppState } from '../store/reducers';
 import { getCurrentDrink, getDrinks } from '../store/selectors';
-import { DrinkRecipe } from '../models/visualisation';
 import * as actions from '../store/actions';
+import { AppRootState } from '../../core/state';
+import { DrinkRecipe } from '../../core/models/visualisation';
 
 
 @Injectable()
 export class StoreService {
 
-	constructor( private store: Store<AppState>, ) {
+	constructor( private store: Store<AppRootState>, ) {
 	}
 
 	public loadDrinks(): void {

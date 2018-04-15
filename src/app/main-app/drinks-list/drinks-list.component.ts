@@ -5,7 +5,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { getAlcoholTypes, getFilteredDrinks } from './utils';
 import { DrinkRecipe } from '../../core/models/visualisation';
-import { StoreService } from '../../core/services/store.service';
+import { StoreService } from '../services/store.service';
 
 export interface Filters {
 	query: string | undefined;

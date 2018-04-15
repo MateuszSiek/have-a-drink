@@ -9,12 +9,11 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
-import { metaReducers, reducers } from './store/reducers';
-import { StoreService } from './services/store.service';
-import { DrinksEffects } from './store/effects';
 import { environment } from '../../environments/environment';
 import { FirebaseService } from './services/firebase.service';
 import { BrowserModule } from '@angular/platform-browser';
+import { storeFreeze } from 'ngrx-store-freeze';
+import { appRootInitialState, appRootReducers, metaReducers } from './state';
 
 const FirebaseModules = [
 	AngularFireModule.initializeApp(environment.firebase),
@@ -25,15 +24,14 @@ const FirebaseModules = [
 @NgModule({
 	imports     : [
 		BrowserModule,
-		StoreModule.forRoot(reducers, { metaReducers }),
-		EffectsModule.forRoot([ DrinksEffects ]),
+		StoreModule.forRoot(appRootReducers, { initialState: appRootInitialState, metaReducers }),
+		EffectsModule.forRoot([]),
 		StoreDevtoolsModule.instrument({
 			maxAge: 5
 		}),
 		...FirebaseModules
 	],
 	providers   : [
-		StoreService,
 		FirebaseService
 	],
 	declarations: []

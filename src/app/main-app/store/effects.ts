@@ -7,8 +7,8 @@ import { Observable } from 'rxjs/Observable';
 import { map, switchMap } from 'rxjs/operators';
 
 import { ActionTypes, LoadComplete, SetCurrentDrink, SetDrinkByName } from './actions';
-import { DrinkRecipe } from '../models/visualisation';
-import { FirebaseService } from '../services/firebase.service';
+import { DrinkRecipe } from '../../core/models/visualisation';
+import { FirebaseService } from '../../core/services/firebase.service';
 
 @Injectable()
 export class DrinksEffects {

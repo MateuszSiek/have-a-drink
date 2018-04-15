@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { DrinkRecipe } from '../core/models/visualisation';
 import { NavigationExtras, Router } from '@angular/router';
-import { StoreService } from '../core/services/store.service';
+
+import { DrinkRecipe } from '../core/models/visualisation';
+import { StoreService } from './services/store.service';
+
 
 @Component({
 	selector   : 'app-main-app',
@@ -17,7 +19,6 @@ export class MainAppComponent implements OnInit {
 	}
 
 	public ngOnInit(): void {
-		console.log('ngOnInit');
 		this.storeService.loadDrinks();
 		this.storeService.getCurrentDrink().subscribe(( drink: DrinkRecipe | undefined ) => {
 			this.currentDrink = drink;

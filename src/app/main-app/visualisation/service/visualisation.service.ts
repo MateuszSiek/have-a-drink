@@ -1,8 +1,8 @@
 import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { DrinkRecipe, Ingredient } from '../../../core/models/visualisation';
-import { StoreService } from '../../../core/services/store.service';
 import { map, takeUntil } from 'rxjs/operators';
+import { StoreService } from '../../services/store.service';
 
 
 export interface IngredientViewLayer {
