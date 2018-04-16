@@ -42,7 +42,7 @@ export function getAlcoholTypes( drinks: DrinkRecipe[] ): string[] {
 	.filter(( i: Ingredient ) => i.alcohol && i.type && i.type.length) // get only alcohol with type
 	.map(( i: Ingredient ) => i.type); // get only types
 
-	return Array.from(new Set(types)); // create array with unique values
+	return Array.from(new Set(types as string[])); // create array with unique values
 }
 
 export function getAlcoholsToFilterBy( types: { [key: string]: boolean } ): string[] | undefined {

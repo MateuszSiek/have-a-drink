@@ -1,0 +1,7 @@
+app-glass-preview {
+  display: block;
+  width: 2rem;
+  ::ng-deep line {
+    display: none;
+  }
+}

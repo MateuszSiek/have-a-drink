@@ -1,0 +1,26 @@
+<form class="glass-form" [formGroup]="form" (ngSubmit)="saveIngredient()" novalidate>
+    <h1 mat-dialog-title>
+        Add ingredient
+    </h1>
+    <div mat-dialog-content>
+        <mat-form-field class="full-width">
+            <input matInput formControlName="name" placeholder="Name">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <input matInput formControlName="type" placeholder="Type">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <input matInput formControlName="colour" type="color" placeholder="colour">
+        </mat-form-field>
+        <div class="full-width">
+            Alcohol
+            <input formControlName="alcohol" placeholder="Alcohol" type="checkbox">
+        </div>
+    </div>
+    <div class="dialog-buttons">
+        <button type="submit" [disabled]="form.pristine || form.invalid" mat-raised-button color="primary">
+            {{form.value.id ? 'SAVE' : 'ADD'}}
+        </button>
+        <button type="reset" mat-raised-button (click)="dialogRef.close()" color="warn">CANCEL</button>
+    </div>
+</form>

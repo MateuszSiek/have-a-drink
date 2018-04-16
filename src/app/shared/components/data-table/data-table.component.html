@@ -1,0 +1,38 @@
+<mat-table [dataSource]="dataSource">
+    <ng-container *ngFor="let column of userColumns">
+        <ng-container matColumnDef="{{column.valueField}}">
+            <mat-header-cell *matHeaderCellDef>{{column.header}}</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <ng-template *ngIf="cellTemplateDefs[column.valueField]; else defaultCell"
+                             [ngTemplateOutlet]="cellTemplateDefs[column.valueField]"
+                             [ngTemplateOutletContext]="{value:row[column.valueField], record: row}">
+                </ng-template>
+                <ng-template #defaultCell>{{row[column.valueField]}}</ng-template>
+            </mat-cell>
+        </ng-container>
+    </ng-container>
+
+    <ng-container matColumnDef="edit">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let row">
+            <button mat-icon-button class="app-table--edit-button" (click)="editRecord(row)">
+                <mat-icon>edit</mat-icon>
+            </button>
+        </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="delete">
+        <mat-header-cell *matHeaderCellDef>
+            <button mat-icon-button class="app-table--edit-button" (click)="addNew()">
+                <mat-icon>add_circle</mat-icon>
+            </button>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+            <button mat-icon-button class="app-table--remove-button" (click)="removeRecord(row)">
+                <mat-icon>remove_circle</mat-icon>
+            </button>
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="allColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: allColumns;"></mat-row>
+</mat-table>

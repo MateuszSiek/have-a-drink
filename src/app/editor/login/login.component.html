@@ -1,0 +1,11 @@
+<div class="login-area">
+    <form *ngIf="form" [formGroup]="form">
+        <mat-form-field class="full-width">
+            <input matInput formControlName="email" placeholder="email" type="email">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <input matInput formControlName="password" placeholder="password" type="password">
+        </mat-form-field>
+    </form>
+    <button mat-raised-button (click)="login()" [disabled]="form.pristine || form.invalid">LOGIN</button>
+</div>

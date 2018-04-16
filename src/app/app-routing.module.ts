@@ -7,6 +7,10 @@ const appRoutes: Routes = [
 		path        : '',
 		loadChildren: './main-app/main-app.module#MainAppModule',
 	},
+	{
+		path        : 'editor',
+		loadChildren: './editor/editor.module#EditorModule',
+	},
 ];
 
 @NgModule({

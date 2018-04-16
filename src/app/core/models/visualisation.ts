@@ -1,26 +1,39 @@
-export interface Glass {
-	id: string;
-	name: string;
-	path: string;
-	mask: string;
-	maskTopMargin: number;
-	maskHeight: number;
+export class Glass {
+	public readonly id?: string;
+	public name: string = '';
+	public path: string = '';
+	public mask: string = '';
+	public maskTopMargin: number = 0;
+	public maskHeight: number = 0;
+
+	constructor( id?: string ) {
+		this.id = id;
+	}
 }
 
-export interface DrinkRecipe {
-	id: string;
-	name: string;
-	description: string;
-	active: boolean;
-	glass: Glass;
-	ingredients: Ingredient[];
-	ingredientsAmount: { [key: string]: number };
+export class DrinkRecipe {
+	public readonly id?: string;
+	public active: boolean = false;
+	public name: string = '';
+	public description: string = '';
+	public glass?: Glass;
+	public ingredients: Ingredient[] = [];
+	public ingredientsAmount: { [key: string]: number } = {};
+
+	constructor( id?: string ) {
+		this.id = id;
+	}
 }
 
-export interface Ingredient {
-	id: string;
-	name: string;
-	colour: string;
-	alcohol: boolean;
-	type: string; // eg gin, vodka, juice etc
+export class Ingredient {
+	public readonly id?: string;
+	public alcohol: boolean = false;
+	public name: string = '';
+	public type?: string = ''; // eg gin, vodka, juice etc
+	public colour: string = '#ffffff';
+
+	constructor( id?: string ) {
+		this.id = id;
+	}
 }
+

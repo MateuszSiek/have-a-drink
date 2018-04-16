@@ -11,7 +11,7 @@ import { filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
 import { IngredientViewLayer, ViewData, VisualisationService } from './service/visualisation.service';
 import { D3Selection } from '../title/title.component';
-import { Ingredient } from '../../core/models/visualisation';
+import { Glass, Ingredient } from '../../core/models/visualisation';
 
 const VIEWBOX_HEIGHT = 60;
 const ANIM_DURRATION = 400;
@@ -54,7 +54,7 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 				this.cdRef.detectChanges();
 			}),
 			tap(( data: ViewData ) => {
-				const glass = data.recipe.glass;
+				const glass = data.recipe.glass as Glass;
 				this.listTop = (glass.maskTopMargin / VIEWBOX_HEIGHT) * 100;
 				this.listHeight = (glass.maskHeight / VIEWBOX_HEIGHT) * 100;
 				this.ingredients = data.recipe.ingredients;

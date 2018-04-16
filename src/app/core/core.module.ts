@@ -14,6 +14,7 @@ import { FirebaseService } from './services/firebase.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { appRootInitialState, appRootReducers, metaReducers } from './state';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const FirebaseModules = [
 	AngularFireModule.initializeApp(environment.firebase),
@@ -24,6 +25,7 @@ const FirebaseModules = [
 @NgModule({
 	imports     : [
 		BrowserModule,
+		BrowserAnimationsModule,
 		StoreModule.forRoot(appRootReducers, { initialState: appRootInitialState, metaReducers }),
 		EffectsModule.forRoot([]),
 		StoreDevtoolsModule.instrument({

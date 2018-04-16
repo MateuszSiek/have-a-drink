@@ -1,0 +1,30 @@
+.mat-dialog-content {
+  position: relative;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.__ingredients-list {
+  margin: 1rem 0rem;
+}
+
+.__slider-container {
+  position: absolute;
+  right: 1.5rem;
+}
+
+.__remove-ingredient-cell {
+  margin: 0.2rem 0rem;
+  text-align: center;
+}
+
+.__ingrediend-row {
+  background: #fbf9f9;
+  margin-bottom: 1rem;
+}
+
+.__ingrediend-row:hover {
+  background: #f1f1f1;
+}

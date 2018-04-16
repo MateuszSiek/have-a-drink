@@ -13,13 +13,6 @@ export interface MainAppState {
 	drinks: DrinkRecipe[];
 	currentDrink?: DrinkRecipe;
 }
-//
-// export interface DrinksState {
-// 	loaded: boolean;
-// 	loading: boolean;
-// 	drinks: DrinkRecipe[];
-// 	currentDrink?: DrinkRecipe;
-// }
 
 export const mainAppInitialState: MainAppState = {
 	loaded : false,
@@ -76,6 +69,4 @@ export function mainAppReducer( state = mainAppInitialState, action: Actions ): 
 			return state;
 	}
 }
-
-// export const reducers: ActionReducerMap<MainAppState> = mainAppReducer;
 

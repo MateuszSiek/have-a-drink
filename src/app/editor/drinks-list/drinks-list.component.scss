@@ -1,0 +1,20 @@
+app-glass-preview {
+  display: block;
+  width: 2rem;
+  ::ng-deep line {
+    display: none;
+  }
+}
+
+.__ingredients-list {
+  max-height: 5rem;
+  overflow: auto;
+  font-size: small;
+}
+
+.__colour-cell {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+}

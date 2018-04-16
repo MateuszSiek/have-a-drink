@@ -1,0 +1,11 @@
+svg.glass-preview {
+  padding: 0.5rem;
+  fill: none;
+  stroke: #4ac5ff;
+  path:first-child {
+    stroke: #6245ff;
+  }
+  line {
+    stroke: #000f7b;
+  }
+}
