@@ -19,7 +19,7 @@ interface FormIngredient {
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddDrinkComponent implements OnInit, OnDestroy {
-	public form: FormGroup;
+	public form: FormGroup | undefined;
 	public glassesAvail: Glass[] = [];
 	public ingredientsAvail: Ingredient[] = [];
 
@@ -57,20 +57,20 @@ export class AddDrinkComponent implements OnInit, OnDestroy {
 	}
 
 	public addIngredient(): void {
-		(this.form.get('ingredients') as FormArray).push(this.fb.group({ def: new Ingredient(), amount: 0 }));
+		(this.form!.get('ingredients') as FormArray).push(this.fb.group({ def: new Ingredient(), amount: 0 }));
 	}
 
 	get ingredients(): FormArray {
-		return this.form.get('ingredients') as FormArray;
+		return this.form!.get('ingredients') as FormArray;
 	}
 
 	public removeIngredient( idx: number ): void {
-		const formIngredients: FormArray = this.form.get('ingredients') as FormArray;
+		const formIngredients: FormArray = this.form!.get('ingredients') as FormArray;
 		formIngredients.removeAt(idx);
 	}
 
 	private prepareSaveData(): DrinkRecipe {
-		const formData = this.form.value;
+		const formData = this.form!.value;
 		const drink: DrinkRecipe = {
 			id               : formData.id,
 			name             : formData.name,

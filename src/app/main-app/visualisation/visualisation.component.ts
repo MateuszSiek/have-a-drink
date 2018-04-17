@@ -25,13 +25,13 @@ const ANIM_DURRATION = 400;
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VisualisationComponent implements OnInit, OnDestroy {
-	@ViewChild('svgContainer') public svgContainer: ElementRef;
+	@ViewChild('svgContainer') public svgContainer?: ElementRef;
 
 	public ingredients: Ingredient[] = [];
 	public listTop: number = 0;
 	public listHeight: number = 0;
 
-	public svgD3Selection: D3Selection;
+	public svgD3Selection?: D3Selection;
 
 	public animating: boolean = true;
 
@@ -44,11 +44,14 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 	}
 
 	public ngOnInit(): void {
+		if ( !this.svgContainer ) {
+			return;
+		}
 		this.svgD3Selection = d3.select(this.svgContainer.nativeElement);
 		this.visualisationService.getViewData()
 		.pipe(
 			takeUntil(this.ngOnDestroy$),
-			filter(( data: ViewData | undefined ) => !!data), // TODO handle undefined data
+			filter<any>(( data: ViewData | undefined ) => !!data), // TODO handle undefined data, fix that any
 			tap(() => {
 				this.animating = true;
 				this.cdRef.detectChanges();
@@ -89,7 +92,7 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 	 * so that only the part of view in the glass is visible
 	 */
 	private setClippingMask( path: string ): void {
-		this.svgD3Selection.select('#clipping-mask path').attr('d', path);
+		this.svgD3Selection!.select('#clipping-mask path').attr('d', path);
 	}
 
 	/*
@@ -100,7 +103,7 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 	private cleanUpCurrentRender(): Observable<void> {
 		return bindCallback(
 			( cb: () => void ) => {
-				const ingredientsView: D3Selection = this.svgD3Selection.select('.g--ingredients g');
+				const ingredientsView: D3Selection = this.svgD3Selection!.select('.g--ingredients g');
 				if ( ingredientsView.node() ) {
 					ingredientsView
 					.transition()
@@ -124,7 +127,7 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 	private renderIngredients( layers: IngredientViewLayer[] ): Observable<void> {
 		return bindCallback(
 			( cb: () => void ) => {
-				const container: D3Selection = this.svgD3Selection.select('.g--ingredients')
+				const container: D3Selection = this.svgD3Selection!.select('.g--ingredients')
 				.append('g') // adding additional grouping element which will be animated
 				.attr('transform', `translate(0,${VIEWBOX_HEIGHT})`);
 
@@ -152,7 +155,7 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 	private renderGlass( path: string = '' ): Observable<void> {
 		return bindCallback(
 			( cb: () => void ) => { // callback function
-				const currentPath = this.svgD3Selection.select('path');
+				const currentPath = this.svgD3Selection!.select('path');
 				currentPath
 				.transition()
 				.duration(ANIM_DURRATION)

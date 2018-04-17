@@ -1,4 +1,6 @@
 import { NgModule } from '@angular/core';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 
 import { SharedModule } from '../shared/shared.module';
 import { AddGlassComponent } from './add-glass/add-glass.component';
@@ -13,14 +15,10 @@ import { EditorRoutingModule } from './editor-routing.module';
 import { LoginComponent } from './login/login.component';
 import { IsAuthenticatedGuard } from '../core/guards/is-authenticated.guard';
 import { IsAnonymousGuard } from '../core/guards/is-anonymous.guard';
-import { EffectsModule } from '@ngrx/effects';
-import { mainAppInitialState, mainAppReducer } from '../main-app/store/reducers';
-import { StoreModule } from '@ngrx/store';
 import { editorInitialState, editorReducers } from './store';
 import { DrinksEffects } from './store/drinks/effects';
 import { GlassesEffects } from './store/glasses/effects';
 import { IngredientsEffects } from './store/ingredients/effects';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreService } from './services/store.service';
 
 @NgModule({

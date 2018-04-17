@@ -29,7 +29,7 @@ export class FirebaseService {
 	private drinks: DrinkRecipe[] = [];
 	private drinksIds: string[] = [];
 
-	private authState: User | null;
+	private authState: User | null | undefined;
 
 	constructor( private db: AngularFireDatabase, private afAuth: AngularFireAuth ) {
 		this.glassesRef = db.list('glasses');

@@ -33,8 +33,8 @@ export class DataTableComponent implements AfterViewInit {
 
 	public cellTemplateDefs: { [ key: string ]: TemplateRef<any> } = {};
 
-	public allColumns: string[];
-	public userColumns: TableColumn[];
+	public allColumns: string[] = [];
+	public userColumns: TableColumn[] = [];
 
 	constructor(private cdRef: ChangeDetectorRef) { }
 

@@ -5,7 +5,10 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { map, switchMap, tap } from 'rxjs/operators';
 
-import { ActionTypes, AddIngredient, LoadIngredientsSuccess, RemoveIngredient, UpdateIngredient } from './actions';
+import {
+	ActionTypes, AddIngredient, LoadIngredients, LoadIngredientsSuccess, RemoveIngredient,
+	UpdateIngredient
+} from './actions';
 import { Ingredient } from '../../../core/models/visualisation';
 import { FirebaseService } from '../../../core/services/firebase.service';
 
@@ -13,33 +16,33 @@ import { FirebaseService } from '../../../core/services/firebase.service';
 export class IngredientsEffects {
 	@Effect()
 	public loadIngredients$: Observable<Action> = this.actions$.pipe(
-		ofType( ActionTypes.LoadIngredients ),
-		switchMap( () => this.firebaseService.getIngredients() ),
-		map( (ingredients: Ingredient[]) => new LoadIngredientsSuccess( ingredients ) )
+		ofType<LoadIngredients>(ActionTypes.LoadIngredients),
+		switchMap(() => this.firebaseService.getIngredients()),
+		map(( ingredients: Ingredient[] ) => new LoadIngredientsSuccess(ingredients))
 	);
 
-	@Effect( { dispatch: false } )
+	@Effect({ dispatch: false })
 	public addIngredient$: Observable<void> = this.actions$.pipe(
-		ofType( ActionTypes.AddIngredient ),
-		map( (action: AddIngredient) => action.payload ),
-		map( (ingredient: Ingredient) => this.firebaseService.addIngredient( ingredient ) )
+		ofType<AddIngredient>(ActionTypes.AddIngredient),
+		map(( action: AddIngredient ) => action.payload),
+		map(( ingredient: Ingredient ) => this.firebaseService.addIngredient(ingredient))
 	);
 
-	@Effect( { dispatch: false } )
+	@Effect({ dispatch: false })
 	public updateIngredient$: Observable<void> = this.actions$.pipe(
-		ofType( ActionTypes.UpdateIngredient ),
-		map( (action: UpdateIngredient) => action.payload ),
-		map( (ingredient: Ingredient) => this.firebaseService.updateIngredient( ingredient ) )
+		ofType<UpdateIngredient>(ActionTypes.UpdateIngredient),
+		map(( action: UpdateIngredient ) => action.payload),
+		map(( ingredient: Ingredient ) => this.firebaseService.updateIngredient(ingredient))
 	);
 
-	@Effect( { dispatch: false } )
+	@Effect({ dispatch: false })
 	public removeIngredient$: Observable<void> = this.actions$.pipe(
-		ofType( ActionTypes.RemoveIngredient ),
-		map( (action: RemoveIngredient) => action.payload ),
-		map( (ingredient: Ingredient) => this.firebaseService.removeIngredient( ingredient ) )
+		ofType<RemoveIngredient>(ActionTypes.RemoveIngredient),
+		map(( action: RemoveIngredient ) => action.payload),
+		map(( ingredient: Ingredient ) => this.firebaseService.removeIngredient(ingredient))
 	);
 
-	constructor(private actions$: Actions, private firebaseService: FirebaseService) {
+	constructor( private actions$: Actions, private firebaseService: FirebaseService ) {
 	}
 }
 

@@ -12,7 +12,7 @@ import { StoreService } from '../services/store.service';
 	styleUrls: [ './add-ingredient.component.scss' ],
 	changeDetection: ChangeDetectionStrategy.OnPush
 } )
-export class AddIngredientComponent implements OnInit, OnDestroy {
+export class AddIngredientComponent implements OnDestroy {
 	public form: FormGroup;
 
 	constructor(
@@ -22,10 +22,7 @@ export class AddIngredientComponent implements OnInit, OnDestroy {
 		public cdRef: ChangeDetectorRef,
 		@Inject( MAT_DIALOG_DATA ) public data: Ingredient
 	) {
-	}
-
-	public ngOnInit(): void {
-		this.createForm( this.data );
+		this.form = this.createForm( data );
 	}
 
 	public ngOnDestroy(): void {
@@ -43,8 +40,8 @@ export class AddIngredientComponent implements OnInit, OnDestroy {
 		this.dialogRef.close();
 	}
 
-	private createForm(ingredient: Ingredient): void {
-		this.form = this.fb.group( {
+	private createForm(ingredient: Ingredient): FormGroup {
+		return this.fb.group( {
 			id: new FormControl( ingredient.id ),
 			name: new FormControl( ingredient.name, [ Validators.required, Validators.minLength( 2 ) ] ),
 			type: new FormControl( ingredient.type ),

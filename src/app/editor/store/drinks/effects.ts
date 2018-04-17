@@ -5,7 +5,7 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { map, switchMap } from 'rxjs/operators';
 
-import { ActionTypes, AddDrink, LoadDrinksSuccess, RemoveDrink, UpdateDrink, } from './actions';
+import { ActionTypes, AddDrink, LoadDrinks, LoadDrinksSuccess, RemoveDrink, UpdateDrink, } from './actions';
 
 import { FirebaseService } from '../../../core/services/firebase.service';
 import { DrinkRecipe } from '../../../core/models/visualisation';
@@ -15,28 +15,28 @@ export class DrinksEffects {
 
 	@Effect()
 	public loadDrinks$: Observable<Action> = this.actions$.pipe(
-		ofType( ActionTypes.LoadDrinks ),
+		ofType<LoadDrinks>( ActionTypes.LoadDrinks ),
 		switchMap( () => this.firebaseService.getDrinks() ),
 		map( (drinks: DrinkRecipe[]) => new LoadDrinksSuccess( drinks ) )
 	);
 
 	@Effect( { dispatch: false } )
 	public addDrink$: Observable<void> = this.actions$.pipe(
-		ofType( ActionTypes.AddDrink ),
+		ofType<AddDrink>( ActionTypes.AddDrink ),
 		map( (action: AddDrink) => action.payload ),
 		map( (drink: DrinkRecipe) => this.firebaseService.addDrink( drink ) )
 	);
 
 	@Effect( { dispatch: false } )
 	public updateDrink$: Observable<void> = this.actions$.pipe(
-		ofType( ActionTypes.UpdateDrink ),
+		ofType<UpdateDrink>( ActionTypes.UpdateDrink ),
 		map( (action: UpdateDrink) => action.payload ),
 		map( (drink: DrinkRecipe) => this.firebaseService.updateDrink( drink ) )
 	);
 
 	@Effect( { dispatch: false } )
 	public removeDrink$: Observable<void> = this.actions$.pipe(
-		ofType( ActionTypes.RemoveDrink ),
+		ofType<RemoveDrink>( ActionTypes.RemoveDrink ),
 		map( (action: RemoveDrink) => action.payload ),
 		map( (drink: DrinkRecipe) => this.firebaseService.removeDrink( drink ) )
 	);

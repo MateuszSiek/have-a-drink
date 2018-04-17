@@ -1,8 +1,4 @@
-import { ActionReducerMap, MetaReducer } from '@ngrx/store';
-import { storeFreeze } from 'ngrx-store-freeze';
-
-import { Actions, ActionTypes, LoadComplete, SetCurrentDrink } from './actions';
-import { environment } from '../../../environments/environment';
+import { Actions, ActionTypes } from './actions';
 import { DrinkRecipe } from '../../core/models/visualisation';
 import { getNextInArray, getPrevInArray } from '../../core/utils/utils';
 

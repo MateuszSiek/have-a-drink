@@ -11,7 +11,7 @@ import { StoreService } from '../services/store.service';
 	styleUrls: [ './add-glass.component.scss' ],
 	changeDetection: ChangeDetectionStrategy.OnPush
 } )
-export class AddGlassComponent implements OnInit, OnDestroy {
+export class AddGlassComponent implements OnDestroy {
 	public form: FormGroup;
 
 	constructor(
@@ -20,10 +20,8 @@ export class AddGlassComponent implements OnInit, OnDestroy {
 		public dialogRef: MatDialogRef<AddGlassComponent>,
 		public cdRef: ChangeDetectorRef,
 		@Inject( MAT_DIALOG_DATA ) public data: Glass
-	) {}
-
-	public ngOnInit(): void {
-		this.createForm( this.data );
+	) {
+		this.form = this.createForm( data );
 	}
 
 	public ngOnDestroy(): void {
@@ -41,8 +39,8 @@ export class AddGlassComponent implements OnInit, OnDestroy {
 		this.dialogRef.close();
 	}
 
-	private createForm(glass: Glass): void {
-		this.form = this.fb.group( {
+	private createForm(glass: Glass): FormGroup {
+		return this.fb.group( {
 			id: new FormControl( glass.id ),
 			name: new FormControl( glass.name, [ Validators.required, Validators.minLength( 4 ) ] ),
 			path: new FormControl( glass.path, Validators.required ),

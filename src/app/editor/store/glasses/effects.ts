@@ -5,7 +5,7 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { map, switchMap } from 'rxjs/operators';
 
-import { ActionTypes, AddGlass, LoadGlassesSuccess, RemoveGlass, UpdateGlass, } from './actions';
+import { ActionTypes, AddGlass, LoadGlasses, LoadGlassesSuccess, RemoveGlass, UpdateGlass, } from './actions';
 import { Glass } from '../../../core/models/visualisation';
 import { FirebaseService } from '../../../core/services/firebase.service';
 
@@ -14,28 +14,28 @@ export class GlassesEffects {
 
 	@Effect()
 	public loadGlasses$: Observable<Action> = this.actions$.pipe(
-		ofType( ActionTypes.LoadGlasses ),
+		ofType<LoadGlasses>( ActionTypes.LoadGlasses ),
 		switchMap( () => this.firebaseService.getGlasses() ),
 		map( (glasses: Glass[]) => new LoadGlassesSuccess( glasses ) )
 	);
 
 	@Effect( { dispatch: false } )
 	public addGlass$: Observable<void> = this.actions$.pipe(
-		ofType( ActionTypes.AddGlass ),
+		ofType<AddGlass>( ActionTypes.AddGlass ),
 		map( (action: AddGlass) => action.payload ),
 		map( (glass: Glass) => this.firebaseService.addGlass( glass ) )
 	);
 
 	@Effect( { dispatch: false } )
 	public updateGlass$: Observable<void> = this.actions$.pipe(
-		ofType( ActionTypes.UpdateGlass ),
+		ofType<UpdateGlass>( ActionTypes.UpdateGlass ),
 		map( (action: UpdateGlass) => action.payload ),
 		map( (glass: Glass) => this.firebaseService.updateGlass( glass ) )
 	);
 
 	@Effect( { dispatch: false } )
 	public removeGlass$: Observable<void> = this.actions$.pipe(
-		ofType( ActionTypes.RemoveGlass ),
+		ofType<RemoveGlass>( ActionTypes.RemoveGlass ),
 		map( (action: RemoveGlass) => action.payload ),
 		map( (glass: Glass) => this.firebaseService.removeGlass( glass ) )
 	);

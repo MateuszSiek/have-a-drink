@@ -1,10 +1,10 @@
 import { Directive, Input, TemplateRef } from '@angular/core';
 
-@Directive( {
+@Directive({
 	selector: '[appTableCell]'
-} )
+})
 export class TableCellDirective {
-	@Input( 'appTableCell' ) public name: string;
+	@Input('appTableCell') public name: string = '';
 
-	constructor(public templateRef: TemplateRef<any>) {}
+	constructor( public templateRef: TemplateRef<any> ) {}
 }

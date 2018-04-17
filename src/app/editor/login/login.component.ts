@@ -9,13 +9,11 @@ import { FirebaseService } from '../../core/services/firebase.service';
 	templateUrl: './login.component.html',
 	styleUrls  : [ './login.component.scss' ]
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
 	public form: FormGroup;
 
-	constructor( private fbService: FirebaseService, private fb: FormBuilder, private router: Router, ) { }
-
-	public ngOnInit(): void {
+	constructor( private fbService: FirebaseService, private fb: FormBuilder, private router: Router, ) {
 		this.form = this.fb.group({
 			email   : new FormControl('', [ Validators.required, Validators.minLength(3), Validators.email ]),
 			password: new FormControl('', [ Validators.required, Validators.minLength(5) ]),

@@ -25,7 +25,10 @@ export const editorInitialState: EditorState = {
 	glasses    : glassesInitialState,
 };
 
-export const editorReducers: ActionReducerMap<EditorState> = {
+/*
+* TODO figure out why ActionReducerMap<EditorState> is not compiling
+ */
+export const editorReducers: any = {
 	drinks     : drinksReducer,
 	ingredients: ingredientsReducer,
 	glasses    : glassesReducer
@@ -36,18 +39,18 @@ export const effects = [ IngredientsEffects, GlassesEffects, DrinksEffects ];
 /*
  * SELECTORS
  */
-const getDrinksState = ( state: AppRootState ) => state.EDITOR && state.EDITOR.drinks;
-const getIngredientsState = ( state: AppRootState ) => state.EDITOR && state.EDITOR.ingredients;
+const getDrinksState = ( state: AppRootState ) => state.EDITOR && state.EDITOR!.drinks;
+const getIngredientsState = ( state: AppRootState ) => state.EDITOR && state.EDITOR!.ingredients;
 const getGlassesState = ( state: AppRootState ) => state.EDITOR && state.EDITOR.glasses;
 
 export const getDrinks: MemoizedSelector<AppRootState, DrinkRecipe[]> =
-	             createSelector(getDrinksState, ( state: DrinksState ) => state && state.data || []);
+	             createSelector(getDrinksState, ( state?: DrinksState ) => state && state.data || []);
 
 export const getIngredients: MemoizedSelector<AppRootState, Ingredient[]> =
-	             createSelector(getIngredientsState, ( state: IngredientsState ) => state && state.data || []);
+	             createSelector(getIngredientsState, ( state?: IngredientsState ) => state && state.data || []);
 
 export const getGlasses: MemoizedSelector<AppRootState, Glass[]> =
-	             createSelector(getGlassesState, ( state: GlassesState ) => state && state.data || []);
+	             createSelector(getGlassesState, ( state?: GlassesState ) => state && state.data || []);
 
 export const getGlass: ( id: string ) => MemoizedSelector<AppRootState, Glass | undefined> =
 	             ( id: string ) => createSelector(getGlasses, ( glasses: Glass[] ) => {

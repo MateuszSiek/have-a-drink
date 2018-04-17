@@ -1,5 +1,5 @@
 import { Actions, ActionTypes, } from './actions';
-import { DrinkRecipe, Glass } from '../../../core/models/visualisation';
+import { DrinkRecipe } from '../../../core/models/visualisation';
 import { removeObjectFromArray, updateObjectInArray } from '../../../core/utils/utils';
 
 export interface DrinksState {
