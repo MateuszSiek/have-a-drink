@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -7,7 +7,8 @@ import { FirebaseService } from '../../core/services/firebase.service';
 @Component({
 	selector   : 'app-login',
 	templateUrl: './login.component.html',
-	styleUrls  : [ './login.component.scss' ]
+	styleUrls  : [ './login.component.scss' ],
+	encapsulation: ViewEncapsulation.None
 })
 export class LoginComponent {
 

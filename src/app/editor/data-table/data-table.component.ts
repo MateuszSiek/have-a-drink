@@ -1,5 +1,13 @@
 import {
-	AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChildren, EventEmitter, Input, OnInit, Output, QueryList,
+	AfterViewInit,
+	ChangeDetectionStrategy,
+	ChangeDetectorRef,
+	Component,
+	ContentChildren,
+	EventEmitter,
+	Input,
+	Output,
+	QueryList,
 	TemplateRef
 } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';

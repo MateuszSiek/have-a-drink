@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
 
-import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 import {
-	ActionTypes, AddIngredient, LoadIngredients, LoadIngredientsSuccess, RemoveIngredient,
+	ActionTypes,
+	AddIngredient,
+	LoadIngredients,
+	LoadIngredientsSuccess,
+	RemoveIngredient,
 	UpdateIngredient
 } from './actions';
 import { Ingredient } from '../../../core/models/visualisation';

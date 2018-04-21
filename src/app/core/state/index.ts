@@ -1,16 +1,25 @@
 import { mainAppInitialState, mainAppReducer, MainAppState } from '../../main-app/store/reducers';
 import { storeFreeze } from 'ngrx-store-freeze';
-import { ActionReducerMap, MetaReducer } from '@ngrx/store';
+import { MetaReducer } from '@ngrx/store';
 import { environment } from '../../../environments/environment';
-import { editorReducers, EditorState } from '../../editor/store';
+import { editorInitialState, editorReducers, EditorState } from '../../editor/store';
 
 export interface AppRootState {
-	APP?: MainAppState;
-	EDITOR?: EditorState;
+	APP: MainAppState;
+	EDITOR: EditorState;
 }
 
-export const appRootReducers: ActionReducerMap<AppRootState> = {};
+/*
+ * TODO figure out why ActionReducerMap<EditorState> is not compiling
+ */
+export const appRootReducers: any = {
+	APP: mainAppReducer,
+	EDITOR: editorReducers
+};
 
-export const appRootInitialState = {};
+export const appRootInitialState = {
+	APP: mainAppInitialState,
+	EDITOR: editorInitialState
+};
 
 export const metaReducers: MetaReducer<AppRootState>[] = !environment.production ? [ storeFreeze ] : [];

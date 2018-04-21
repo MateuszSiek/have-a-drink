@@ -1,7 +1,4 @@
-import { storeFreeze } from 'ngrx-store-freeze';
-import { ActionReducerMap, createSelector, MemoizedSelector, MetaReducer } from '@ngrx/store';
-
-import { environment } from '../../../environments/environment';
+import { createSelector, MemoizedSelector } from '@ngrx/store';
 
 import { drinksInitialState, drinksReducer, DrinksState } from './drinks/reducers';
 import { ingredientsInitialState, ingredientsReducer, IngredientsState } from './ingredients/reducers';
@@ -39,8 +36,8 @@ export const effects = [ IngredientsEffects, GlassesEffects, DrinksEffects ];
 /*
  * SELECTORS
  */
-const getDrinksState = ( state: AppRootState ) => state.EDITOR && state.EDITOR!.drinks;
-const getIngredientsState = ( state: AppRootState ) => state.EDITOR && state.EDITOR!.ingredients;
+const getDrinksState = ( state: AppRootState ) => state.EDITOR && state.EDITOR.drinks;
+const getIngredientsState = ( state: AppRootState ) => state.EDITOR && state.EDITOR.ingredients;
 const getGlassesState = ( state: AppRootState ) => state.EDITOR && state.EDITOR.glasses;
 
 export const getDrinks: MemoizedSelector<AppRootState, DrinkRecipe[]> =

@@ -1,20 +1,20 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 
-import { AppState, metaReducers, reducers } from '../index';
 import { ActionTypes, AddGlass, LoadGlasses, LoadGlassesSuccess, RemoveGlass, UpdateGlass } from './actions';
 import { glassesInitialState, glassesReducer, GlassesState } from './reducers';
 
 import { MockedGlasses } from '../../../../../testing/fixtures/glasses';
+import { appRootReducers, AppRootState } from '../../../core/state';
 
 describe( '#glassesReducer', () => {
-	let store: Store<AppState>;
+	let store: Store<AppRootState>;
 	let state: GlassesState;
 
 	beforeEach( () => {
 		TestBed.configureTestingModule( {
 			imports: [
-				StoreModule.forRoot( reducers, { metaReducers } ),
+				StoreModule.forRoot( appRootReducers ),
 			],
 		} );
 		store = TestBed.get( Store );

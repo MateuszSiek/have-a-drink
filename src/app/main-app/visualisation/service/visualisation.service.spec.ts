@@ -1,10 +1,11 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+import { Observable } from 'rxjs/Observable';
+
+import { MockMainAppStoreService } from '../../../../../testing/stub/main-app-store.service';
+import { MockedDrinks } from '../../../../../testing/fixtures/drinks';
 
 import { IngredientViewLayer, ViewData, VisualisationService } from './visualisation.service';
-import { StoreService } from '../../../core/services/store.service';
-import { MockStoreService } from '../../../../../testing/stub/store.service.stub';
-import { STUB_DRINKS } from '../../../../../testing/fixtures/drinks';
-import { Observable } from 'rxjs/Observable';
+import { StoreService } from '../../services/store.service';
 
 describe('VisualisationService', () => {
 	let service: VisualisationService;
@@ -13,7 +14,7 @@ describe('VisualisationService', () => {
 		TestBed.configureTestingModule({
 			providers: [
 				VisualisationService,
-				{ provide: StoreService, useClass: MockStoreService }
+				{ provide: StoreService, useClass: MockMainAppStoreService }
 			]
 		});
 	});
@@ -29,39 +30,39 @@ describe('VisualisationService', () => {
 
 	it('#getViewData should return view data', () => {
 		let result: ViewData | undefined;
-		service.getViewData().subscribe(( r ) => result = r);
-		const ingrTotalHeight: number = result!.drinkLayers.reduce(( a: number, i: IngredientViewLayer ) => a + i.h, 0);
+		service.getViewData().subscribe(( r: any ) => result = r);
+		const ingrTotalHeight: number = (result as ViewData).drinkLayers.reduce(( a: number, i: IngredientViewLayer ) => a + i.h, 0);
 
-		expect(result!).toBeDefined();
-		expect(result!.drinkLayers.length).toEqual(STUB_DRINKS[ 0 ].ingredients.length);
-		expect(result!.mask).toEqual(STUB_DRINKS[ 0 ].glass.mask);
-		expect(result!.path).toEqual(STUB_DRINKS[ 0 ].glass.path);
-		expect(ingrTotalHeight).toBeCloseTo(STUB_DRINKS[ 0 ].glass.maskHeight);
-		expect(result!.drinkLayers[ 0 ].y).toEqual(STUB_DRINKS[ 0 ].glass.maskTopMargin);
+		expect(result).toBeDefined();
+		expect(result && result.drinkLayers.length).toEqual(MockedDrinks[ 0 ]!.ingredients.length);
+		expect(result && result.mask).toEqual(MockedDrinks[ 0 ]!.glass!.mask);
+		expect(result && result.path).toEqual(MockedDrinks[ 0 ]!.glass!.path);
+		expect(ingrTotalHeight).toBeCloseTo(MockedDrinks[ 0 ]!.glass!.maskHeight);
+		expect(result && result.drinkLayers[ 0 ].y).toEqual(MockedDrinks[ 0 ]!.glass!.maskTopMargin);
 	});
 
 	describe('#getViewData should return undefined', () => {
 		it('when current drink undefined', () => {
 			let result: ViewData | undefined;
 			spyOn(storeService, 'getCurrentDrink').and.returnValue(Observable.of(undefined));
-			service.getViewData().subscribe(( r ) => result = r);
+			service.getViewData().subscribe(( r: ViewData | undefined ) => result = r);
 			expect(result).toBeUndefined();
 		});
 
 		it('when current drinks glass undefined', () => {
 			let result: ViewData | undefined;
 			spyOn(storeService, 'getCurrentDrink').and.returnValue(Observable.of({
-				...STUB_DRINKS[ 0 ],
+				...MockedDrinks[ 0 ],
 				glass: undefined
 			}));
-			service.getViewData().subscribe(( r ) => result = r);
+			service.getViewData().subscribe(( r: ViewData | undefined ) => result = r);
 			expect(result).toBeUndefined();
 		});
 
 		it('when ingredients are undefined', () => {
 			let result: ViewData | undefined;
 			spyOn(storeService, 'getCurrentDrink').and.returnValue(Observable.of({
-				...STUB_DRINKS[ 0 ],
+				...MockedDrinks[ 0 ],
 				ingredients: undefined
 			}));
 			service.getViewData().subscribe(( r ) => result = r);
@@ -71,10 +72,10 @@ describe('VisualisationService', () => {
 		it('when ingredients are empty', () => {
 			let result: ViewData | undefined;
 			spyOn(storeService, 'getCurrentDrink').and.returnValue(Observable.of({
-				...STUB_DRINKS[ 0 ],
+				...MockedDrinks[ 0 ],
 				ingredients: []
 			}));
-			service.getViewData().subscribe(( r ) => result = r);
+			service.getViewData().subscribe(( r: ViewData | undefined ) => result = r);
 			expect(result).toBeUndefined();
 		});
 	});

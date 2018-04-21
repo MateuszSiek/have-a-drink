@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
-import { Glass, Ingredient } from '../../core/models/visualisation';
+import { Glass } from '../../core/models/visualisation';
 import { StoreService } from '../services/store.service';
 
 @Component( {
@@ -39,7 +39,7 @@ export class AddGlassComponent implements OnDestroy {
 		this.dialogRef.close();
 	}
 
-	private createForm(glass: Glass): FormGroup {
+	public createForm(glass: Glass): FormGroup {
 		return this.fb.group( {
 			id: new FormControl( glass.id ),
 			name: new FormControl( glass.name, [ Validators.required, Validators.minLength( 4 ) ] ),

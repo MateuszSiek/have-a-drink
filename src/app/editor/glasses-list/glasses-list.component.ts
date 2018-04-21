@@ -3,7 +3,7 @@ import { MatTableDataSource } from '@angular/material';
 
 import { Glass } from '../../core/models/visualisation';
 import { StoreService } from '../services/store.service';
-import { TableColumn } from '../../shared/components/data-table/data-table.component';
+import { TableColumn } from '../data-table/data-table.component';
 
 @Component( {
 	selector: 'app-glasses-list',

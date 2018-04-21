@@ -1,20 +1,27 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 
-import { AppState, metaReducers, reducers } from '../index';
-import { ActionTypes, AddIngredient, LoadIngredients, LoadIngredientsSuccess, RemoveIngredient, UpdateIngredient } from './actions';
+import {
+	ActionTypes,
+	AddIngredient,
+	LoadIngredients,
+	LoadIngredientsSuccess,
+	RemoveIngredient,
+	UpdateIngredient
+} from './actions';
 import { ingredientsInitialState, ingredientsReducer, IngredientsState } from './reducers';
 
 import { MockedIngredients } from '../../../../../testing/fixtures/ingredients';
+import { appRootReducers, AppRootState } from '../../../core/state';
 
 describe( '#ingredientsReducer', () => {
-	let store: Store<AppState>;
+	let store: Store<AppRootState>;
 	let state: IngredientsState;
 
 	beforeEach( () => {
 		TestBed.configureTestingModule( {
 			imports: [
-				StoreModule.forRoot( reducers, { metaReducers } ),
+				StoreModule.forRoot( appRootReducers ),
 			],
 		} );
 		store = TestBed.get( Store );

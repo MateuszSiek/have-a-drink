@@ -1,4 +1,4 @@
-import { createSelector, createFeatureSelector, MemoizedSelector } from '@ngrx/store';
+import { createSelector, MemoizedSelector } from '@ngrx/store';
 
 import { DrinkRecipe } from '../../core/models/visualisation';
 import { AppRootState } from '../../core/state';

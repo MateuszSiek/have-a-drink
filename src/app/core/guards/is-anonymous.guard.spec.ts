@@ -1,10 +1,8 @@
-import { TestBed, async, inject } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { IsAnonymousGuard } from './is-anonymous.guard';
 import { FirebaseService } from '../services/firebase.service';
-import { MockStoreService } from '../../../../testing/stub/mock-store.service';
-import { StoreService } from '../services/store.service';
 import { MockFirebaseService } from '../../../../testing/stub/mocked-firebase.service';
 
 describe( 'IsAnonymousGuard', () => {
@@ -15,7 +13,6 @@ describe( 'IsAnonymousGuard', () => {
 			],
 			providers: [
 				IsAnonymousGuard,
-				{ provide: StoreService, useClass: MockStoreService },
 				{ provide: FirebaseService, useClass: MockFirebaseService },
 			]
 		} );

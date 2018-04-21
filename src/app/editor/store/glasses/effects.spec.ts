@@ -3,16 +3,13 @@ import { GlassesEffects } from './effects';
 import { Actions } from '@ngrx/effects';
 import { cold, hot } from 'jasmine-marbles';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-
-import { CoreModule } from '../../core.module';
-import { StoreService } from '../../services/store.service';
-import { FirebaseService } from '../../services/firebase.service';
 import { AddGlass, LoadGlasses, LoadGlassesSuccess, RemoveGlass, UpdateGlass, } from './actions';
 
-import { MockedGlasses } from '../../../../../testing/fixtures/glasses';
 import { TestActions } from '../../../../../testing/stub/test-actions';
-import { MockStoreService } from '../../../../../testing/stub/mock-store.service';
 import { MockFirebaseService } from '../../../../../testing/stub/mocked-firebase.service';
+import { FirebaseService } from '../../../core/services/firebase.service';
+import { MockedGlasses } from '../../../../../testing/fixtures/glasses';
+import { CoreModule } from '../../../core/core.module';
 
 describe( '#GlassesEffects', () => {
 	let effects: GlassesEffects;
@@ -25,8 +22,8 @@ describe( '#GlassesEffects', () => {
 				CoreModule
 			],
 			providers: [
+				GlassesEffects,
 				{ provide: Actions, useFactory: () => new TestActions() },
-				{ provide: StoreService, useClass: MockStoreService },
 				{ provide: FirebaseService, useClass: MockFirebaseService },
 			],
 		} );

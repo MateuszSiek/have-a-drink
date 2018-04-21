@@ -2,10 +2,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EditorComponent } from './editor.component';
 import { FirebaseService } from '../core/services/firebase.service';
-import { MockStoreService } from '../../../testing/stub/mock-store.service';
-import { StoreService } from '../core/services/store.service';
 import { MockFirebaseService } from '../../../testing/stub/mocked-firebase.service';
 import { EditorModule } from './editor.module';
+import { MockEditorStoreService } from '../../../testing/stub/editor-store.service';
+import { StoreService } from './services/store.service';
+import { CoreModule } from '../core/core.module';
 
 describe( 'EditorComponent', () => {
 	let component: EditorComponent;
@@ -13,9 +14,9 @@ describe( 'EditorComponent', () => {
 
 	beforeEach( async( () => {
 		TestBed.configureTestingModule( {
-			imports: [ EditorModule ],
+			imports: [ EditorModule, CoreModule ],
 			providers: [
-				{ provide: StoreService, useClass: MockStoreService },
+				{ provide: StoreService, useClass: MockEditorStoreService },
 				{ provide: FirebaseService, useClass: MockFirebaseService },
 			]
 		} );

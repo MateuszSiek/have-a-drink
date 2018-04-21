@@ -2,6 +2,20 @@ import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
+import {
+	MatButtonModule,
+	MatCardModule,
+	MatCheckboxModule,
+	MatDialogModule,
+	MatFormFieldModule,
+	MatGridListModule,
+	MatIconModule,
+	MatInputModule,
+	MatSelectModule,
+	MatSlideToggleModule,
+	MatTableModule
+} from '@angular/material';
+
 import { SharedModule } from '../shared/shared.module';
 import { AddGlassComponent } from './add-glass/add-glass.component';
 import { AddIngredientComponent } from './add-ingredient/add-ingredient.component';
@@ -20,6 +34,37 @@ import { DrinksEffects } from './store/drinks/effects';
 import { GlassesEffects } from './store/glasses/effects';
 import { IngredientsEffects } from './store/ingredients/effects';
 import { StoreService } from './services/store.service';
+import { TableCellDirective } from './data-table/table-cell.directive';
+import { DataTableComponent } from './data-table/data-table.component';
+
+const MaterialModules = [
+	MatTableModule,
+	MatIconModule,
+	MatButtonModule,
+	MatFormFieldModule,
+	MatSlideToggleModule,
+	MatSelectModule,
+	MatInputModule,
+	MatGridListModule,
+	MatCardModule,
+	MatDialogModule,
+	MatCheckboxModule,
+];
+
+const Components = [
+	AddGlassComponent,
+	AddIngredientComponent,
+	AddDrinkComponent,
+	GlassesListComponent,
+	IngredientsListComponent,
+	GlassPreviewComponent,
+	DrinksListComponent,
+	EditorComponent,
+	LoginComponent,
+	DataTableComponent,
+];
+
+const Directives = [ TableCellDirective ];
 
 @NgModule({
 	imports        : [
@@ -27,23 +72,15 @@ import { StoreService } from './services/store.service';
 		EditorRoutingModule,
 		StoreModule.forFeature('EDITOR', editorReducers, { initialState: editorInitialState }),
 		EffectsModule.forFeature([ DrinksEffects, GlassesEffects, IngredientsEffects ]),
+		...MaterialModules
 	],
-	declarations   : [
-		AddGlassComponent,
-		AddIngredientComponent,
-		AddDrinkComponent,
-		GlassesListComponent,
-		IngredientsListComponent,
-		GlassPreviewComponent,
-		DrinksListComponent,
-		EditorComponent,
-		LoginComponent
-	],
+	declarations   : [ ...Components, ...Directives ],
 	providers      : [
 		StoreService,
 		IsAuthenticatedGuard,
 		IsAnonymousGuard
 	],
+	exports        : [ ...Components, ...Directives ],
 	entryComponents: [ AddGlassComponent, AddIngredientComponent, AddDrinkComponent ],
 })
 export class EditorModule {}

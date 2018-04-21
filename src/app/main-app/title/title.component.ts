@@ -1,5 +1,10 @@
 import {
-	ChangeDetectionStrategy, Component, ElementRef, EventEmitter, OnDestroy, OnInit,
+	ChangeDetectionStrategy,
+	Component,
+	ElementRef,
+	EventEmitter,
+	OnDestroy,
+	OnInit,
 	ViewChild
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';

@@ -3,7 +3,7 @@ import { MatTableDataSource } from '@angular/material';
 
 import { StoreService } from '../services/store.service';
 import { Ingredient } from '../../core/models/visualisation';
-import { TableColumn } from '../../shared/components/data-table/data-table.component';
+import { TableColumn } from '../data-table/data-table.component';
 
 @Component( {
 	selector: 'app-ingredients-list',

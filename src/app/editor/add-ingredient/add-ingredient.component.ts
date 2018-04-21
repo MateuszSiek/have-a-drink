@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy } from '@angular/core';
 
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
@@ -40,7 +40,7 @@ export class AddIngredientComponent implements OnDestroy {
 		this.dialogRef.close();
 	}
 
-	private createForm(ingredient: Ingredient): FormGroup {
+	public createForm(ingredient: Ingredient): FormGroup {
 		return this.fb.group( {
 			id: new FormControl( ingredient.id ),
 			name: new FormControl( ingredient.name, [ Validators.required, Validators.minLength( 2 ) ] ),

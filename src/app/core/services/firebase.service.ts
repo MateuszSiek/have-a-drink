@@ -48,7 +48,7 @@ export class FirebaseService {
 		return this.afAuth.authState;
 	}
 
-	public login( email: string, password: string ): any {
+	public login( email: string, password: string ): Promise<any> {
 		return firebase.auth().signInWithEmailAndPassword(email, password);
 	}
 

@@ -3,9 +3,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { LoginComponent } from './login.component';
-import { SharedModule } from '../../shared/shared.module';
 import { FirebaseService } from '../../core/services/firebase.service';
 import { MockFirebaseService } from '../../../../testing/stub/mocked-firebase.service';
+import { EditorModule } from '../editor.module';
+import { CoreModule } from '../../core/core.module';
 
 describe( 'LoginComponent', () => {
 	let component: LoginComponent;
@@ -14,11 +15,11 @@ describe( 'LoginComponent', () => {
 	beforeEach( async( () => {
 		TestBed.configureTestingModule( {
 			imports: [
-				SharedModule,
-				RouterTestingModule,
-				NoopAnimationsModule
+				CoreModule,
+				EditorModule,
+				NoopAnimationsModule,
+				RouterTestingModule
 			],
-			declarations: [ LoginComponent ],
 			providers: [
 				{ provide: FirebaseService, useClass: MockFirebaseService },
 			]

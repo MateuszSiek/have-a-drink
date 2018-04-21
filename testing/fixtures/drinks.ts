@@ -1,33 +1,44 @@
-import { STUB_GLASS_DATA } from './glass';
+import { MockedGlasses } from './glasses';
+import { MockedIngredients } from './ingredients';
 import { DrinkRecipe } from '../../src/app/core/models/visualisation';
 
-export const STUB_DRINKS: DrinkRecipe[] = [
-  {
-    name       : 'Drink 1',
-    glass      : STUB_GLASS_DATA[ 0 ],
-    ingredients: [
-      { name: 'lemon', amount: 0.1, colour: 'yellow' },
-      { name: 'water', amount: 0.2, colour: 'blue' },
-      { name: 'vodka', amount: 0.2, colour: 'red' },
-    ]
-  }, {
-    name       : 'Drink 2',
-    glass      : STUB_GLASS_DATA[ 1 ],
-    ingredients: [
-      { name: 'lemon', amount: 0.1, colour: 'yellow' },
-      { name: 'water', amount: 0.5, colour: 'blue' },
-      { name: 'orange', amount: 0.2, colour: 'orange' },
-      { name: 'vodka', amount: 0.15, colour: 'pink' },
-    ]
-  }, {
-    name       : 'Drink 3',
-    glass      : STUB_GLASS_DATA[ 2 ],
-    ingredients: [
-      { name: 'lemon', amount: 0.1, colour: 'yellow' },
-      { name: 'water', amount: 0.5, colour: 'blue' },
-      { name: 'orange', amount: 0.2, colour: 'orange' },
-      { name: 'vodka', amount: 0.15, colour: 'pink' },
-      { name: 'water', amount: 0.5, colour: 'blue' },
-    ]
-  }
+export const MockedDrinks: DrinkRecipe[] = [
+	{
+		id               : '-L5Zi08-X-uFyEkafIvt',
+		name             : 'all',
+		active           : true,
+		glass            : MockedGlasses[ 0 ],
+		description      : 'qwerty',
+		ingredients      : [
+			{
+				...MockedIngredients[ 2 ],
+			},
+			{
+				...MockedIngredients[ 1 ],
+			},
+		],
+		ingredientsAmount: {
+			[ MockedIngredients[ 2 ].id as string ]: 1,
+			[ MockedIngredients[ 1 ].id as string ]: 1,
+		}
+	},
+	{
+		id               : '-L5Zi5qZnWYjBNLDL9Sr',
+		name             : 'orange',
+		active           : true,
+		glass            : MockedGlasses[ 0 ],
+		description      : 'qwerty',
+		ingredients      : [
+			{
+				...MockedIngredients[ 0 ],
+			},
+			{
+				...MockedIngredients[ 1 ],
+			},
+		],
+		ingredientsAmount: {
+			[ MockedIngredients[ 0 ].id  as string ]: 1,
+			[ MockedIngredients[ 1 ].id  as string ]: 5,
+		}
+	}
 ];
