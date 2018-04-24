@@ -27,10 +27,11 @@ export class LoginComponent {
 			this.router.navigate([ '/editor' ]);
 		})
 		.catch(( error: any ) => {
+			console.log(error);
 			if ( error.code === 'auth/wrong-password' ) {
-				alert('Wrong password.');
+				window.alert('Wrong password.');
 			} else {
-				alert(error.message);
+				window.alert(error.message);
 			}
 		});
 	}

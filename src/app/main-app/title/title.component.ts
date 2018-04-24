@@ -21,18 +21,12 @@ export type D3Selection = d3.Selection<d3.BaseType, any, d3.BaseType, undefined>
 
 @Component({
 	selector       : 'app-title',
-	template       : `
-        <h1 #titleContainer>
-            &nbsp;
-            <div class="div--text-container div--current-title"></div>
-            <div class="div--text-container div--temp-title"></div>
-        </h1>
-	`,
+	templateUrl    : './title.component.html',
 	styleUrls      : [ `./title.component.scss` ],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TitleComponent implements OnInit, OnDestroy {
-	@ViewChild('titleContainer') public titleContainer?: ElementRef;
+	@ViewChild('titleContainer') public titleContainer!: ElementRef;
 
 	public d3MainContainer?: D3Selection;
 
@@ -45,9 +39,6 @@ export class TitleComponent implements OnInit, OnDestroy {
 	}
 
 	public ngOnInit(): void {
-		if ( !this.titleContainer ) {
-			return;
-		}
 		this.d3MainContainer = d3.select(this.titleContainer.nativeElement);
 		this.storeService.getCurrentDrink()
 		.pipe(

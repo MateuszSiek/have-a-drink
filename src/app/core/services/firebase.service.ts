@@ -7,6 +7,7 @@ import { DrinkRecipe, Glass, Ingredient } from '../models/visualisation';
 import { User } from 'firebase/app';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase';
+import { map } from 'rxjs/operators';
 
 type FBGLass = Glass;
 type FBIngredient = Ingredient;
@@ -35,7 +36,6 @@ export class FirebaseService {
 		this.glassesRef = db.list('glasses');
 		this.ingredientsRef = db.list('ingredients');
 		this.drinksRef = db.list('drinks');
-
 		this.afAuth.authState.subscribe(( auth: User | null ) => {
 			this.authState = auth;
 		});
@@ -52,16 +52,18 @@ export class FirebaseService {
 		return firebase.auth().signInWithEmailAndPassword(email, password);
 	}
 
-	public signOut(): void {
-		this.afAuth.auth.signOut();
+	public signOut(): Promise<any> {
+		return this.afAuth.auth.signOut();
 	}
 
 
 	// GLASSES
 	public getGlasses(): Observable<Glass[]> {
-		return this.glassesRef.snapshotChanges().map(( changes: SnapshotAction[] ) => {
-			return changes.map(c => ({ ...c.payload.val(), id: c.payload.key }));
-		});
+		return this.glassesRef.snapshotChanges().pipe(
+			map(( changes: SnapshotAction[] ) => {
+				return changes.map(c => ({ ...c.payload.val(), id: c.payload.key }));
+			})
+		);
 	}
 
 
@@ -84,9 +86,11 @@ export class FirebaseService {
 
 	// INGREDIENTS
 	public getIngredients(): Observable<Ingredient[]> {
-		return this.ingredientsRef.snapshotChanges().map(( changes: SnapshotAction[] ) => {
-			return changes.map(c => ({ ...c.payload.val(), id: c.payload.key }));
-		});
+		return this.ingredientsRef.snapshotChanges().pipe(
+			map(( changes: SnapshotAction[] ) => {
+				return changes.map(c => ({ ...c.payload.val(), id: c.payload.key }));
+			})
+		);
 	}
 
 	public addIngredient( ingredient: Ingredient ): void {
@@ -110,18 +114,21 @@ export class FirebaseService {
 
 	// DRINKS
 	public getDrinks(): Observable<DrinkRecipe[]> {
-		return this.drinksRef.snapshotChanges().map(( changes: SnapshotAction[] ) => {
-			this.drinksIds = [];
-			return changes.map(c => {
-				const ingredients = Object.values(c.payload.child('ingredients').val());
-				const glass = Object.values(c.payload.child('glass').val())[ 0 ];
-				const id = c.payload.key || '';
-				const drink = { ...c.payload.val(), id, ingredients, glass };
-				this.drinksIds.push(id);
-				this.drinks.push(drink as DrinkRecipe);
-				return drink;
-			});
-		});
+		return this.drinksRef.snapshotChanges().pipe(
+			map(( changes: SnapshotAction[] ) => {
+				this.drinksIds = [];
+				return changes.map(( c: SnapshotAction ) => {
+					// console.log(c.payload.child('ingredients').val());
+					const ingredients = Object.values(c.payload.child('ingredients').val());
+					const glass = Object.values(c.payload.child('glass').val())[ 0 ];
+					const id = c.payload.key || '';
+					const drink = { ...c.payload.val(), id, ingredients, glass };
+					this.drinksIds.push(id);
+					this.drinks.push(drink as DrinkRecipe);
+					return drink;
+				});
+			})
+		);
 	}
 
 	public addDrink( recipe: DrinkRecipe ): void {

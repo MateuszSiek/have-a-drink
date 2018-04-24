@@ -41,6 +41,13 @@ describe('VisualisationService', () => {
 		expect(result && result.drinkLayers[ 0 ].y).toEqual(MockedDrinks[ 0 ]!.glass!.maskTopMargin);
 	});
 
+	it('#getViewData should return undefined', ( done ) => {
+		service.getAllDrinks().subscribe(r => {
+			expect(r).toEqual(MockedDrinks);
+			done();
+		});
+	});
+
 	describe('#getViewData should return undefined', () => {
 		it('when current drink undefined', () => {
 			let result: ViewData | undefined;

@@ -8,8 +8,8 @@ import { DrinkRecipe } from '../../core/models/visualisation';
 import { StoreService } from '../services/store.service';
 
 export interface Filters {
-	query: string | undefined;
-	types: { [key: string]: boolean };
+	query?: string;
+	types?: { [key: string]: boolean };
 }
 
 @Component({
@@ -29,7 +29,7 @@ export class DrinksListComponent implements OnInit {
 	public alcoholTypes: string[] = []; // list of alcohol types found in drinks ingredients
 
 	public filters: Filters = {
-		query: undefined,
+		query: '',
 		types: {}
 	};
 

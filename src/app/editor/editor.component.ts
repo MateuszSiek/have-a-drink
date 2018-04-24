@@ -24,25 +24,16 @@ export class EditorComponent implements OnInit {
 		this.storeService.loadIngredients();
 	}
 
-	public openGlassDialog(data: Glass = new Glass()): void {
-		this.dialog.open( AddGlassComponent, {
-			data,
-			maxWidth: '900px',
-		} );
+	public openGlassDialog( data: Glass = new Glass() ): void {
+		this.dialog.open(AddGlassComponent, { data });
 	}
 
-	public openIngredientDialog(data: Ingredient = new Ingredient()): void {
-		this.dialog.open( AddIngredientComponent, {
-			data,
-			maxWidth: '500px',
-		} );
+	public openIngredientDialog( data: Ingredient = new Ingredient() ): void {
+		this.dialog.open(AddIngredientComponent, { data });
 	}
 
-	public openDrinkDialog(data: DrinkRecipe = new DrinkRecipe()): void {
-		this.dialog.open( AddDrinkComponent, {
-			data,
-			maxWidth: '500px',
-		} );
+	public openDrinkDialog( data: DrinkRecipe = new DrinkRecipe() ): void {
+		this.dialog.open(AddDrinkComponent, { data });
 	}
 
 }

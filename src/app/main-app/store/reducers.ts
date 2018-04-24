@@ -6,14 +6,16 @@ import { getNextInArray, getPrevInArray } from '../../core/utils/utils';
 export interface MainAppState {
 	loaded: boolean;
 	loading: boolean;
+	loadFail: boolean;
 	drinks: DrinkRecipe[];
 	currentDrink?: DrinkRecipe;
 }
 
 export const mainAppInitialState: MainAppState = {
-	loaded : false,
-	loading: false,
-	drinks : []
+	loaded  : false,
+	loading : false,
+	loadFail: false,
+	drinks  : []
 };
 
 export function mainAppReducer( state = mainAppInitialState, action: Actions ): MainAppState {
@@ -22,6 +24,13 @@ export function mainAppReducer( state = mainAppInitialState, action: Actions ): 
 			return {
 				...state,
 				loading: true,
+			};
+		}
+		case ActionTypes.LoadFail: {
+			return {
+				...state,
+				loading : false,
+				loadFail: true,
 			};
 		}
 
@@ -39,26 +48,24 @@ export function mainAppReducer( state = mainAppInitialState, action: Actions ): 
 		}
 
 		case ActionTypes.SetNextDrink: {
-			const nextDrink = state.drinks && state.currentDrink && getNextInArray(state.drinks, state.currentDrink, 'name');
-			if ( !nextDrink ) { return { ...state }; }
-			return { ...state, currentDrink: nextDrink, };
+			const currentDrink = state.drinks && state.currentDrink && getNextInArray(state.drinks, state.currentDrink, 'name');
+			return { ...state, currentDrink, };
 		}
 
 		case ActionTypes.SetPreviousDrink: {
-			const prevDrink = state.drinks && state.currentDrink && getPrevInArray(state.drinks, state.currentDrink, 'name');
-			if ( !prevDrink ) { return { ...state }; }
-			return { ...state, currentDrink: prevDrink, };
+			const currentDrink = state.drinks && state.currentDrink && getPrevInArray(state.drinks, state.currentDrink, 'name');
+			return { ...state, currentDrink, };
 		}
 
 		case ActionTypes.SetDrinkById: {
-			const drink = state.drinks.find(( d: DrinkRecipe ) => d.id === action.payload) || state.drinks[ 0 ];
-			return { ...state, currentDrink: drink, };
+			const currentDrink = state.drinks.find(( d: DrinkRecipe ) => d.id === action.payload) || state.drinks[ 0 ];
+			return { ...state, currentDrink };
 		}
 
 		case ActionTypes.SetDrinkByName: {
-			const drink = state.drinks.find(( d: DrinkRecipe ) => d.name.toLowerCase() === action.payload.toLowerCase()) || state.drinks[ 0 ];
+			const currentDrink = state.drinks.find(( d: DrinkRecipe ) => d.name.toLowerCase() === action.payload.toLowerCase()) || state.drinks[ 0 ];
 
-			return { ...state, currentDrink: drink, };
+			return { ...state, currentDrink };
 		}
 
 		default:

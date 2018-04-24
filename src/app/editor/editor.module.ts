@@ -3,6 +3,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
 import {
+	MAT_DIALOG_DEFAULT_OPTIONS,
 	MatButtonModule,
 	MatCardModule,
 	MatCheckboxModule,
@@ -78,7 +79,8 @@ const Directives = [ TableCellDirective ];
 	providers      : [
 		StoreService,
 		IsAuthenticatedGuard,
-		IsAnonymousGuard
+		IsAnonymousGuard,
+		{ provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { maxWidth: '900px' } },
 	],
 	exports        : [ ...Components, ...Directives ],
 	entryComponents: [ AddGlassComponent, AddIngredientComponent, AddDrinkComponent ],

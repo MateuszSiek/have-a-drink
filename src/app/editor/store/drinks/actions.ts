@@ -4,7 +4,6 @@ import { DrinkRecipe } from '../../../core/models/visualisation';
 export enum ActionTypes {
 	LoadDrinks        = '[Drinks] Load Drinks',
 	LoadDrinksSuccess = '[Drinks] Load Drinks Complete',
-	LoadFail          = '[Drinks] Load Drinks Fail',
 	AddDrink          = '[Drinks] Add Drink',
 	UpdateDrink       = '[Drinks] Update Drink',
 	RemoveDrink       = '[Drinks] Remove Drink',
@@ -21,13 +20,6 @@ export class LoadDrinksSuccess implements Action {
 
 	constructor( public payload: DrinkRecipe[] ) {}
 }
-
-export class LoadFail implements Action {
-	public readonly type: ActionTypes.LoadFail = ActionTypes.LoadFail;
-
-	constructor( public payload: any = null ) {}
-}
-
 
 export class AddDrink implements Action {
 	public readonly type: ActionTypes.AddDrink = ActionTypes.AddDrink;
@@ -50,7 +42,6 @@ export class RemoveDrink implements Action {
 export type Actions =
 	| LoadDrinks
 	| LoadDrinksSuccess
-	| LoadFail
 	| AddDrink
 	| UpdateDrink
 	| RemoveDrink;

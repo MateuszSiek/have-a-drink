@@ -31,7 +31,7 @@ const ANIM_DURRATION = 400;
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VisualisationComponent implements OnInit, OnDestroy {
-	@ViewChild('svgContainer') public svgContainer?: ElementRef;
+	@ViewChild('svgContainer') public svgContainer!: ElementRef;
 
 	public ingredients: Ingredient[] = [];
 	public listTop: number = 0;
@@ -50,9 +50,6 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 	}
 
 	public ngOnInit(): void {
-		if ( !this.svgContainer ) {
-			return;
-		}
 		this.svgD3Selection = d3.select(this.svgContainer.nativeElement);
 		this.visualisationService.getViewData()
 		.pipe(

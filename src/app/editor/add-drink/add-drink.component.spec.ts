@@ -11,6 +11,8 @@ import { FirebaseService } from '../../core/services/firebase.service';
 import { StoreService } from '../services/store.service';
 import { EditorModule } from '../editor.module';
 import { CoreModule } from '../../core/core.module';
+import { Ingredient } from '../../core/models/visualisation';
+import { MockedIngredients } from '../../../../testing/fixtures/ingredients';
 
 
 describe('AddDrinkComponent', () => {
@@ -73,5 +75,18 @@ describe('AddDrinkComponent', () => {
 		fixture.detectChanges();
 		component.saveDrink();
 		expect(addSpy).toHaveBeenCalledWith(newDrink);
+	});
+
+	it('#addIngredient should add new ingredient to form', () => {
+		component.addIngredient();
+		const ingredients = component.form.get('ingredients').value;
+		expect(ingredients[ ingredients.length - 1 ]).toEqual({ def: new Ingredient(), amount: 0 });
+	});
+
+	it('#removeIngredient should add new ingredient to form', () => {
+		const ingredients = () => component.form.get('ingredients').value;
+		expect(ingredients().length).toEqual(MockedDrinks[ 0 ].ingredients.length);
+		component.removeIngredient(1);
+		expect(ingredients().length).toEqual(MockedDrinks[ 0 ].ingredients.length - 1);
 	});
 });

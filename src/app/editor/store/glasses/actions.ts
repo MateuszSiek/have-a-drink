@@ -4,7 +4,6 @@ import { Glass } from '../../../core/models/visualisation';
 export enum ActionTypes {
 	LoadGlasses        = '[Glasses] Load Glasses',
 	LoadGlassesSuccess = '[Glasses] Load Glasses Complete',
-	LoadFail           = '[Glasses] Load Fail',
 	AddGlass           = '[Glasses] Add Glass',
 	UpdateGlass        = '[Glasses] Update Glass',
 	RemoveGlass        = '[Glasses] Remove Glass',
@@ -20,12 +19,6 @@ export class LoadGlassesSuccess implements Action {
 	public readonly type: ActionTypes.LoadGlassesSuccess = ActionTypes.LoadGlassesSuccess;
 
 	constructor( public payload: Glass[] ) {}
-}
-
-export class LoadFail implements Action {
-	public readonly type: ActionTypes.LoadFail = ActionTypes.LoadFail;
-
-	constructor( public payload: any = null ) {}
 }
 
 export class AddGlass implements Action {
@@ -49,7 +42,6 @@ export class RemoveGlass implements Action {
 export type Actions =
 	| LoadGlasses
 	| LoadGlassesSuccess
-	| LoadFail
 	| AddGlass
 	| UpdateGlass
 	| RemoveGlass;

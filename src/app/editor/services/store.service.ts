@@ -7,14 +7,13 @@ import { getDrink, getDrinks, getGlass, getGlasses, getIngredient, getIngredient
 import * as ingredientsActions from '../store/ingredients/actions';
 import * as drinksActions from '../store/drinks/actions';
 import * as glassesActions from '../store/glasses/actions';
-import { FirebaseService } from '../../core/services/firebase.service';
 import { AppRootState } from '../../core/state';
 import { DrinkRecipe, Glass, Ingredient } from '../../core/models/visualisation';
 
 @Injectable()
 export class StoreService {
 
-	constructor( private store: Store<AppRootState>, private firebaseService: FirebaseService ) {
+	constructor( private store: Store<AppRootState>) {
 	}
 
 	// DRINKS

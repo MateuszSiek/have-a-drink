@@ -19,5 +19,12 @@ export const MockedIngredients: Ingredient[] = [
 		colour: '#ff6703',
 		alcohol: false,
 		name: 'orange'
-	}
+	},
+	{
+		id: '-L5ZJgkNbgaxVLiPuzJ0',
+		colour: '#ff8800',
+		alcohol: true,
+		name: 'whisky',
+		type: 'whisky'
+	},
 ]

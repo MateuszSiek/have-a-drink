@@ -27,7 +27,7 @@ export class LoadComplete implements Action {
 export class LoadFail implements Action {
 	public readonly type: ActionTypes.LoadFail = ActionTypes.LoadFail;
 
-	constructor( public payload: any ) {}
+	constructor( public payload: any = null ) {}
 }
 
 
