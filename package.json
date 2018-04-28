@@ -5,7 +5,8 @@
 	"scripts": {
 		"ng": "ng",
 		"start": "ng serve",
-		"build": "ng build --prod --stats-json",
+		"build:dev": "ng build --prod --stats-json --environment=dev",
+		"build:prod": "ng build --prod --stats-json --environment=prod",
 		"test": "ng test --sourcemaps=false",
 		"test:ci": "ng test --code-coverage --single-run",
 		"lint": "ng lint",
