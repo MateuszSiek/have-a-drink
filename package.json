@@ -1,57 +1,98 @@
 {
-  "name": "have-a-drink",
-  "version": "0.0.0",
-  "license": "MIT",
-  "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build --prod",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
-  },
-  "private": true,
-  "dependencies": {
-    "@angular/animations": "^5.2.0",
-    "@angular/common": "^5.2.0",
-    "@angular/compiler": "^5.2.0",
-    "@angular/core": "^5.2.0",
-    "@angular/forms": "^5.2.0",
-    "@angular/http": "^5.2.0",
-    "@angular/platform-browser": "^5.2.0",
-    "@angular/platform-browser-dynamic": "^5.2.0",
-    "@angular/router": "^5.2.0",
-    "@ngrx/core": "^1.2.0",
-    "@ngrx/effects": "^5.0.0",
-    "@ngrx/store": "^5.0.0",
-    "core-js": "^2.4.1",
-    "d3": "^4.12.2",
-    "rxjs": "^5.5.6",
-    "snapsvg": "^0.5.1",
-    "zone.js": "^0.8.19"
-  },
-  "devDependencies": {
-    "@angular/cli": "1.6.5",
-    "@angular/compiler-cli": "^5.2.0",
-    "@angular/language-service": "^5.2.0",
-    "@ngrx/store-devtools": "^5.0.0",
-    "@types/d3": "^4.12.0",
-    "@types/jasmine": "~2.8.3",
-    "@types/jasminewd2": "~2.0.2",
-    "@types/node": "~6.0.60",
-    "@types/snapsvg": "^0.4.29",
-    "codelyzer": "^4.0.1",
-    "jasmine-core": "~2.8.0",
-    "jasmine-spec-reporter": "~4.2.1",
-    "karma": "~2.0.0",
-    "karma-chrome-launcher": "~2.2.0",
-    "karma-cli": "~1.0.1",
-    "karma-coverage-istanbul-reporter": "^1.2.1",
-    "karma-jasmine": "~1.1.0",
-    "karma-jasmine-html-reporter": "^0.2.2",
-    "protractor": "~5.1.2",
-    "ts-node": "~4.1.0",
-    "tslint": "^5.9.1",
-    "typescript": "~2.5.3"
-  }
+	"name": "have-a-drink",
+	"version": "0.0.0",
+	"license": "MIT",
+	"scripts": {
+		"ng": "ng",
+		"start": "ng serve",
+		"build": "ng build --prod --stats-json",
+		"test": "ng test --sourcemaps=false",
+		"test:ci": "ng test --code-coverage --single-run",
+		"lint": "ng lint",
+		"e2e": "ng e2e",
+		"coverage": "nyc report && nyc check-coverage",
+		"analyze": "webpack-bundle-analyzer ./dist/stats.json",
+		"bundlesize": "bundlesize"
+	},
+	"private": true,
+	"dependencies": {
+		"@angular/animations": "5.2.0",
+		"@angular/cdk": "5.2.4",
+		"@angular/common": "5.2.0",
+		"@angular/compiler": "5.2.0",
+		"@angular/core": "5.2.0",
+		"@angular/forms": "5.2.0",
+		"@angular/http": "5.2.0",
+		"@angular/material": "5.2.4",
+		"@angular/platform-browser": "5.2.0",
+		"@angular/platform-browser-dynamic": "5.2.0",
+		"@angular/router": "5.2.0",
+		"@ngrx/core": "1.2.0",
+		"@ngrx/effects": "5.2.0",
+		"@ngrx/store": "5.2.0",
+		"angularfire2": "5.0.0-rc.6.0",
+		"core-js": "2.5.5",
+		"d3": "5.0.1",
+		"d3-interpolate-path": "2.0.1",
+		"firebase": "4.12.1",
+		"foundation-sites": "6.4.4-rc1",
+		"rxjs": "5.5.6",
+		"snapsvg": "0.5.1",
+		"zone.js": "0.8.26"
+	},
+	"devDependencies": {
+		"@angular/cli": "1.7.4",
+		"@angular/compiler-cli": "5.2.0",
+		"@angular/language-service": "5.2.0",
+		"@ngrx/store-devtools": "5.2.0",
+		"@types/d3": "5.0.0",
+		"@types/jasmine": "2.8.3",
+		"@types/jasminewd2": "2.0.2",
+		"@types/node": "9.6.5",
+		"@types/snapsvg": "0.4.29",
+		"bundlesize": "0.17.0",
+		"codelyzer": "4.2.1",
+		"jasmine-core": "3.1.0",
+		"jasmine-marbles": "0.2.0",
+		"jasmine-spec-reporter": "4.2.1",
+		"karma": "2.0.0",
+		"karma-chrome-launcher": "2.2.0",
+		"karma-cli": "1.0.1",
+		"karma-coverage-istanbul-reporter": "1.4.2",
+		"karma-jasmine": "1.1.0",
+		"karma-jasmine-html-reporter": "1.0.0",
+		"ngrx-store-freeze": "0.2.0",
+		"nyc": "^11.7.1",
+		"protractor": "5.1.2",
+		"ts-node": "6.0.0",
+		"tslint": "5.9.1",
+		"typescript": "2.8.1",
+		"webpack-bundle-analyzer": "2.11.1"
+	},
+	"bundlesize": [
+		{
+			"path": "./dist/inline*.js",
+			"maxSize": "1 kB"
+		},
+		{
+			"path": "./dist/main-app.module*.js",
+			"maxSize": "50 KB"
+		},
+		{
+			"path": "./dist/editor.module*.js",
+			"maxSize": "80 KB"
+		},
+		{
+			"path": "./dist/main.*.js",
+			"maxSize": "250 KB"
+		},
+		{
+			"path": "./dist/polyfill*.js",
+			"maxSize": "20 kB"
+		},
+		{
+			"path": "./dist/styles*.{js,css}",
+			"maxSize": "500 B"
+		}
+	]
 }

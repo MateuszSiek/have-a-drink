@@ -1,0 +1,32 @@
+@import 'abstracts';
+
+.list-visibility {
+  display: none;
+}
+
+@media (max-width: 750px) {
+  .show-list {
+    position: absolute;
+  }
+
+  .list-visibility {
+    display: block;
+  }
+
+  .main-container {
+    position: fixed;
+    top: 0;
+    max-width: 100vW;
+    width: 100vw;
+    left: 0;
+    height: 100vH;
+    background: #f8f8f6;
+    z-index: 1;
+    &:not(.visible) {
+      display: none;
+    }
+    ul {
+      max-width: 80vW;
+    }
+  }
+}

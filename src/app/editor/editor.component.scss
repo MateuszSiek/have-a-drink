@@ -1,0 +1,58 @@
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import '~foundation-sites/scss/foundation';
+
+@include foundation-xy-grid-classes();
+
+app-drinks-list .app-card--content {
+  height: auto;
+  max-height: 40rem;
+}
+
+.mat-table {
+  background: inherit;
+  /* Column Widths */
+  .mat-column-edit,
+  .mat-column-delete {
+    max-width: 3rem;
+  }
+}
+
+.app-table--edit-button, .app-table--remove-button, .app-table--add-button {
+  color: #b7b7b7 !important;
+}
+
+.app-table--edit-button:hover, .app-table--add-button:hover {
+  color: #00ce56 !important;
+}
+
+.app-table--remove-button:hover {
+  color: #e40000 !important;
+}
+
+.app-card {
+  background: #ffffff;
+  box-shadow: 0 3px 2px 1px #b1b1b1;
+  margin: 1rem;
+}
+
+.dialog-buttons {
+  text-align: right;
+}
+
+.app-card--title {
+  padding: 1rem;
+  border-bottom: 1px solid #d6d6d6;
+}
+
+.app-card--content {
+  padding: 0 1rem;
+  height: 20rem;
+  overflow: auto;
+}
+
+.mat-header-row {
+  position: sticky;
+  top: 0;
+  background: #ffffff;
+  z-index: 1;
+}

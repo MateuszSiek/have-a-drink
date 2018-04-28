@@ -1,0 +1,24 @@
+<div class="vis-container">
+    <div class="drinks-list">
+        <app-drinks-list></app-drinks-list>
+    </div>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 60" #svgContainer>
+        <g clip-path="url(#clipping-mask)" class="g--ingredients"></g>
+        <g>
+            <path class="path--glass-path" d=""></path>
+            <clipPath id="clipping-mask">
+                <path d=""></path>
+            </clipPath>
+        </g>
+    </svg>
+    <div class="ingredients-list">
+        <ul class="ingredients-list" [style.top.%]="listTop" [style.height.%]="listHeight" *ngIf="!animating">
+            <li *ngFor="let ingredient of ingredients; index as i" [style.animation-delay.ms]="i*100">
+                <span>{{ingredient.amount}} {{ingredient.name}}</span>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="drink-description">
+    <app-description></app-description>
+</div>

@@ -1,0 +1,48 @@
+<form class="glass-form" [formGroup]="form" (ngSubmit)="saveGlass();" novalidate>
+
+    <h1 mat-dialog-title>
+        Add glass
+    </h1>
+
+    <div mat-dialog-content>
+        <div class="content"
+             fxLayout="row"
+             fxLayout.xs="column"
+             fxLayoutGap="0.5rem"
+             fxFlexFill>
+
+            <div fxFlex="50" fxFlex.xs="80">
+                <mat-form-field class="full-width">
+                    <input matInput formControlName="name" placeholder="Name">
+                </mat-form-field>
+
+                <mat-form-field class="full-width">
+                    <input matInput formControlName="maskTopMargin" type="number" placeholder="Mask top margin">
+                </mat-form-field>
+
+                <mat-form-field class="full-width">
+                    <input matInput formControlName="maskHeight" type="number" placeholder="Mask height">
+                </mat-form-field>
+
+                <mat-form-field class="full-width">
+                    <textarea matInput formControlName="path" placeholder="Path"></textarea>
+                </mat-form-field>
+
+                <mat-form-field class="full-width">
+                    <textarea matInput formControlName="mask" placeholder="Mask path"></textarea>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50">
+                <app-glass-preview [glass]="form.getRawValue()"></app-glass-preview>
+            </div>
+
+        </div>
+
+    </div>
+    <div  class="dialog-buttons">
+        <button type="submit" [disabled]="form.pristine || form.invalid" mat-raised-button color="primary">
+            {{form.value.id ? 'SAVE' : 'ADD'}}
+        </button>
+        <button type="reset" mat-raised-button color="warn" (click)="dialogRef.close()">CANCEL</button>
+    </div>
+</form>

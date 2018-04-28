@@ -2,7 +2,8 @@
 // https://karma-runner.github.io/1.0/config/configuration-file.html
 
 module.exports = function (config) {
-  config.set({
+	const withCodeCoverage = config.angularCli && config.angularCli.codeCoverage;
+	config.set({
     basePath: '',
     frameworks: ['jasmine', '@angular/cli'],
     plugins: [
@@ -16,8 +17,9 @@ module.exports = function (config) {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
     coverageIstanbulReporter: {
-      reports: [ 'html', 'lcovonly' ],
-      fixWebpackSourcePaths: true
+	    dir: require('path').join(__dirname, 'dist/coverage'),
+	    reports: ['html', 'lcovonly', 'text-summary', 'json'],
+	    fixWebpackSourcePaths: true
     },
     angularCli: {
       environment: 'dev'
@@ -27,7 +29,13 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
-    singleRun: false
+	browsers: [ withCodeCoverage ? 'ChromeHeadlessNoSandbox' : 'Chrome' ],
+	customLaunchers: {
+	  ChromeHeadlessNoSandbox: {
+		  base : 'ChromeHeadless',
+		  flags: ['--no-sandbox'],
+	  },
+	},
+	singleRun: false
   });
 };

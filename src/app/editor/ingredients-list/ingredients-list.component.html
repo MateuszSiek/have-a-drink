@@ -1,0 +1,18 @@
+<div class="app-card">
+    <div class="app-card--title">
+        List of ingredients
+    </div>
+    <div class="app-card--content">
+        <app-data-table [dataSource]="dataSource"
+                        [columns]="columns"
+                        (edit)="editRecord($event)"
+                        (remove)="removeRecord($event)"
+                        (add)="addNew()"
+        >
+            <ng-template let-value="value" [appTableCell]="'colour'">
+                <span class="__colour-cell" [style.background]="value"></span>
+                {{value}}
+            </ng-template>
+        </app-data-table>
+    </div>
+</div>

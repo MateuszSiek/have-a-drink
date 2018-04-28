@@ -1,0 +1,28 @@
+<button class="button md-button list-visibility show-list" (click)="mobileListVisible=true">FULL LIST</button>
+<div class="main-container" [class.visible]="mobileListVisible">
+    <button class="button md-button list-visibility" (click)="mobileListVisible=false">CLOSE</button>
+    <div class="search-box">
+        <input type="text" name="search" placeholder="Search drinks" [formControl]="searchControl">
+        <button (click)="resetSearchQuery()">x</button>
+    </div>
+    <div class="list">
+        <ul>
+            <li *ngFor="let drink of visibleDrinks"
+                (click)="selectDrinkById(drink.id)"
+                [class.active]="currentDrink?.id === drink.id">
+                {{drink.name}}
+            </li>
+        </ul>
+    </div>
+
+    <div class="filters">
+        <div> Filter by alcohol</div>
+        <button *ngFor="let type of alcoholTypes"
+                (click)="toggleFilterType(type)"
+                [class.active]="filters.types[type]"
+                class="button sm-button filter-button {{type}}">
+            {{type}}
+        </button>
+        <button class="button sm-button reset" (click)="resetTypeFilter()">reset</button>
+    </div>
+</div>

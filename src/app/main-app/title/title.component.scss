@@ -1,0 +1,28 @@
+@import 'abstracts';
+
+h1 {
+  color: $black;
+  position: relative;
+}
+
+h1 div {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, 0);
+}
+
+.div--text-container span {
+  display: inline-block;
+}
+
+::ng-deep .animate-to-default {
+  animation: backToDefault 5s;
+}
+
+@keyframes backToDefault {
+  to {
+    transform: translate(0);
+    opacity: 1
+  }
+}

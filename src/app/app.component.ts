@@ -1,18 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { StoreService } from './core/services/store.service';
-import { DrinkRecipe } from './core/models/visualisation';
+import { Component } from '@angular/core';
+
 
 @Component({
-  selector   : 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls  : [ './app.component.scss' ]
+	selector   : 'app-root',
+	templateUrl: './app.component.html',
+	styleUrls  : [ './app.component.scss' ]
 })
-export class AppComponent implements OnInit {
-  constructor( private storeService: StoreService ) {
+export class AppComponent {
 
-  }
-
-  public ngOnInit(): void {
-    this.storeService.loadDrinks();
-  }
 }
