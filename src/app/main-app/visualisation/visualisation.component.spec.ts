@@ -83,15 +83,4 @@ describe('VisualisationComponent', () => {
 		}, 3000);
 	});
 
-
-	it('should update drink', ( done ) => {
-		fixture.whenStable().then(() => {
-			validateDrinkViz(MockedDrinks[ 0 ]);
-			store.dispatch(new SetCurrentDrink(MockedDrinks[ 1 ]));
-			setTimeout(() => {
-				validateDrinkViz(MockedDrinks[ 1 ]);
-				done();
-			}, 4000);
-		});
-	});
 });

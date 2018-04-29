@@ -1,0 +1,124 @@
+version: 2
+jobs:
+
+  init:
+    docker:
+      - image: circleci/node:8-browsers
+    steps:
+        - checkout
+
+        # Log the current branch
+        - run:
+            name: Show current branch
+            command: echo ${CIRCLE_BRANCH}
+
+        # Install project dependencies
+        - run:
+            name: Install local dependencies
+            command: yarn
+
+        # Cache local dependencies if they don't exist
+        - save_cache:
+            key: v1-dependencies-{{ checksum "package.json" }}
+            paths:
+                - node_modules
+
+
+  build:
+    docker:
+      - image: circleci/node:8-browsers
+    steps:
+        - checkout
+
+        # Restore local dependencies from cache
+        - restore_cache:
+            keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+
+##        - run:
+##            name: Linting
+##            command: yarn lint
+
+        - run:
+            name: Testing
+            command: yarn test:ci
+
+        - run:
+            name: Coverage
+            command: yarn coverage
+
+        # Build project with different configuration based on the current branch
+        - run:
+            name: Building
+            command: |
+                if [ "${CIRCLE_BRANCH}" == "master" ]; then
+                    yarn build:prod
+                else
+                    yarn build:dev
+                fi
+
+        # Cache the dist and scripts folder for the deploy job
+        - save_cache:
+            key: v1-dist-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+            paths:
+                - dist
+                - scripts
+                - ~/.ssh
+
+  deploy-prod:
+    docker:
+      - image: circleci/node:8-browsers
+    steps:
+
+        # Restore local dependencies from cache
+        - restore_cache:
+            keys:
+            - v1-dist-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+
+        - run:
+            name: Deploy to digital ocean
+            command: bash ./scripts/deploy.sh
+            environment:
+                DOMAIN_NAME: haveadrink.msiek.com
+
+  deploy-dev:
+    docker:
+      - image: circleci/node:8-browsers
+    steps:
+        # Restore local dependencies from cache
+        - restore_cache:
+            keys:
+            - v1-dist-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+
+        - run:
+            name: Deploy to digital ocean
+            command: bash ./scripts/deploy.sh
+            environment:
+                DOMAIN_NAME: dev.haveadrink.msiek.com
+
+
+workflows:
+    version: 2
+    # The build and deploy workflow
+    build_and_deploy:
+        jobs:
+            - init
+
+            - build:
+                requires:
+                    - init
+
+            - deploy-prod:
+                requires:
+                    - build
+                filters:
+                    branches:
+                        only: master
+
+            - deploy-dev:
+                requires:
+                    - build
+                filters:
+                    branches:
+                        ignore: master
+
