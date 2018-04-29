@@ -37,6 +37,8 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 	public listTop: number = 0;
 	public listHeight: number = 0;
 
+	public loading: boolean = true;
+
 	public svgD3Selection?: D3Selection;
 
 	public animating: boolean = true;
@@ -60,6 +62,7 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 				this.cdRef.detectChanges();
 			}),
 			tap(( data: ViewData ) => {
+				this.loading = false;
 				const glass = data.recipe.glass as Glass;
 				this.listTop = (glass.maskTopMargin / VIEWBOX_HEIGHT) * 100;
 				this.listHeight = (glass.maskHeight / VIEWBOX_HEIGHT) * 100;
