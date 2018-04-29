@@ -1,5 +1,5 @@
 import {
-	ChangeDetectionStrategy,
+	ChangeDetectionStrategy, ChangeDetectorRef,
 	Component,
 	ElementRef,
 	EventEmitter,
@@ -12,7 +12,7 @@ import { bindCallback } from 'rxjs/observable/bindCallback';
 
 import * as d3 from 'd3';
 
-import { switchMap } from 'rxjs/operators';
+import { switchMap, takeUntil } from 'rxjs/operators';
 import { DrinkRecipe } from '../../core/models/visualisation';
 import { StoreService } from '../services/store.service';
 import { BaseType } from 'd3-selection';
@@ -42,6 +42,7 @@ export class TitleComponent implements OnInit, OnDestroy {
 		this.d3MainContainer = d3.select(this.titleContainer.nativeElement);
 		this.storeService.getCurrentDrink()
 		.pipe(
+			takeUntil(this.ngOnDestroy$),
 			switchMap(( drink: DrinkRecipe | undefined ) => this.renderTitle(drink && drink.name || ''))
 		)
 		.subscribe(() => {});

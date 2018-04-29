@@ -23,6 +23,8 @@ export class DrinksListComponent implements OnInit {
 
 	public mobileListVisible: boolean = false;
 
+	public loading: boolean = true;
+
 	public drinks: DrinkRecipe[] = [];
 	public visibleDrinks: DrinkRecipe[] = [];
 	public currentDrink: DrinkRecipe | undefined;
@@ -37,6 +39,7 @@ export class DrinksListComponent implements OnInit {
 
 	public ngOnInit(): void {
 		this.storeService.getAllDrinks().subscribe(( drinks: DrinkRecipe[] ) => {
+			this.loading = !drinks.length;
 			this.drinks = drinks;
 			this.visibleDrinks = drinks;
 			this.alcoholTypes = getAlcoholTypes(drinks);

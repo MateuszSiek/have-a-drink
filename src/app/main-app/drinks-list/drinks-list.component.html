@@ -1,5 +1,5 @@
 <button class="button md-button list-visibility show-list" (click)="mobileListVisible=true">FULL LIST</button>
-<div class="main-container" [class.visible]="mobileListVisible">
+<div class="main-container" [class.visible]="mobileListVisible" *ngIf="!loading">
     <button class="button md-button list-visibility" (click)="mobileListVisible=false">CLOSE</button>
     <div class="search-box">
         <input type="text" name="search" placeholder="Search drinks" [formControl]="searchControl">

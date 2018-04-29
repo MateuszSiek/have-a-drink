@@ -1,0 +1,18 @@
+.loading-label {
+  margin: 0;
+  animation: scale 5s linear infinite;
+}
+
+
+@keyframes scale {
+  0% {
+    transform: translate(0, 22rem)scale(0.9);
+  }
+  50% {
+    transform: translate(0, 22rem)scale(1.1);
+  }
+  100% {
+    transform: translate(0, 22rem)scale(0.9);
+  }
+}
+

@@ -1,8 +1,11 @@
-<app-title></app-title>
+<div >
+    <h1 class="loading-label" *ngIf="loading">LOADING</h1>
+    <app-title></app-title>
+</div>
 <div>
     <app-visualisation></app-visualisation>
 </div>
-<div>
+<div *ngIf="!loading">
     <button class="button prev-button" (click)="loadPrevDrink()">prev</button>
     <button class="button next-button" (click)="loadNextDrink()">next</button>
 </div>
