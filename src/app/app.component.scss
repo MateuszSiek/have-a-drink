@@ -1,0 +1,11 @@
+@import 'abstracts';
+
+.content {
+  min-height: calc(100vh - 6.5rem);
+}
+
+@media (max-width: $mobile-breaking-point) {
+  .content {
+    min-height: calc(100vh - 5.5rem);
+  }
+}

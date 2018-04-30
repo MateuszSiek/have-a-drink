@@ -3,6 +3,8 @@ import { RouterModule } from '@angular/router';
 
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 const Modules = [
 	CommonModule,
@@ -10,9 +12,15 @@ const Modules = [
 	ReactiveFormsModule,
 ];
 
+const Components = [
+	HeaderComponent,
+	FooterComponent
+];
+
 @NgModule({
-	imports: [ ...Modules ],
-	exports: [ ...Modules ]
+	imports     : [ ...Modules ],
+	declarations: [ ...Components ],
+	exports     : [ ...Modules, ...Components ]
 })
 export class SharedModule {
 }

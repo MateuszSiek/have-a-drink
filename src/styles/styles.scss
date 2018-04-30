@@ -1,9 +1,8 @@
 @import 'abstracts';
 
 html, body {
-  background: url("../assets/parchment_background.jpg") no-repeat center;
+  background: url("../assets/parchment_background.jpg") no-repeat center center fixed;
   background-size: cover;
-  height: 100%;
   margin: 0;
   color: $black;
   font-family: 'Oswald', sans-serif;
@@ -39,6 +38,7 @@ html, body {
 .button:not(.active):hover {
   background: rgba($gray, 0.3);
 }
+
 .button.active:hover {
   background: rgba($gray, 0.7);
 }
