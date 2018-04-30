@@ -36,6 +36,9 @@ html, body {
   }
 }
 
-.button:hover {
+.button:not(.active):hover {
   background: rgba($gray, 0.3);
+}
+.button.active:hover {
+  background: rgba($gray, 0.7);
 }

@@ -19,8 +19,8 @@
         <div> Filter by alcohol</div>
         <button *ngFor="let type of alcoholTypes"
                 (click)="toggleFilterType(type)"
-                [class.active]="filters.types[type]"
-                class="button sm-button filter-button {{type}}">
+                class="button sm-button filter-button {{type}}"
+                [class.active]="filters.types[type]">
             {{type}}
         </button>
         <button class="button sm-button reset" (click)="resetTypeFilter()">reset</button>
