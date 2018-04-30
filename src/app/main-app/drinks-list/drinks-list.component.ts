@@ -35,6 +35,8 @@ export class DrinksListComponent implements OnInit {
 		types: {}
 	};
 
+	private filterFirstTimeClicked: boolean = false;
+
 	constructor( private storeService: StoreService, private cdRef: ChangeDetectorRef ) { }
 
 	public ngOnInit(): void {
@@ -56,6 +58,7 @@ export class DrinksListComponent implements OnInit {
 		.subscribe(( query: any ) => {
 			this.filters.query = query;
 			this.filterDrinks();
+			this.cdRef.detectChanges();
 		});
 	}
 
@@ -65,13 +68,18 @@ export class DrinksListComponent implements OnInit {
 
 
 	public toggleFilterType( type: string ): void {
+		if ( !this.filterFirstTimeClicked ) {
+			this.resetTypeFilter(false);
+		}
 		this.filters.types[ type ] = !this.filters.types[ type ];
 		this.filterDrinks();
+		this.filterFirstTimeClicked = true;
 	}
 
-	public resetTypeFilter(): void {
+	public resetTypeFilter(resetTo: boolean = true): void {
+		this.filterFirstTimeClicked = false;
 		Object.keys(this.filters.types).forEach(( type: string ) => {
-			this.filters.types[ type ] = true;
+			this.filters.types[ type ] = resetTo;
 		});
 		this.filterDrinks();
 		this.cdRef.detectChanges();

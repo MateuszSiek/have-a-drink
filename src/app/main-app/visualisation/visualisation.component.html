@@ -17,8 +17,10 @@
     </svg>
     <div class="ingredients-list">
         <ul class="ingredients-list" [style.top.%]="listTop" [style.height.%]="listHeight" *ngIf="!animating">
-            <li *ngFor="let ingredient of ingredients; index as i" [style.animation-delay.ms]="i*100">
-                <span>{{ingredient.amount}} {{ingredient.name}}</span>
+            <li *ngFor="let ingredient of ingredients; index as i"
+                [style.flex]="ingredientsAmount[ingredient.id]"
+                [style.animation-delay.ms]="i*100">
+                <span>{{ingredientsAmount[ingredient.id]}} {{ingredient.name}}</span>
             </li>
         </ul>
     </div>

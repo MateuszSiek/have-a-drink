@@ -58,16 +58,21 @@ describe('DrinksListComponent', () => {
 		expect(spy).toHaveBeenCalledWith('xyz');
 	});
 
-	it('#toggleFilterType should toggle filter value and trigger filtering', () => {
+	it('#toggleFilterType should reset other filters and select only cne for initial selection', () => {
 		expect(component.filters.types[ 'vodka' ]).toBeTruthy();
+		expect(component.filters.types[ 'whisky' ]).toBeTruthy();
+		component.toggleFilterType('vodka');
+		expect(component.filters.types[ 'vodka' ]).toBeTruthy();
+		expect(component.filters.types[ 'whisky' ]).toBeFalsy();
 		component.toggleFilterType('vodka');
 		expect(component.filters.types[ 'vodka' ]).toBeFalsy();
+		expect(component.filters.types[ 'whisky' ]).toBeFalsy();
 	});
 
 	it('#resetTypeFilter should reset type filters to default', () => {
 		component.toggleFilterType('vodka');
-		component.toggleFilterType('whisky');
 		expect(component.filters.types[ 'whisky' ]).toBeFalsy();
+		expect(component.filters.types[ 'vodka' ]).toBeTruthy();
 
 		component.resetTypeFilter();
 		expect(component.filters.types[ 'vodka' ]).toBeTruthy();
@@ -96,7 +101,7 @@ describe('DrinksListComponent', () => {
 	it('type buttons filter view list', () => {
 		const searchInput = nativeElement.querySelector('.search-box input');
 
-		const button: HTMLElement = nativeElement.querySelector('.filters .filter-button.vodka');
+		const button: HTMLElement = nativeElement.querySelector('.filters .filter-button.whisky');
 		button.click();
 		fixture.detectChanges();
 

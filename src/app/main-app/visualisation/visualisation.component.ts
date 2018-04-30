@@ -34,6 +34,7 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 	@ViewChild('svgContainer') public svgContainer!: ElementRef;
 
 	public ingredients: Ingredient[] = [];
+	public ingredientsAmount: { [id: string]: number } = {};
 	public listTop: number = 0;
 	public listHeight: number = 0;
 
@@ -67,6 +68,7 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 				this.listTop = (glass.maskTopMargin / VIEWBOX_HEIGHT) * 100;
 				this.listHeight = (glass.maskHeight / VIEWBOX_HEIGHT) * 100;
 				this.ingredients = data.recipe.ingredients;
+				this.ingredientsAmount = data.recipe.ingredientsAmount;
 				this.cdRef.detectChanges();
 			}),
 			switchMap(( data: ViewData ) => this.renderDrink(data)),
