@@ -5,6 +5,11 @@ svg {
   flex-basis: 25rem;
 }
 
+.g--ingredients {
+  clip-path: url(#clipping-mask);
+  -webkit-clip-path: url(#clipping-mask);
+}
+
 .vis-container {
   height: 35rem;
   padding: 0rem 2rem;
@@ -13,6 +18,7 @@ svg {
     flex: 1;
   }
   .ingredients-list {
+    text-transform: capitalize;
     flex: 1;
     text-align: left;
   }

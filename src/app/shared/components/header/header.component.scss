@@ -1,0 +1,30 @@
+@import 'abstracts';
+
+header {
+  margin-bottom: 1rem;
+  border-bottom: $border-line;
+  background: rgba($gray, 0.2);
+  letter-spacing: 0.3rem;
+  word-spacing: 0.1rem;
+  height: 3.5rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  color: $red;
+}
+
+.sub-title {
+  font-size: 0.8rem;
+  position: relative;
+  top: -6px;
+}
+
+@media (max-width: $mobile-breaking-point) {
+  header {
+    height: 2.5rem;
+  }
+  .sub-title {
+    display: none;
+  }
+}
