@@ -20,13 +20,14 @@ import { D3Selection } from '../title/title.component';
 import { Glass, Ingredient } from '../../core/models/visualisation';
 
 const VIEWBOX_HEIGHT = 60;
+const VIEWBOX_WIDTH = 45;
 const ANIM_DURRATION = 400;
 
 
 @Component({
 	selector       : 'app-visualisation',
 	templateUrl    : './visualisation.component.html',
-	styleUrls      : [ './visualisation.component.scss' ],
+	styleUrls      : [ './visualisation.component.scss', './visualisation-responsive.component.scss' ],
 	providers      : [ VisualisationService ],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -99,9 +100,27 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 	 * Function used to update view mask used to clip ingredients rectangle
 	 * so that only the part of view in the glass is visible
 	 */
-	private setClippingMask( path: string ): void {
-		this.svgD3Selection!.select('#clipping-mask path').attr('d', path);
+	private setClippingMask( pathString: string ): void {
+		const path = this.svgD3Selection!.select<SVGPathElement>('#clipping-mask path');
+		path.attr('d', pathString);
+		const pathEl: SVGPathElement = path.node();
+
+		const len = pathEl.getTotalLength();
+		const points = [];
+		const pathSize = pathEl.getBBox();
+		for ( let i = 0; i < len; i += 1 ) {
+			const point = pathEl.getPointAtLength(i);
+			const xPerc = ((point.x - pathSize.x) / pathSize.width) * 100;
+			const yPerc = ((point.y - pathSize.y) / pathSize.height) * 100;
+			points.push(`${xPerc}% ${yPerc}%`);
+		}
+		const polygon = points.join(', ');
+
+		this.svgD3Selection!.select('.g--ingredients')
+		.style('clip-path', `polygon(${polygon})`)
+		.style('-webkit-clip-path', `polygon(${polygon})`);
 	}
+
 
 	/*
 	 * Before creating new render we should clean up previous one.
@@ -112,13 +131,18 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 		return bindCallback(
 			( cb: () => void ) => {
 				const ingredientsView: D3Selection = this.svgD3Selection!.select('.g--ingredients g');
-				if ( ingredientsView.node() ) {
-					ingredientsView
+				const ingrViewEl: SVGGElement = ingredientsView.node() as SVGGElement;
+				if ( ingrViewEl ) {
+					const callback = () => {
+						ingredientsView.remove();
+						cb();
+					};
+					ingredientsView.selectAll('rect')
 					.transition()
 					.duration(ANIM_DURRATION)
-					.attr('transform', `translate(0,${VIEWBOX_HEIGHT})`)
-					.on('end', cb)
-					.remove();
+					.attr('transform', `scale(0,1)`)
+					.on('end', callback);
+
 				}
 				else {
 					cb();
@@ -135,23 +159,26 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 	private renderIngredients( layers: IngredientViewLayer[] ): Observable<void> {
 		return bindCallback(
 			( cb: () => void ) => {
-				const container: D3Selection = this.svgD3Selection!.select('.g--ingredients')
-				.append('g') // adding additional grouping element which will be animated
-				.attr('transform', `translate(0,${VIEWBOX_HEIGHT})`);
+				const container: D3Selection = this.svgD3Selection!.select('.g--ingredients').append('g');
 
+				const mask: SVGPathElement = this.svgD3Selection!.select('#clipping-mask path').node() as SVGPathElement;
+				const maskWidth = mask && mask.getBBox().width;
 				layers.forEach(( layer: IngredientViewLayer ) => { // appending ingredients rectangles to the view
 					container.append('rect')
-					.attr('x', 0)
+					.attr('x', (VIEWBOX_WIDTH - maskWidth) / 2)
+					.attr('transform', `scale(0,1)`)
+					.attr('transform-origin', `center`)
 					.attr('y', layer.y)
-					.attr('width', 45)
+					.attr('width', maskWidth)
 					.attr('height', layer.h)
-					.style('fill', layer.colour);
+					.style('fill', layer.colour)
+					.attr('opacity', 0)
+					.transition()
+					.duration(ANIM_DURRATION)
+					.attr('transform', `scale(1,1)`)
+					.attr('opacity', 1)
+					.on('end', cb);
 				});
-
-				container.transition()
-				.duration(ANIM_DURRATION)
-				.attr('transform', 'translate(0,0)')
-				.on('end', cb);
 			}
 		)();
 	}

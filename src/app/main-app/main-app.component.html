@@ -1,11 +1,19 @@
-<div >
+<div class="title-container">
     <h1 class="loading-label" *ngIf="loading">LOADING</h1>
     <app-title></app-title>
 </div>
-<div>
+<div class="visualisation-container">
     <app-visualisation></app-visualisation>
+    <div class="navigation-buttons-mobile" *ngIf="!loading">
+        <div class="prev-panel" (click)="loadPrevDrink();">
+            <img src="assets/chevron.svg">
+        </div>
+        <div class="next-panel" (click)="loadNextDrink();">
+            <img src="assets/chevron.svg">
+        </div>
+    </div>
 </div>
-<div *ngIf="!loading">
+<div class="navigation-buttons" *ngIf="!loading">
     <button class="button prev-button" (click)="loadPrevDrink()">prev</button>
     <button class="button next-button" (click)="loadNextDrink()">next</button>
 </div>

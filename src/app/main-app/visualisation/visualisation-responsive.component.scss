@@ -1,0 +1,17 @@
+@import 'abstracts';
+
+@media (max-width: $mobile-breaking-point) {
+  .vis-container {
+    .ingredients-list {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+    }
+  }
+  svg {
+    flex-basis: 100%;
+  }
+}
