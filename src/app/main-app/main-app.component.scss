@@ -1,18 +1,51 @@
+@import 'abstracts';
+
 .loading-label {
   margin: 0;
-  animation: scale 5s linear infinite;
+  animation: scale 2s linear alternate infinite;
 }
-
 
 @keyframes scale {
-  0% {
-    transform: translate(0, 22rem)scale(0.9);
+  from {
+    opacity: 0.3;
   }
-  50% {
-    transform: translate(0, 22rem)scale(1.1);
-  }
-  100% {
-    transform: translate(0, 22rem)scale(0.9);
+  to {
+    opacity: 1;
   }
 }
 
+.visualisation-container {
+  position: relative;
+}
+
+.navigation-buttons-mobile {
+  display: none;
+  position: absolute;
+  height: 22rem;
+  width: 100vw;
+  top: 2rem;
+  div {
+    flex: 1;
+    position: relative;
+    img {
+      top: 8rem;
+      width: 3rem;
+      position: absolute;
+      right: 0.2rem;
+      opacity: 0.5;
+    }
+    &.prev-panel img {
+      left: 0.2rem;
+      transform: rotateY(180deg);
+    }
+  }
+}
+
+@media (max-width: $mobile-breaking-point) {
+  .navigation-buttons {
+    display: none;
+  }
+  .navigation-buttons-mobile {
+    display: flex;
+  }
+}

@@ -24,7 +24,8 @@
 		]
 	  },
 	  "styles": [
-		"styles/styles.scss"
+		"styles/styles.scss",
+		"styles/loader.scss"
 	  ],
 	  "scripts": [
 		"../node_modules/snapsvg/dist/snap.svg-min.js"

@@ -50,6 +50,7 @@ export class DrinksListComponent implements OnInit {
 		});
 		this.storeService.getCurrentDrink().subscribe(( drink: DrinkRecipe | undefined ) => {
 			this.currentDrink = drink;
+			this.mobileListVisible = false;
 			this.cdRef.detectChanges();
 		});
 

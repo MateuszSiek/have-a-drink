@@ -2,10 +2,11 @@
 
 .content {
   min-height: calc(100vh - 6.5rem);
+  overflow: hidden;
 }
 
 @media (max-width: $mobile-breaking-point) {
   .content {
-    min-height: calc(100vh - 5.5rem);
+    min-height: calc(100vh - 4rem);
   }
 }

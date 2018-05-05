@@ -19,12 +19,3 @@ header {
   position: relative;
   top: -6px;
 }
-
-@media (max-width: $mobile-breaking-point) {
-  header {
-    height: 2.5rem;
-  }
-  .sub-title {
-    display: none;
-  }
-}

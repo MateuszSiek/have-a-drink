@@ -1,0 +1,13 @@
+@import 'abstracts';
+
+@media (max-width: $mobile-breaking-point) {
+  header {
+    height: 1.5rem;
+  }
+  .title {
+    font-size: 1rem;
+  }
+  .sub-title {
+    display: none;
+  }
+}

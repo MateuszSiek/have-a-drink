@@ -9,6 +9,12 @@ html, body {
   text-align: center;
 }
 
+@media (max-width: $mobile-breaking-point) {
+  html {
+    font-size: 14px;
+  }
+}
+
 .button {
   padding: 0.5rem 2rem;
   background: rgba($gray, 0.4);

@@ -5,16 +5,18 @@ svg {
   flex-basis: 25rem;
 }
 
-.g--ingredients {
-  clip-path: url(#clipping-mask);
-  -webkit-clip-path: url(#clipping-mask);
-}
+//.g--ingredients {
+//  clip-path: url(#clipping-mask);
+//  -webkit-clip-path: url(#clipping-mask);
+//}
 
 .vis-container {
-  height: 35rem;
+  position: relative;
+  height: 55vh;
   padding: 0rem 2rem;
   display: flex;
   .drinks-list {
+    z-index: 10;
     flex: 1;
   }
   .ingredients-list {
@@ -66,18 +68,14 @@ svg {
 }
 
 svg.loading {
-  animation: rotate 5s linear infinite;
+  animation: rotate 3s linear alternate infinite;
 }
 
-
 @keyframes rotate {
-  0% {
-    transform: rotate(0)scale(0.9);
+  from {
+    transform: rotate(0) scale(0.9);
   }
-  50% {
-    transform: rotate(180deg)scale(1.1);
-  }
-  100% {
-    transform: rotate(360deg)scale(0.9);
+  to {
+    transform: rotate(360deg) scale(1.1);
   }
 }
