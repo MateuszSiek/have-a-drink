@@ -1,14 +1,8 @@
 @import 'abstracts';
 
 svg {
-  //width: 25rem;
   flex-basis: 25rem;
 }
-
-//.g--ingredients {
-//  clip-path: url(#clipping-mask);
-//  -webkit-clip-path: url(#clipping-mask);
-//}
 
 .vis-container {
   position: relative;
@@ -23,22 +17,34 @@ svg {
     text-transform: capitalize;
     flex: 1;
     text-align: left;
+    ul {
+      position: relative;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      li {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        opacity: 0;
+        animation: fadeIn 0.5s forwards;
+        .ingredient-amount {
+          font-weight: lighter;
+          text-transform: none;
+        }
+      }
+    }
+    .custom-ingredients {
+      position: absolute;
+      bottom: 0;
+      color: $green;
+    }
   }
 }
 
-.ingredients-list ul {
-  position: relative;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  li {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    opacity: 0;
-    animation: fadeIn 0.5s forwards;
-  }
+.type-of-drink {
+  font-weight: lighter;
 }
 
 @keyframes fadeIn {
@@ -67,15 +73,19 @@ svg {
   padding: 0rem 2rem;
 }
 
-svg.loading {
-  animation: rotate 3s linear alternate infinite;
+svg {
+  .loading-rect {
+    fill: $blue;
+    transform-origin: 22.5px 51px;
+    animation: fillIn 5s linear infinite;
+  }
 }
 
-@keyframes rotate {
+@keyframes fillIn {
   from {
-    transform: rotate(0) scale(0.9);
+    transform: scale(1, 0);
   }
   to {
-    transform: rotate(360deg) scale(1.1);
+    transform: scale(1, 1);
   }
 }

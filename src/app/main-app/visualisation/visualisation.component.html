@@ -6,24 +6,45 @@
          viewBox="0 0 45 60"
          [class.loading]="loading"
          #svgContainer>
-        <g class="g--ingredients"></g>
+        <g class="g--ingredients">
+            <g style="clip-path: url(#clipping-mask);-webkit-clip-path: url(#clipping-mask);">
+                <g>
+                    <rect x="13.5" y="2" width="18" height="51" class="loading-rect"></rect>
+                </g>
+            </g>
+        </g>
         <g>
-            <path class="path--glass-path"
-                  d="M21.56 46.08c-.88-.07-2.33-.3-3.2-.51-.86-.22-1.29-.38-2-.69a18.23 18.23 0 0 1-4.22-2.62 19.2 19.2 0 0 1-3.34-3.84c-.4-.64-.63-1.13-.93-1.88a20.4 20.4 0 0 1-.84-2.64A14.55 14.55 0 0 1 6.67 29c.07-.81.28-1.69.43-2.39.15-.7.23-1.14.46-1.8a14.18 14.18 0 0 1 3.9-6.05 16.7 16.7 0 0 1 3.86-2.71 15.39 15.39 0 0 1 7.26-1.63 15.83 15.83 0 0 1 11.12 4.35 15.87 15.87 0 0 1 3 3.91c.39.72.69 1.47.91 2.13.22.66.3 1.1.46 1.8.15.7.35 1.58.43 2.4a14.55 14.55 0 0 1-.36 4.9c-.2.85-.53 1.89-.84 2.64-.3.75-.54 1.24-.93 1.88a19.2 19.2 0 0 1-3.34 3.84 18.23 18.23 0 0 1-4.22 2.62c-.72.31-1.14.47-2 .69-.87.21-2.32.44-3.2.51-.88.07-1.17.07-2.05 0z"></path>
+            <path class="path--glass-path" [attr.d]="loadingGlass"></path>
             <clipPath id="clipping-mask">
-                <path d=""></path>
+                <path [attr.d]="loadingMask"></path>
             </clipPath>
         </g>
     </svg>
     <div class="ingredients-list">
-        <ul class="ingredients-list" [style.top.%]="listTop" [style.height.%]="listHeight" *ngIf="!animating">
-            <li *ngFor="let ingredient of ingredients; index as i"
-                [style.flex]="ingredientsAmount[ingredient.id]"
+        <ul class="custom-ingredients" *ngIf="!animating && customIngredients.length>0">
+            <li *ngFor="let ingredient of customIngredients; index as i" [style.animation-delay.ms]="i*100">
+                <div>
+                <span class="ingredient-amount">
+                + {{ingredientsAmount[ingredient.id].amount || ingredientsAmount[ingredient.id].customAmount }}
+                </span>
+                    <span class="ingredient-name"> {{ingredient.name}}</span>
+                </div>
+            </li>
+        </ul>
+        <ul [style.top.%]="listTop" [style.height.%]="listHeight" *ngIf="!animating">
+            <li *ngFor="let ingredient of baseIngredients; index as i"
+                [style.flex]="ingredientsAmount[ingredient.id].amount"
                 [style.animation-delay.ms]="i*100">
-                <span>{{ingredientsAmount[ingredient.id]}} {{ingredient.name}}</span>
+                <div>
+                    <span class="ingredient-amount">{{ingredientsAmount[ingredient.id].amount }}cl of</span>
+                    <span class="ingredient-name"> {{ingredient.name}}</span>
+                </div>
             </li>
         </ul>
     </div>
+</div>
+<div class="type-of-drink">
+    {{drinkType}}
 </div>
 <div class="drink-description">
     <app-description></app-description>

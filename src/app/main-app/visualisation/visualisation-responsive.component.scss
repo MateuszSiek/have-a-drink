@@ -9,6 +9,10 @@
       left: 50%;
       transform: translateX(-50%);
       text-align: center;
+      .custom-ingredients {
+        text-align: left;
+        left: 1rem;
+      }
     }
   }
   svg {

@@ -17,7 +17,8 @@ import { filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
 import { IngredientViewLayer, ViewData, VisualisationService } from './service/visualisation.service';
 import { D3Selection } from '../title/title.component';
-import { Glass, Ingredient } from '../../core/models/visualisation';
+import { Glass, Ingredient, IngredientAmout, TypesOfDrinks } from '../../core/models/visualisation';
+import { LOADING_GLASS_MASK, LOADING_GLASS_PATH } from './loading-paths';
 
 const VIEWBOX_HEIGHT = 60;
 const VIEWBOX_WIDTH = 45;
@@ -25,8 +26,8 @@ const ANIM_DURRATION = 400;
 
 
 @Component({
-	selector       : 'app-visualisation',
-	templateUrl    : './visualisation.component.html',
+	selector   : 'app-visualisation',
+	templateUrl: './visualisation.component.html',
 	styleUrls      : [ './visualisation.component.scss', './visualisation-responsive.component.scss' ],
 	providers      : [ VisualisationService ],
 	changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,12 +35,16 @@ const ANIM_DURRATION = 400;
 export class VisualisationComponent implements OnInit, OnDestroy {
 	@ViewChild('svgContainer') public svgContainer!: ElementRef;
 
-	public ingredients: Ingredient[] = [];
-	public ingredientsAmount: { [id: string]: number } = {};
+	public baseIngredients: Ingredient[] = [];
+	public customIngredients: Ingredient[] = [];
+	public ingredientsAmount: { [id: string]: IngredientAmout } = {};
 	public listTop: number = 0;
 	public listHeight: number = 0;
+	public drinkType: string = '';
 
 	public loading: boolean = true;
+	public loadingGlass: string = LOADING_GLASS_PATH;
+	public loadingMask: string = LOADING_GLASS_MASK;
 
 	public svgD3Selection?: D3Selection;
 
@@ -66,10 +71,16 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 			tap(( data: ViewData ) => {
 				this.loading = false;
 				const glass = data.recipe.glass as Glass;
+				this.drinkType = data.recipe.type;
 				this.listTop = (glass.maskTopMargin / VIEWBOX_HEIGHT) * 100;
 				this.listHeight = (glass.maskHeight / VIEWBOX_HEIGHT) * 100;
-				this.ingredients = data.recipe.ingredients;
 				this.ingredientsAmount = data.recipe.ingredientsAmount;
+				this.baseIngredients = data.recipe.ingredients.filter(( i: Ingredient ) => {
+					return this.ingredientsAmount[ i.id ].amount;
+				});
+				this.customIngredients = data.recipe.ingredients.filter(( i: Ingredient ) => {
+					return !this.ingredientsAmount[ i.id ].amount;
+				});
 				this.cdRef.detectChanges();
 			}),
 			switchMap(( data: ViewData ) => this.renderDrink(data)),
@@ -110,8 +121,8 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 		const pathSize = pathEl.getBBox();
 		for ( let i = 0; i < len; i += 1 ) {
 			const point = pathEl.getPointAtLength(i);
-			const xPerc = ((point.x - pathSize.x) / pathSize.width) * 100;
-			const yPerc = ((point.y - pathSize.y) / pathSize.height) * 100;
+			const xPerc = (((point.x - pathSize.x) / pathSize.width) * 100).toFixed(2);
+			const yPerc = (((point.y - pathSize.y) / pathSize.height) * 100).toFixed(2);
 			points.push(`${xPerc}% ${yPerc}%`);
 		}
 		const polygon = points.join(', ');
@@ -140,7 +151,7 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 					ingredientsView.selectAll('rect')
 					.transition()
 					.duration(ANIM_DURRATION)
-					.attr('transform', `scale(0,1)`)
+					.style('transform', `scale(0,1)`)
 					.on('end', callback);
 
 				}
@@ -166,17 +177,17 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 				layers.forEach(( layer: IngredientViewLayer ) => { // appending ingredients rectangles to the view
 					container.append('rect')
 					.attr('x', (VIEWBOX_WIDTH - maskWidth) / 2)
-					.attr('transform', `scale(0,1)`)
-					.attr('transform-origin', `center`)
 					.attr('y', layer.y)
 					.attr('width', maskWidth)
 					.attr('height', layer.h)
+					.style('transform', `scale(0,1)`)
+					.style('transform-origin', `${VIEWBOX_WIDTH / 2}px 0px`)
 					.style('fill', layer.colour)
-					.attr('opacity', 0)
+					.style('opacity', 0)
 					.transition()
 					.duration(ANIM_DURRATION)
-					.attr('transform', `scale(1,1)`)
-					.attr('opacity', 1)
+					.style('transform', `scale(1,1)`)
+					.style('opacity', 1)
 					.on('end', cb);
 				});
 			}

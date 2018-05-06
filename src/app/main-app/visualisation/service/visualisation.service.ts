@@ -62,7 +62,7 @@ export class VisualisationService implements OnDestroy {
 		const ingredients = recipe.ingredients;
 		// total sum of all ingredients
 		const ingredientsTotal = ingredients
-		.reduce(( a: number, i: Ingredient ) => a + (recipe.ingredientsAmount[ i.id as string ] || 0), 0);
+		.reduce(( a: number, i: Ingredient ) => a + (recipe.ingredientsAmount[ i.id as string ].amount || 0), 0);
 		// multiplier used to translate drink proportions to view px
 		const ingredientScale = maskHeight / ingredientsTotal;
 
@@ -70,7 +70,7 @@ export class VisualisationService implements OnDestroy {
 		// to eachother
 		let topDist = maskTopMargin;
 		return ingredients.map(( i: Ingredient ) => {
-			const amount = recipe.ingredientsAmount[ i.id as string ] || 0;
+			const amount = recipe.ingredientsAmount[ i.id as string ].amount || 0;
 			const ingredientHeightScaled = amount * ingredientScale;
 			const viewLayer: IngredientViewLayer = {
 				y     : topDist || 0,

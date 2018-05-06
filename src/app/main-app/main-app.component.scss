@@ -1,5 +1,11 @@
 @import 'abstracts';
 
+::ng-deep {
+  .title-container, .visualisation-container, .navigation-buttons {
+    text-align: center;
+  }
+}
+
 .loading-label {
   margin: 0;
   animation: scale 2s linear alternate infinite;

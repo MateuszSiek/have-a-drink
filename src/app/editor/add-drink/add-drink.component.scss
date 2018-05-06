@@ -28,3 +28,9 @@
 .__ingrediend-row:hover {
   background: #f1f1f1;
 }
+
+.__ingredients-list {
+  ::ng-deep .mat-input-infix {
+    border: 0;
+  }
+}

@@ -12,7 +12,9 @@ app-drinks-list .app-card--content {
   background: inherit;
   /* Column Widths */
   .mat-column-edit,
-  .mat-column-delete {
+  .mat-column-delete,
+  .mat-column-svg,
+  .mat-column-glass {
     max-width: 3rem;
   }
 }

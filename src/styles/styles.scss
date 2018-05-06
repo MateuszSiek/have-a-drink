@@ -6,7 +6,6 @@ html, body {
   margin: 0;
   color: $black;
   font-family: 'Oswald', sans-serif;
-  text-align: center;
 }
 
 @media (max-width: $mobile-breaking-point) {
@@ -47,4 +46,8 @@ html, body {
 
 .button.active:hover {
   background: rgba($gray, 0.7);
+}
+
+a {
+  color: $blue;
 }

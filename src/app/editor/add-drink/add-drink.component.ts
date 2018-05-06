@@ -1,15 +1,20 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import {
+	ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Inject, OnDestroy,
+	OnInit
+} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { combineLatest } from 'rxjs/observable/combineLatest';
+import { takeUntil } from 'rxjs/operators';
 
 import { StoreService } from '../services/store.service';
-import { DrinkRecipe, Glass, Ingredient } from '../../core/models/visualisation';
+import { DrinkRecipe, DrinkTypeLabels, Glass, Ingredient, IngredientAmout, } from '../../core/models/visualisation';
 
-interface FormIngredient {
+interface FormIngredient extends IngredientAmout {
 	def: Ingredient;
 	amount: number;
+	customAmount: string;
 }
 
 @Component({
@@ -22,6 +27,10 @@ export class AddDrinkComponent implements OnInit, OnDestroy {
 	public form: FormGroup | undefined;
 	public glassesAvail: Glass[] = [];
 	public ingredientsAvail: Ingredient[] = [];
+	public filteredIngredients: Ingredient[] = [];
+	public drinkTypes: string[] = Object.values(DrinkTypeLabels);
+
+	private ngOnDestroy$: EventEmitter<boolean> = new EventEmitter<boolean>();
 
 	constructor( private store: StoreService,
 	             private fb: FormBuilder,
@@ -33,16 +42,26 @@ export class AddDrinkComponent implements OnInit, OnDestroy {
 		combineLatest(
 			this.store.getGlasses(),
 			this.store.getIngredients()
-		).subscribe(( [ glasses, ingredients ]: [ Glass[], Ingredient[] ] ) => {
+		)
+		.pipe(takeUntil(this.ngOnDestroy$))
+		.subscribe(( [ glasses, ingredients ]: [ Glass[], Ingredient[] ] ) => {
 			this.glassesAvail = glasses;
 			this.ingredientsAvail = ingredients;
+			this.filteredIngredients = ingredients;
 			this.createForm(this.data);
 			this.cdRef.detectChanges();
 		});
 	}
 
 	public ngOnDestroy(): void {
+		this.ngOnDestroy$.next(true);
 		this.cdRef.detach();
+	}
+
+	public filterIngredients( event: KeyboardEvent ): void {
+		const q = (event.srcElement as HTMLInputElement).value;
+		this.filteredIngredients = this.ingredientsAvail
+		.filter(( ing: Ingredient ) => !!ing.name.match(new RegExp(q, 'gi')));
 	}
 
 	public saveDrink(): void {
@@ -56,8 +75,16 @@ export class AddDrinkComponent implements OnInit, OnDestroy {
 		this.dialogRef.close();
 	}
 
+	public ingredientDisplayFn( ing: Ingredient ): string {
+		return ing && ing.name || '';
+	}
+
 	public addIngredient(): void {
-		(this.form!.get('ingredients') as FormArray).push(this.fb.group({ def: new Ingredient(), amount: 0 }));
+		(this.form!.get('ingredients') as FormArray).push(this.fb.group({
+			def         : new Ingredient(),
+			amount      : 0,
+			customAmount: ''
+		}));
 	}
 
 	get ingredients(): FormArray {
@@ -74,6 +101,7 @@ export class AddDrinkComponent implements OnInit, OnDestroy {
 		const drink: DrinkRecipe = {
 			id               : formData.id,
 			name             : formData.name,
+			type             : formData.type,
 			glass            : formData.glass,
 			active           : formData.active,
 			description      : formData.description,
@@ -81,10 +109,10 @@ export class AddDrinkComponent implements OnInit, OnDestroy {
 			ingredientsAmount: {}
 		};
 		const ingredients = formData.ingredients;
-		ingredients.forEach(( { def, amount }: FormIngredient ) => {
+		ingredients.forEach(( { def, amount, customAmount }: FormIngredient ) => {
 			if ( def ) {
 				drink.ingredients.push({ ...def });
-				drink.ingredientsAmount[ def.id as string ] = amount;
+				drink.ingredientsAmount[ def.id as string ] = { amount, customAmount };
 			}
 		});
 		return drink;
@@ -99,8 +127,9 @@ export class AddDrinkComponent implements OnInit, OnDestroy {
 			const existingDef = this.ingredientsAvail.find(( d: Ingredient ) => d!.id === i.id);
 			if ( existingDef ) {
 				formIngredients.push(this.fb.group({
-					def   : existingDef,
-					amount: drink.ingredientsAmount[ existingDef.id as string ]
+					def         : existingDef,
+					amount      : drink.ingredientsAmount[ existingDef.id as string ].amount,
+					customAmount: drink.ingredientsAmount[ existingDef.id as string ].customAmount
 				}));
 			}
 		});
@@ -109,6 +138,7 @@ export class AddDrinkComponent implements OnInit, OnDestroy {
 			id         : new FormControl(drink.id),
 			active     : new FormControl(drink.active),
 			description: new FormControl(drink.description),
+			type       : new FormControl(drink.type),
 			name       : new FormControl(drink.name, [ Validators.required, Validators.minLength(2) ]),
 			glass      : new FormControl(formGlass, [ Validators.required ]),
 			ingredients: this.fb.array(formIngredients)

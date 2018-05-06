@@ -12,7 +12,6 @@ import { StoreService } from '../services/store.service';
 import { EditorModule } from '../editor.module';
 import { CoreModule } from '../../core/core.module';
 import { Ingredient } from '../../core/models/visualisation';
-import { MockedIngredients } from '../../../../testing/fixtures/ingredients';
 
 
 describe('AddDrinkComponent', () => {
@@ -56,6 +55,7 @@ describe('AddDrinkComponent', () => {
 		expect(formValue!.active).toEqual(MockedDrinks[ 0 ].active);
 		expect(formValue!.name).toEqual(MockedDrinks[ 0 ].name);
 		expect(formValue!.glass).toEqual(MockedDrinks[ 0 ].glass);
+		expect(formValue!.type).toEqual(MockedDrinks[ 0 ].type);
 		expect(formValue!.ingredients.length).toEqual(MockedDrinks[ 0 ].ingredients.length);
 	});
 
@@ -80,7 +80,7 @@ describe('AddDrinkComponent', () => {
 	it('#addIngredient should add new ingredient to form', () => {
 		component.addIngredient();
 		const ingredients = component.form.get('ingredients').value;
-		expect(ingredients[ ingredients.length - 1 ]).toEqual({ def: new Ingredient(), amount: 0 });
+		expect(ingredients[ ingredients.length - 1 ]).toEqual({ def: new Ingredient(), amount: 0, customAmount: '' });
 	});
 
 	it('#removeIngredient should add new ingredient to form', () => {
