@@ -3,7 +3,7 @@ jobs:
 
   init:
     docker:
-      - image: circleci/node:8-browsers
+      - image: mateuszsiek/nodejs-chrome
     steps:
         - checkout
 

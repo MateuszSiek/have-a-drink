@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 import { getAlcoholTypes, getFilteredDrinks } from './utils';
 import { DrinkRecipe } from '../../core/models/visualisation';
@@ -18,7 +18,7 @@ export interface Filters {
 	styleUrls      : [ './drinks-list.component.scss', './drinks-list-responsive.component.scss' ],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DrinksListComponent implements OnInit {
+export class DrinksListComponent implements OnInit, OnDestroy {
 	public searchControl: FormControl = new FormControl();
 
 	public mobileListVisible: boolean = false;
@@ -37,10 +37,13 @@ export class DrinksListComponent implements OnInit {
 
 	private filterFirstTimeClicked: boolean = false;
 
+	private ngOnDestroy$: EventEmitter<boolean> = new EventEmitter<boolean>();
+
 	constructor( private storeService: StoreService, private cdRef: ChangeDetectorRef ) { }
 
 	public ngOnInit(): void {
-		this.storeService.getAllDrinks().subscribe(( drinks: DrinkRecipe[] ) => {
+		this.storeService.getAllDrinks()
+		.pipe(takeUntil(this.ngOnDestroy$)).subscribe(( drinks: DrinkRecipe[] ) => {
 			this.loading = !drinks.length;
 			this.drinks = drinks;
 			this.visibleDrinks = drinks;
@@ -48,19 +51,28 @@ export class DrinksListComponent implements OnInit {
 			this.setTypeFilters();
 			this.cdRef.detectChanges();
 		});
-		this.storeService.getCurrentDrink().subscribe(( drink: DrinkRecipe | undefined ) => {
+		this.storeService.getCurrentDrink()
+		.pipe(takeUntil(this.ngOnDestroy$)).subscribe(( drink: DrinkRecipe | undefined ) => {
 			this.currentDrink = drink;
 			this.mobileListVisible = false;
 			this.cdRef.detectChanges();
 		});
 
 		this.searchControl.valueChanges
-		.pipe(debounceTime(200), distinctUntilChanged())
+		.pipe(
+			takeUntil(this.ngOnDestroy$),
+			debounceTime(200),
+			distinctUntilChanged()
+		)
 		.subscribe(( query: any ) => {
 			this.filters.query = query;
 			this.filterDrinks();
 			this.cdRef.detectChanges();
 		});
+	}
+
+	public ngOnDestroy(): void {
+		this.ngOnDestroy$.next(true);
 	}
 
 	public selectDrinkById( id: string ): void {
@@ -77,7 +89,7 @@ export class DrinksListComponent implements OnInit {
 		this.filterFirstTimeClicked = true;
 	}
 
-	public resetTypeFilter(resetTo: boolean = true): void {
+	public resetTypeFilter( resetTo: boolean = true ): void {
 		this.filterFirstTimeClicked = false;
 		Object.keys(this.filters.types).forEach(( type: string ) => {
 			this.filters.types[ type ] = resetTo;

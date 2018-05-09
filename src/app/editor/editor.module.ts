@@ -3,7 +3,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
 import {
-	MAT_DIALOG_DEFAULT_OPTIONS,
+	MAT_DIALOG_DEFAULT_OPTIONS, MatAutocompleteModule,
 	MatButtonModule,
 	MatCardModule,
 	MatCheckboxModule,
@@ -50,6 +50,7 @@ const MaterialModules = [
 	MatCardModule,
 	MatDialogModule,
 	MatCheckboxModule,
+	MatAutocompleteModule
 ];
 
 const Components = [

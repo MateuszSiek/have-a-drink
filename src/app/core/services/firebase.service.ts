@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { SnapshotAction } from 'angularfire2/database/interfaces';
 
-import { DrinkRecipe, Glass, Ingredient } from '../models/visualisation';
+import { DrinkRecipe, Glass, Ingredient, IngredientAmout } from '../models/visualisation';
 import { User } from 'firebase/app';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase';
@@ -16,10 +16,11 @@ interface FBDrink {
 	id?: string;
 	active: boolean;
 	name: string;
+	type: string;
 	description: string;
 	glass: { [key: string]: Glass };
 	ingredients: { [key: string]: FBIngredient };
-	ingredientsAmount: { [key: string]: number };
+	ingredientsAmount: { [key: string]: IngredientAmout };
 }
 
 @Injectable()
@@ -61,14 +62,15 @@ export class FirebaseService {
 	public getGlasses(): Observable<Glass[]> {
 		return this.glassesRef.snapshotChanges().pipe(
 			map(( changes: SnapshotAction[] ) => {
-				return changes.map(c => ({ ...c.payload.val(), id: c.payload.key }));
+				return changes.map(c => ({ ...c.payload.val(), id: c.payload.key }))
+				.sort(( a: Glass, b: Glass ) => a.name > b.name ? 1 : -1);
 			})
 		);
 	}
 
 
 	public addGlass( glass: Glass ): void {
-		this.glassesRef.push(glass).then(() => {}, ( err ) => {alert('Save failed, error: ' + err);});
+		this.glassesRef.push(glass).then(() => {}, ( err ) => {alert('Save failed, error: ' + err); });
 	}
 
 	public removeGlass( glass: Glass ): void {
@@ -118,7 +120,6 @@ export class FirebaseService {
 			map(( changes: SnapshotAction[] ) => {
 				this.drinksIds = [];
 				return changes.map(( c: SnapshotAction ) => {
-					// console.log(c.payload.child('ingredients').val());
 					const ingredients = Object.values(c.payload.child('ingredients').val());
 					const glass = Object.values(c.payload.child('glass').val())[ 0 ];
 					const id = c.payload.key || '';
@@ -132,7 +133,7 @@ export class FirebaseService {
 	}
 
 	public addDrink( recipe: DrinkRecipe ): void {
-		this.drinksRef.push(mapDrinkRecipeToFirebase(recipe)).then(() => {}, ( err ) => {alert('Save failed, error: ' + err);});
+		this.drinksRef.push(mapDrinkRecipeToFirebase(recipe)).then(() => {}, ( err ) => {alert('Save failed, error: ' + err); });
 	}
 
 	public removeDrink( recipe: DrinkRecipe ): void {

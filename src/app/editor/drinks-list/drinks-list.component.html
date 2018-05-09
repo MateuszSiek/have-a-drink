@@ -15,7 +15,8 @@
             <ng-template let-record="record" [appTableCell]="'ingredients'">
                 <div class="__ingredients-list">
                     <div *ngFor="let ingredient of record.ingredients">
-                        {{record.ingredientsAmount[ingredient.id]}} of
+                        {{record.ingredientsAmount[ingredient.id].amount ||
+                        record.ingredientsAmount[ingredient.id].customAmount }} of
                         <span>
                             <span class="__colour-cell" [style.background]="ingredient.colour"></span>
                             {{ingredient.name}}

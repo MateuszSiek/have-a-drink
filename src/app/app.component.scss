@@ -10,3 +10,9 @@
     min-height: calc(100vh - 4rem);
   }
 }
+
+::ng-deep {
+  app-header, app-footer {
+    text-align: center;
+  }
+}
