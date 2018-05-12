@@ -28,7 +28,7 @@
 		"styles/loader.scss"
 	  ],
 	  "scripts": [
-		"../node_modules/snapsvg/dist/snap.svg-min.js"
+		"assets/ga.js"
 	  ],
 	  "environmentSource": "environments/environment.ts",
 	  "environments": {
