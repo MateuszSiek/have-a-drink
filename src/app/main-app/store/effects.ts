@@ -3,7 +3,7 @@ import { Action } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 import { ActionTypes, Load, LoadComplete, SetCurrentDrink, SetDrinkByName } from './actions';

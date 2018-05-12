@@ -2,11 +2,9 @@ import { of } from 'rxjs/observable/of';
 import { MockedGlasses } from '../fixtures/glasses';
 import { MockedIngredients } from '../fixtures/ingredients';
 import { MockedDrinks } from '../fixtures/drinks';
-import { User } from 'firebase/app';
 import { DrinkRecipe, Glass, Ingredient } from '../../src/app/core/models/visualisation';
-import * as firebase from 'firebase';
 import { Observable } from 'rxjs/Observable';
-import { mapDrinkRecipeToFirebase } from '../../src/app/core/services/firebase.service';
+import { User } from 'firebase';
 
 export class MockFirebaseService {
 	/*

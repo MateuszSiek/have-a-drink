@@ -1,6 +1,6 @@
 import { Store } from '@ngrx/store';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { getCurrentDrink, getDrinks } from '../store/selectors';
 import * as actions from '../store/actions';

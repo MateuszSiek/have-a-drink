@@ -14,7 +14,7 @@ import {
 	MatInputModule,
 	MatSelectModule,
 	MatSlideToggleModule,
-	MatTableModule
+	MatTableModule,
 } from '@angular/material';
 
 import { SharedModule } from '../shared/shared.module';
@@ -50,7 +50,7 @@ const MaterialModules = [
 	MatCardModule,
 	MatDialogModule,
 	MatCheckboxModule,
-	MatAutocompleteModule
+	MatAutocompleteModule,
 ];
 
 const Components = [

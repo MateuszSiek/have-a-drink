@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { SnapshotAction } from 'angularfire2/database/interfaces';
 
 import { DrinkRecipe, Glass, Ingredient, IngredientAmout } from '../models/visualisation';
-import { User } from 'firebase/app';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase';
 import { map } from 'rxjs/operators';
+import { User } from 'firebase';
 
 type FBGLass = Glass;
 type FBIngredient = Ingredient;

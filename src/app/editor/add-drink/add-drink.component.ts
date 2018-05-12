@@ -5,7 +5,7 @@ import {
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { combineLatest } from 'rxjs/observable/combineLatest';
+import { combineLatest } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { StoreService } from '../services/store.service';

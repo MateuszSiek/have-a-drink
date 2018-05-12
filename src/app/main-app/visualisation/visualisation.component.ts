@@ -11,8 +11,7 @@ import {
 
 import * as d3 from 'd3';
 
-import { Observable } from 'rxjs/Observable';
-import { bindCallback } from 'rxjs/observable/bindCallback';
+import { Observable ,  bindCallback } from 'rxjs';
 import { filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
 import { IngredientViewLayer, ViewData, VisualisationService } from './service/visualisation.service';

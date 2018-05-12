@@ -7,8 +7,7 @@ import {
 	OnInit,
 	ViewChild
 } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { bindCallback } from 'rxjs/observable/bindCallback';
+import { Observable ,  bindCallback } from 'rxjs';
 
 import * as d3 from 'd3';
 
@@ -48,7 +47,7 @@ export class TitleComponent implements OnInit, OnDestroy {
 		.subscribe(() => {});
 	}
 
-	private renderTitle( title: string ): Observable<void> {
+	private renderTitle( title: string ): Observable<any> {
 		return bindCallback(( cb: () => void ) => {
 			const titleLetters = title.split('');
 			const tempTitleContainer = this.d3MainContainer!.select('.div--temp-title').html('');

@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { DrinkRecipe, Glass, Ingredient } from '../../../core/models/visualisation';
 import { map, takeUntil } from 'rxjs/operators';
 import { StoreService } from '../../services/store.service';

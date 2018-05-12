@@ -1,6 +1,6 @@
 import { Store } from '@ngrx/store';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { take } from 'rxjs/operators';
 import { getDrink, getDrinks, getGlass, getGlasses, getIngredient, getIngredients } from '../store';
