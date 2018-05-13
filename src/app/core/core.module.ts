@@ -25,9 +25,7 @@ const FirebaseModules = [
 		BrowserAnimationsModule,
 		StoreModule.forRoot(appRootReducers, { initialState: appRootInitialState, metaReducers }),
 		EffectsModule.forRoot([]),
-		StoreDevtoolsModule.instrument({
-			maxAge: 50
-		}),
+		environment.production ? [] : StoreDevtoolsModule.instrument({ name: 'Have a Drink', maxAge: 50 }),
 		...FirebaseModules
 	],
 	providers   : [

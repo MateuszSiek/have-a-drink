@@ -38,7 +38,6 @@
 		"firebase": "4.12.1",
 		"foundation-sites": "6.4.4-rc1",
 		"rxjs": "5.5.6",
-		"snapsvg": "0.5.1",
 		"zone.js": "0.8.26"
 	},
 	"devDependencies": {
@@ -50,7 +49,6 @@
 		"@types/jasmine": "2.8.3",
 		"@types/jasminewd2": "2.0.2",
 		"@types/node": "9.6.5",
-		"@types/snapsvg": "0.4.29",
 		"bundlesize": "0.17.0",
 		"codelyzer": "4.2.1",
 		"jasmine-core": "3.1.0",
@@ -93,7 +91,11 @@
 		},
 		{
 			"path": "./dist/styles*.{js,css}",
-			"maxSize": "500 B"
+			"maxSize": "650 B"
+		},
+		{
+			"path": "./dist/scripts.*.{js,css}",
+			"maxSize": "14 KB"
 		}
 	]
 }

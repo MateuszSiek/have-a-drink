@@ -32,7 +32,9 @@ export class MainAppComponent implements OnInit, OnDestroy {
 				const navigationExtras: NavigationExtras = {
 					queryParams: { 'drink': drink.name.toLowerCase() },
 				};
-				this.router.navigate([ '/' ], navigationExtras);
+				this.router.navigate([ '/' ], navigationExtras).then(() => {
+					(window as any).ga('send', 'pageview', this.router.routerState.snapshot.url);
+				});
 			}
 		});
 	}

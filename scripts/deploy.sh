@@ -3,7 +3,7 @@
 ssh-keyscan 206.189.19.182 >> ~/.ssh/known_hosts
 
 ssh -tt circleci@206.189.19.182 << EOF
-    if [ $( ls /var/www/$DOMAIN_NAME ) ]; then rm -R /var/www/$DOMAIN_NAME;fi
+    rm -rf /var/www/dev.haveadrink.msiek.com
     mkdir /var/www/$DOMAIN_NAME
     exit
 EOF

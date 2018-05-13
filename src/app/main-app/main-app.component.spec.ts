@@ -27,7 +27,7 @@ describe('MainAppComponent', () => {
 
 	beforeEach(inject([ Router ], ( _router: Router ) => {
 		router = _router;
-		spyOn(router, 'navigate');
+		spyOn(router, 'navigate').and.returnValue(new Promise((resolve => {})));
 		TestBed.compileComponents();
 		fixture = TestBed.createComponent(MainAppComponent);
 		storeService = TestBed.get(StoreService);
