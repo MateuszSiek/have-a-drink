@@ -3,7 +3,7 @@ import { CanActivate, Router } from '@angular/router';
 import { User } from 'firebase/app';
 import { map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
-import { FirebaseService } from '../services/firebase.service';
+import { FirebaseService } from '../../core/services/firebase.service';
 
 @Injectable()
 export class IsAnonymousGuard implements CanActivate {

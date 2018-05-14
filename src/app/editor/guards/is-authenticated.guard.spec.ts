@@ -1,11 +1,11 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-
-import { IsAuthenticatedGuard } from './is-authenticated.guard';
-import { FirebaseService } from '../services/firebase.service';
-import { MockFirebaseService } from '../../../../testing/stub/mocked-firebase.service';
 import { User } from 'firebase';
 import { of } from 'rxjs/observable/of';
+
+import { IsAuthenticatedGuard } from './is-authenticated.guard';
+import { MockFirebaseService } from '../../../../testing/stub/mocked-firebase.service';
+import { FirebaseService } from '../../core/services/firebase.service';
 
 describe('IsAuthenticatedGuard', () => {
 	let firebaseService: FirebaseService;

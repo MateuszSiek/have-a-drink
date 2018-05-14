@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -12,6 +12,7 @@ import { environment } from '../../environments/environment';
 import { FirebaseService } from './services/firebase.service';
 import { appRootInitialState, appRootReducers, metaReducers } from './state';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { GlobalErrorHandlerService } from './services/global-error-handler.service';
 
 const FirebaseModules = [
 	AngularFireModule.initializeApp(environment.firebase),
@@ -29,7 +30,8 @@ const FirebaseModules = [
 		...FirebaseModules
 	],
 	providers   : [
-		FirebaseService
+		FirebaseService,
+		{ provide: ErrorHandler, useClass: GlobalErrorHandlerService }
 	],
 	declarations: []
 })

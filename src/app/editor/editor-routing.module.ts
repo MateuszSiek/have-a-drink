@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 
 import { EditorComponent } from './editor.component';
 import { LoginComponent } from './login/login.component';
-import { IsAuthenticatedGuard } from '../core/guards/is-authenticated.guard';
-import { IsAnonymousGuard } from '../core/guards/is-anonymous.guard';
+import { IsAnonymousGuard } from './guards/is-anonymous.guard';
+import { IsAuthenticatedGuard } from './guards/is-authenticated.guard';
 
 const editorRoutes: Routes = [
 	{
