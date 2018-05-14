@@ -28,8 +28,6 @@ import { DrinksListComponent } from './drinks-list/drinks-list.component';
 import { EditorComponent } from './editor.component';
 import { EditorRoutingModule } from './editor-routing.module';
 import { LoginComponent } from './login/login.component';
-import { IsAuthenticatedGuard } from '../core/guards/is-authenticated.guard';
-import { IsAnonymousGuard } from '../core/guards/is-anonymous.guard';
 import { editorInitialState, editorReducers } from './store';
 import { DrinksEffects } from './store/drinks/effects';
 import { GlassesEffects } from './store/glasses/effects';
@@ -37,6 +35,8 @@ import { IngredientsEffects } from './store/ingredients/effects';
 import { StoreService } from './services/store.service';
 import { TableCellDirective } from './data-table/table-cell.directive';
 import { DataTableComponent } from './data-table/data-table.component';
+import { IsAuthenticatedGuard } from './guards/is-authenticated.guard';
+import { IsAnonymousGuard } from './guards/is-anonymous.guard';
 
 const MaterialModules = [
 	MatTableModule,

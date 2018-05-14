@@ -7,7 +7,7 @@ import { DrinkRecipe, Glass, Ingredient, IngredientAmout } from '../models/visua
 import { User } from 'firebase/app';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
 type FBGLass = Glass;
 type FBIngredient = Ingredient;
@@ -117,6 +117,7 @@ export class FirebaseService {
 	// DRINKS
 	public getDrinks(): Observable<DrinkRecipe[]> {
 		return this.drinksRef.snapshotChanges().pipe(
+			take(1),
 			map(( changes: SnapshotAction[] ) => {
 				this.drinksIds = [];
 				return changes.map(( c: SnapshotAction ) => {

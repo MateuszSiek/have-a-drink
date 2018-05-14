@@ -26,8 +26,8 @@ const ANIM_DURRATION = 400;
 
 
 @Component({
-	selector   : 'app-visualisation',
-	templateUrl: './visualisation.component.html',
+	selector       : 'app-visualisation',
+	templateUrl    : './visualisation.component.html',
 	styleUrls      : [ './visualisation.component.scss', './visualisation-responsive.component.scss' ],
 	providers      : [ VisualisationService ],
 	changeDetection: ChangeDetectionStrategy.OnPush,
@@ -98,11 +98,16 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 	 * @returns observable which is triggered once whole visualisation was re-rendered
 	 */
 	private renderDrink( { mask, path, drinkLayers }: ViewData ): Observable<void> {
+		const tempMask = this.svgD3Selection.append<SVGPathElement>('path')
+		.attr('d', mask)
+		.classed('temp-path', true)
+		.style('opacity', 0);
 		return this.cleanUpCurrentRender()
 		.pipe(
 			tap(() => this.setClippingMask(mask)),
 			switchMap(() => this.renderGlass(path)),
 			switchMap(() => this.renderIngredients(drinkLayers)),
+			tap(() => tempMask.remove()),
 			take(1)
 		);
 	}
@@ -112,9 +117,10 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 	 * so that only the part of view in the glass is visible
 	 */
 	private setClippingMask( pathString: string ): void {
+		const tempMask = this.svgD3Selection.select<SVGPathElement>('.temp-path');
 		const path = this.svgD3Selection!.select<SVGPathElement>('#clipping-mask path');
 		path.attr('d', pathString);
-		const pathEl: SVGPathElement = path.node();
+		const pathEl: SVGPathElement = tempMask.node();
 
 		const len = pathEl.getTotalLength();
 		const points = [];
@@ -126,7 +132,6 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 			points.push(`${xPerc}% ${yPerc}%`);
 		}
 		const polygon = points.join(', ');
-
 		this.svgD3Selection!.select('.g--ingredients')
 		.style('clip-path', `polygon(${polygon})`)
 		.style('-webkit-clip-path', `polygon(${polygon})`);
@@ -172,7 +177,7 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 			( cb: () => void ) => {
 				const container: D3Selection = this.svgD3Selection!.select('.g--ingredients').append('g');
 
-				const mask: SVGPathElement = this.svgD3Selection!.select('#clipping-mask path').node() as SVGPathElement;
+				const mask: SVGPathElement = this.svgD3Selection!.select('.temp-path').node() as SVGPathElement;
 				const maskWidth = mask && mask.getBBox().width;
 				layers.forEach(( layer: IngredientViewLayer ) => { // appending ingredients rectangles to the view
 					container.append('rect')
