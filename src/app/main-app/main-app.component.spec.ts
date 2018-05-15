@@ -1,4 +1,4 @@
-import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, discardPeriodicTasks, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 
@@ -56,4 +56,20 @@ describe('MainAppComponent', () => {
 		fixture.nativeElement.querySelector('.prev-button').click();
 		expect(spy).toHaveBeenCalled();
 	});
+
+	it('keyboar event should set next/previous drink', fakeAsync(() => {
+		const spyNext = spyOn(storeService, 'setNextDrink');
+		component.onKeyDown({ keyCode: 40 } as KeyboardEvent);
+		tick(1000);
+		component.onKeyDown({ keyCode: 39 } as KeyboardEvent);
+		expect(spyNext).toHaveBeenCalledTimes(2);
+
+		const spyPrevious = spyOn(storeService, 'setPreviousDrink');
+		tick(1000);
+		component.onKeyDown({ keyCode: 38 } as KeyboardEvent);
+		tick(1000);
+		component.onKeyDown({ keyCode: 37 } as KeyboardEvent);
+		expect(spyPrevious).toHaveBeenCalledTimes(2);
+		discardPeriodicTasks();
+	}));
 });

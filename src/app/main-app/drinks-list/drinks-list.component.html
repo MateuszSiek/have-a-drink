@@ -7,13 +7,15 @@
         <input type="text" name="search" placeholder="Search drinks" [formControl]="searchControl">
         <button (click)="resetSearchQuery()">x</button>
     </div>
-    <div class="list">
+    <div class="list" #drinksList>
         <ul>
-            <li *ngFor="let drink of visibleDrinks"
-                (click)="selectDrinkById(drink.id)"
-                [class.active]="currentDrink?.id === drink.id">
-                {{drink.name}}
-            </li>
+            <a *ngFor="let drink of visibleDrinks"
+               [routerLink]="['/']"
+               [queryParams]="{ drink: drink.name.toLowerCase() }" routerLinkActive="active">
+                <li (click)="selectDrinkById(drink.id)"
+                    [class.active]="currentDrink?.id === drink.id">{{drink.name}}
+                </li>
+            </a>
         </ul>
     </div>
 
