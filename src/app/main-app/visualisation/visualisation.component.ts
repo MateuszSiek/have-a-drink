@@ -33,7 +33,7 @@ const ANIM_DURRATION = 400;
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VisualisationComponent implements OnInit, OnDestroy {
-	@ViewChild('svgContainer') public svgContainer!: ElementRef;
+	@ViewChild('svgContainer') public svgContainer: ElementRef;
 
 	public baseIngredients: Ingredient[] = [];
 	public customIngredients: Ingredient[] = [];
@@ -59,7 +59,7 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 	}
 
 	public ngOnInit(): void {
-		this.svgD3Selection = d3.select(this.svgContainer.nativeElement);
+		this.svgD3Selection = d3.select(this.svgContainer!.nativeElement);
 		this.visualisationService.getViewData()
 		.pipe(
 			takeUntil(this.ngOnDestroy$),
@@ -98,6 +98,8 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 	 * @returns observable which is triggered once whole visualisation was re-rendered
 	 */
 	private renderDrink( { mask, path, drinkLayers }: ViewData ): Observable<void> {
+		// make sure there are no leftover temp-paths
+		this.svgD3Selection.selectAll('.temp-path').remove();
 		const tempMask = this.svgD3Selection.append<SVGPathElement>('path')
 		.attr('d', mask)
 		.classed('temp-path', true)

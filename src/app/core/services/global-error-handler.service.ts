@@ -11,7 +11,7 @@ export class GlobalErrorHandlerService implements ErrorHandler {
 		const message = error.message ? error.message : error.toString();
 		const url = location instanceof PathLocationStrategy ? location.path() : '';
 		(window as any).ga('send', 'exception', {
-			'exDescription': `location: ${url} <--**--> message: ${message}`,
+			'exDescription': `location: ${url}||||| time: ${new Date()} ||||| message: ${message}`,
 		});
 		// IMPORTANT: Rethrow the error otherwise it gets swallowed
 		throw error;

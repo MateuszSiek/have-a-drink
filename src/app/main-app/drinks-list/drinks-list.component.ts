@@ -1,4 +1,7 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
+import {
+	ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit,
+	ViewChild, ElementRef
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
@@ -19,6 +22,7 @@ export interface Filters {
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DrinksListComponent implements OnInit, OnDestroy {
+	@ViewChild('drinksList') public drinksList: ElementRef;
 	public searchControl: FormControl = new FormControl();
 
 	public mobileListVisible: boolean = false;
@@ -56,6 +60,9 @@ export class DrinksListComponent implements OnInit, OnDestroy {
 			this.currentDrink = drink;
 			this.mobileListVisible = false;
 			this.cdRef.detectChanges();
+			if ( this.drinksList ) {
+				this.drinksList.nativeElement.querySelector('li.active').scrollIntoView({ behavior: 'smooth' });
+			}
 		});
 
 		this.searchControl.valueChanges
@@ -77,6 +84,7 @@ export class DrinksListComponent implements OnInit, OnDestroy {
 
 	public selectDrinkById( id: string ): void {
 		this.storeService.setCurrentDrinkById(id);
+		this.mobileListVisible = false;
 	}
 
 

@@ -6,6 +6,7 @@ import { StoreService } from '../services/store.service';
 import { MockMainAppStoreService } from '../../../../testing/stub/main-app-store.service';
 import { MockedDrinks } from '../../../../testing/fixtures/drinks';
 import { DrinkRecipe } from '../../core/models/visualisation';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('DrinksListComponent', () => {
 	let component: DrinksListComponent;
@@ -15,7 +16,7 @@ describe('DrinksListComponent', () => {
 
 	beforeEach(async(() => {
 		TestBed.configureTestingModule({
-			imports     : [ ReactiveFormsModule ],
+			imports     : [ ReactiveFormsModule, RouterTestingModule ],
 			providers   : [
 				{ provide: StoreService, useClass: MockMainAppStoreService }
 			],
