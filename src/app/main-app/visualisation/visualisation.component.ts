@@ -183,6 +183,7 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 				const maskWidth = mask && mask.getBBox().width;
 				layers.forEach(( layer: IngredientViewLayer ) => { // appending ingredients rectangles to the view
 					container.append('rect')
+					.classed('ingredient-layer', true)
 					.attr('x', (VIEWBOX_WIDTH - maskWidth) / 2)
 					.attr('y', layer.y)
 					.attr('width', maskWidth)

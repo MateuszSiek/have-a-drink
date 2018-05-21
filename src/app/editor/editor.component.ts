@@ -6,16 +6,17 @@ import { AddIngredientComponent } from './add-ingredient/add-ingredient.componen
 import { AddDrinkComponent } from './add-drink/add-drink.component';
 import { StoreService } from './services/store.service';
 import { DrinkRecipe, Glass, Ingredient } from '../core/models/visualisation';
+import { FirebaseService } from '../core/services/firebase.service';
 
-@Component( {
-	selector: 'app-editor',
-	templateUrl: './editor.component.html',
-	styleUrls: [ './editor.component.scss' ],
+@Component({
+	selector     : 'app-editor',
+	templateUrl  : './editor.component.html',
+	styleUrls    : [ './editor.component.scss' ],
 	encapsulation: ViewEncapsulation.None
-} )
+})
 export class EditorComponent implements OnInit {
 
-	constructor(private storeService: StoreService, public dialog: MatDialog, private elRef: ElementRef) {
+	constructor( private storeService: StoreService, public dialog: MatDialog, private fbService: FirebaseService ) {
 	}
 
 	public ngOnInit(): void {
@@ -36,4 +37,9 @@ export class EditorComponent implements OnInit {
 		this.dialog.open(AddDrinkComponent, { data });
 	}
 
+	public logout(): void {
+		this.fbService.signOut().then(() => {
+			window.location.reload();
+		});
+	}
 }

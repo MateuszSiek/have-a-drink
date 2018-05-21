@@ -1,0 +1,23 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+	"outDir": "../out-tsc/cypress",
+	"module": "es2015",
+	"target": "es5",
+	"baseUrl": "./",
+	"allowJs": true,
+	"types": [
+	  "chai",
+	  "cypress",
+	  "mocha",
+	  "node"
+	]
+  },
+  "files": [
+	"test.ts"
+  ],
+  "include": [
+	"**/*.spec.ts",
+	"**/*.d.ts"
+  ]
+}

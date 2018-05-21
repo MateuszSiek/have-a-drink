@@ -111,6 +111,10 @@ export class DrinksListComponent implements OnInit, OnDestroy {
 		this.cdRef.detectChanges();
 	}
 
+	public getDrinkAlcoholsClass( drink: DrinkRecipe ): string {
+		return getAlcoholTypes([ drink ]).map(d => d.split(' ').join('')).join(' ');
+	}
+
 	private setTypeFilters(): void {
 		this.filters.types = this.alcoholTypes
 		.reduce(( a: { [key: string]: boolean }, t: string ) => ({ ...a, [ t ]: true }), {});
