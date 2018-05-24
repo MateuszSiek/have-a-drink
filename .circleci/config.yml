@@ -77,7 +77,7 @@ jobs:
                 yarn serve &
                 yarn e2e:ci --config baseUrl=http://127.0.0.1:4400
 
-  e2e-smoke-test:
+  e2e-smoke-test-dev:
     docker:
       - image: mateuszsiek/nodejs-chrome
     steps:
@@ -85,13 +85,19 @@ jobs:
         - restore_cache:
             key: v1-dependencies-{{ checksum "package.json" }}
         - run:
-            name: E2E smoke tests
-            command: |
-                if [ "${CIRCLE_BRANCH}" == "master" ]; then
-                    yarn e2e:ci --config baseUrl=http://haveadrink.msiek.com
-                else
-                    yarn e2e:ci --config baseUrl=http://dev.haveadrink.msiek.com
-                fi
+            name: E2E smoke tests dev
+            command: yarn e2e:ci --config baseUrl=http://dev.haveadrink.msiek.com
+
+  e2e-smoke-test-prod:
+    docker:
+      - image: mateuszsiek/nodejs-chrome
+    steps:
+        - checkout
+        - restore_cache:
+            key: v1-dependencies-{{ checksum "package.json" }}
+        - run:
+            name: E2E smoke tests production
+            command: yarn e2e:ci --config baseUrl=http://haveadrink.msiek.com
 
   deploy-prod:
     docker:
@@ -158,16 +164,16 @@ workflows:
                     branches:
                         ignore: master
 
-            - e2e-smoke-test:
-                requires:
-                    - deploy-prod
-                filters:
-                    branches:
-                        only: master
-
-            - e2e-smoke-test:
+            - e2e-smoke-test-dev:
                 requires:
                     - deploy-dev
                 filters:
                     branches:
                         ignore: master
+
+            - e2e-smoke-test-prod:
+                requires:
+                    - deploy-prod
+                filters:
+                    branches:
+                        only: master
