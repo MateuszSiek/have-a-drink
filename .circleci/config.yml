@@ -6,6 +6,8 @@ jobs:
       - image: mateuszsiek/nodejs-chrome
     steps:
         - checkout
+        - restore_cache:
+            key: v1-dependencies-{{ checksum "package.json" }}
 
         # Log the current branch
         - run:
@@ -16,38 +18,35 @@ jobs:
         - run:
             name: Install local dependencies
             command: yarn
-
-        # Cache local dependencies if they don't exist
         - save_cache:
             key: v1-dependencies-{{ checksum "package.json" }}
             paths:
                 - node_modules
 
+  unit-test:
+    docker:
+      - image: mateuszsiek/nodejs-chrome
+    steps:
+        - checkout
+        - restore_cache:
+            key: v1-dependencies-{{ checksum "package.json" }}
+        - run:
+            name: Testing
+            command: yarn test:ci
+        - run:
+            name: Coverage
+            command: yarn coverage
 
   build:
     docker:
       - image: mateuszsiek/nodejs-chrome
     steps:
         - checkout
-
-        # Restore local dependencies from cache
         - restore_cache:
-            keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-
+            key: v1-dependencies-{{ checksum "package.json" }}
 ##        - run:
 ##            name: Linting
 ##            command: yarn lint
-
-        - run:
-            name: Testing
-            command: yarn test:ci
-
-        - run:
-            name: Coverage
-            command: yarn coverage
-
-        # Build project with different configuration based on the current branch
         - run:
             name: Building
             command: |
@@ -56,14 +55,43 @@ jobs:
                 else
                     yarn build:dev
                 fi
-
-        # Cache the dist and scripts folder for the deploy job
         - save_cache:
             key: v1-dist-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
             paths:
                 - dist
                 - scripts
                 - ~/.ssh
+
+  e2e-test:
+    docker:
+      - image: mateuszsiek/nodejs-chrome
+    steps:
+        - checkout
+        - restore_cache:
+            key: v1-dependencies-{{ checksum "package.json" }}
+        - restore_cache:
+            key: v1-dist-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+        - run:
+            name: E2E tests
+            command: |
+                yarn serve &
+                yarn e2e:ci --config baseUrl=http://127.0.0.1:4400
+
+  e2e-smoke-test:
+    docker:
+      - image: mateuszsiek/nodejs-chrome
+    steps:
+        - checkout
+        - restore_cache:
+            key: v1-dependencies-{{ checksum "package.json" }}
+        - run:
+            name: E2E smoke tests
+            command: |
+                if [ "${CIRCLE_BRANCH}" == "master" ]; then
+                    yarn e2e:ci --config baseUrl=http://haveadrink.msiek.com
+                else
+                    yarn e2e:ci --config baseUrl=http://dev.haveadrink.msiek.com
+                fi
 
   deploy-prod:
     docker:
@@ -72,8 +100,7 @@ jobs:
 
         # Restore local dependencies from cache
         - restore_cache:
-            keys:
-            - v1-dist-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+            key: v1-dist-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
 
         - run:
             name: Deploy to digital ocean
@@ -87,8 +114,7 @@ jobs:
     steps:
         # Restore local dependencies from cache
         - restore_cache:
-            keys:
-            - v1-dist-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+            key: v1-dist-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
 
         - run:
             name: Deploy to digital ocean
@@ -104,12 +130,22 @@ workflows:
         jobs:
             - init
 
+            - unit-test:
+                requires:
+                    - init
+
             - build:
                 requires:
                     - init
 
+            - e2e-test:
+                requires:
+                    - build
+
             - deploy-prod:
                 requires:
+                    - unit-test
+                    - e2e-test
                     - build
                 filters:
                     branches:
@@ -122,3 +158,16 @@ workflows:
                     branches:
                         ignore: master
 
+            - e2e-smoke-test:
+                requires:
+                    - deploy-prod
+                filters:
+                    branches:
+                        only: master
+
+            - e2e-smoke-test:
+                requires:
+                    - deploy-dev
+                filters:
+                    branches:
+                        ignore: master

@@ -3,6 +3,12 @@
 
 @include foundation-xy-grid-classes();
 
+button.logout {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+}
+
 app-drinks-list .app-card--content {
   height: auto;
   max-height: 40rem;

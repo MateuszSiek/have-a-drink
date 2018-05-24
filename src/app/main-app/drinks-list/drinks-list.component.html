@@ -10,10 +10,12 @@
     <div class="list" #drinksList>
         <ul>
             <a *ngFor="let drink of visibleDrinks"
+               class="{{getDrinkAlcoholsClass(drink)}}"
+               (click)="selectDrinkById(drink.id)"
                [routerLink]="['/']"
                [queryParams]="{ drink: drink.name.toLowerCase() }" routerLinkActive="active">
-                <li (click)="selectDrinkById(drink.id)"
-                    [class.active]="currentDrink?.id === drink.id">{{drink.name}}
+                <li [class.active]="currentDrink?.id === drink.id">
+                    {{drink.name}}
                 </li>
             </a>
         </ul>
