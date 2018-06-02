@@ -37,8 +37,6 @@ describe('VisualisationService', () => {
 		expect(result && result.drinkLayers.length).toEqual(MockedDrinks[ 0 ]!.ingredients.length);
 		expect(result && result.mask).toEqual(MockedDrinks[ 0 ]!.glass!.mask);
 		expect(result && result.path).toEqual(MockedDrinks[ 0 ]!.glass!.path);
-		expect(ingrTotalHeight).toBeCloseTo(MockedDrinks[ 0 ]!.glass!.maskHeight);
-		expect(result && result.drinkLayers[ 0 ].y).toEqual(MockedDrinks[ 0 ]!.glass!.maskTopMargin);
 	});
 
 	it('#getViewData should return undefined', ( done ) => {

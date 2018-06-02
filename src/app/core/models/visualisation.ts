@@ -3,8 +3,6 @@ export class Glass {
 	public name: string = '';
 	public path: string = '';
 	public mask: string = '';
-	public maskTopMargin: number = 0;
-	public maskHeight: number = 0;
 
 	constructor( id?: string ) {
 		this.id = id;
