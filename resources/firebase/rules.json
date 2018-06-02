@@ -1,0 +1,50 @@
+{
+  "rules": {
+    ".read": true,
+    ".write": "auth != null",
+      "drinks":{
+        "$drink_id":{
+          ".validate": "newData.hasChildren(['name','glass','ingredients','ingredientsAmount'])",
+          "id":{ ".validate": "newData.isString()"},
+          "name":{ ".validate": "newData.isString() && newData.val().length > 2"},
+          "type":{ ".validate": "newData.isString()"},
+          "active":{ ".validate": "newData.isBoolean()"},
+          "avail":{ ".validate": "newData.isBoolean()"},
+          "description":{ ".validate": "newData.isString()"},
+          "glass":{ "$glass_id":{".validate": "root.child('glasses/' + $glass_id).exists()"}},
+          "ingredients":{ "$ingredient_id":{".validate": "root.child('ingredients/' + $ingredient_id).exists()"}},
+          "ingredientsAmount":{ 
+            "$ingredient_id":{
+            ".validate": "root.child('ingredients/' + $ingredient_id).exists()",
+              "amount":{ ".validate": "newData.isNumber()"},
+          "customAmount":{ ".validate": "newData.isString()"},
+            }
+                              },
+          "$other": { ".validate": false }
+        }
+      },
+      "glasses":{
+        "$glass_id":{
+          ".validate": "newData.hasChildren(['name','mask','path','maskHeight','maskTopMargin'])",
+          "id":{ ".validate": "newData.isString()"},
+          "name":{ ".validate": "newData.isString() && newData.val().length > 2"},
+          "mask":{ ".validate": "newData.isString() && newData.val().length > 2"},
+          "path":{ ".validate": "newData.isString() && newData.val().length > 2"},
+          "maskHeight":{ ".validate": "newData.isNumber() && newData.val() > 0"},
+          "maskTopMargin":{ ".validate": "newData.isNumber() && newData.val() > 0"},
+          "$other": { ".validate": false }
+        }
+      },
+      "ingredients":{
+        "$ingredient_id":{
+          ".validate": "newData.hasChildren(['name','colour'])",
+          "id":{ ".validate": "newData.isString()"},
+          "name":{ ".validate": "newData.isString() && newData.val().length > 2"},
+          "type":{ ".validate": "newData.isString()"},
+          "colour":{ ".validate": "newData.isString() && newData.val().length > 2"},
+          "alcohol":{ ".validate": "newData.isBoolean()"},
+          "$other": { ".validate": false }
+        }
+      }
+  }
+}
