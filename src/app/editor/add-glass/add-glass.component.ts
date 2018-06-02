@@ -45,8 +45,6 @@ export class AddGlassComponent implements OnDestroy {
 			name: new FormControl( glass.name, [ Validators.required, Validators.minLength( 4 ) ] ),
 			path: new FormControl( glass.path, Validators.required ),
 			mask: new FormControl( glass.mask, Validators.required ),
-			maskTopMargin: new FormControl( glass.maskTopMargin, Validators.required ),
-			maskHeight: new FormControl( glass.maskHeight, Validators.required ),
 		} );
 	}
 }

@@ -8,8 +8,6 @@ describe('Visualisation models', () => {
 				name         : '',
 				path         : '',
 				mask         : '',
-				maskTopMargin: 0,
-				maskHeight   : 0,
 			})
 		);
 	});

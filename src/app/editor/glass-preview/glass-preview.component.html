@@ -1,12 +1,4 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 60" class="glass-preview" *ngIf="glass">
     <path [attr.d]="glass.path"></path>
     <path [attr.d]="glass.mask"></path>
-    <line x1="0" x2="45"
-          [attr.y1]="glass.maskTopMargin"
-          [attr.y2]="glass.maskTopMargin"
-    ></line>
-    <line x1="0" x2="45"
-          [attr.y1]="glass.maskTopMargin + glass.maskHeight"
-          [attr.y2]="glass.maskTopMargin + glass.maskHeight"
-    ></line>
 </svg>

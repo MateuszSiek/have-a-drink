@@ -47,22 +47,16 @@ describe('AddGlassComponent', () => {
 
 	it('should render glass fields with data', () => {
 		const nameInput = fixture.nativeElement.querySelector('input[formControlName=name]');
-		const maskTopMarginInput = fixture.nativeElement.querySelector('input[formControlName=maskTopMargin]');
-		const maskHeightInput = fixture.nativeElement.querySelector('input[formControlName=maskHeight]');
 		const pathInput = fixture.nativeElement.querySelector('textarea[formControlName=path]');
 		const maskInput = fixture.nativeElement.querySelector('textarea[formControlName=mask]');
 		expect(nameInput.value).toEqual(MockedGlasses[ 0 ].name);
-		expect(maskTopMarginInput.value).toEqual(MockedGlasses[ 0 ].maskTopMargin.toString());
-		expect(maskHeightInput.value).toEqual(MockedGlasses[ 0 ].maskHeight.toString());
 		expect(pathInput.value).toEqual(MockedGlasses[ 0 ].path);
 		expect(maskInput.value).toEqual(MockedGlasses[ 0 ].mask);
 	});
 
 	it('should render visualisation', () => {
 		const paths = fixture.nativeElement.querySelectorAll('svg path');
-		const lines = fixture.nativeElement.querySelectorAll('svg line');
 		expect(paths.length).toEqual(2);
-		expect(lines.length).toEqual(2);
 	});
 
 

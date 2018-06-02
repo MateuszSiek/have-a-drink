@@ -4,6 +4,7 @@ import { DrinkRecipe, Glass, Ingredient } from '../../../core/models/visualisati
 import { map, takeUntil } from 'rxjs/operators';
 import { StoreService } from '../../services/store.service';
 
+import * as d3 from 'd3';
 
 export interface IngredientViewLayer {
 	y: number;
@@ -11,11 +12,17 @@ export interface IngredientViewLayer {
 	colour: string;
 }
 
+export interface GlassMaskSize {
+	topMargin: number;
+	height: number;
+}
+
 export interface ViewData {
 	mask: string;
 	path: string;
 	drinkLayers: IngredientViewLayer[];
 	recipe: DrinkRecipe;
+	maskData: GlassMaskSize;
 }
 
 @Injectable()
@@ -40,14 +47,15 @@ export class VisualisationService implements OnDestroy {
 		return this.storeService.getCurrentDrink()
 		.pipe(
 			takeUntil(this.ngOnDestroy$),
-			map(( drink: DrinkRecipe | undefined ) => {
-				if ( !(drink && drink.glass && drink.ingredients && drink.ingredients.length) ) {
+			map(( recipe: DrinkRecipe | undefined ) => {
+				if ( !(recipe && recipe.glass && recipe.ingredients && recipe.ingredients.length) ) {
 					return undefined;
 				}
-				const drinkLayers = this.createDrinkLayers(drink);
-				const mask = drink.glass.mask;
-				const path = drink.glass.path;
-				return { mask, path, drinkLayers, recipe: drink };
+				const maskData: GlassMaskSize = this.getMaskMeasurements(recipe);
+				const drinkLayers = this.createDrinkLayers(recipe, maskData);
+				const mask = recipe.glass.mask;
+				const path = recipe.glass.path;
+				return { mask, path, drinkLayers, maskData, recipe };
 			}));
 	}
 
@@ -56,9 +64,9 @@ export class VisualisationService implements OnDestroy {
 	 * with information necessary to render them such as position, colour and height
 	 * @returns array with definition on how each layer should be rendered in the view
 	 */
-	private createDrinkLayers( recipe: DrinkRecipe ): IngredientViewLayer[] {
-		const glass = recipe.glass as Glass;
-		const { maskHeight, maskTopMargin } = glass;
+	private createDrinkLayers( recipe: DrinkRecipe, maskData: GlassMaskSize ): IngredientViewLayer[] {
+		const maskHeight = maskData.height;
+		const maskTopMargin = maskData.topMargin;
 		const ingredients = recipe.ingredients;
 		// total sum of all ingredients
 		const ingredientsTotal = ingredients
@@ -80,6 +88,17 @@ export class VisualisationService implements OnDestroy {
 			topDist += ingredientHeightScaled;
 			return viewLayer;
 		});
+	}
+
+	private getMaskMeasurements( drink: DrinkRecipe ): GlassMaskSize {
+		const tmpContainer = d3.select('body').append('svg').attr('viewBox', '0 0 45 60');
+		const mask = tmpContainer.append('path').attr('d', drink.glass.mask);
+		const maskBBox = (mask.node() as SVGPathElement).getBBox();
+		tmpContainer.remove();
+		return {
+			topMargin: Number(maskBBox.y.toFixed(2)),
+			height   : Number(maskBBox.height.toFixed(2))
+		};
 	}
 
 }

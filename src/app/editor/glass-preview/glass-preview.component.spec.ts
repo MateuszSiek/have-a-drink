@@ -27,8 +27,6 @@ describe( 'GlassPreviewComponent', () => {
 
 	it( 'should render svg', () => {
 		const paths = fixture.nativeElement.querySelectorAll( 'svg path' );
-		const lines = fixture.nativeElement.querySelectorAll( 'svg line' );
 		expect( paths.length ).toEqual( 2 );
-		expect( lines.length ).toEqual( 2 );
 	} );
 } );

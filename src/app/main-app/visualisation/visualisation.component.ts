@@ -17,7 +17,7 @@ import { filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
 import { IngredientViewLayer, ViewData, VisualisationService } from './service/visualisation.service';
 import { D3Selection } from '../title/title.component';
-import { Glass, Ingredient, IngredientAmout, TypesOfDrinks } from '../../core/models/visualisation';
+import { Ingredient, IngredientAmout } from '../../core/models/visualisation';
 import { LOADING_GLASS_MASK, LOADING_GLASS_PATH } from './loading-paths';
 
 const VIEWBOX_HEIGHT = 60;
@@ -70,10 +70,9 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 			}),
 			tap(( data: ViewData ) => {
 				this.loading = false;
-				const glass = data.recipe.glass as Glass;
 				this.drinkType = data.recipe.type;
-				this.listTop = (glass.maskTopMargin / VIEWBOX_HEIGHT) * 100;
-				this.listHeight = (glass.maskHeight / VIEWBOX_HEIGHT) * 100;
+				this.listTop = (data.maskData.topMargin / VIEWBOX_HEIGHT) * 100;
+				this.listHeight = (data.maskData.height / VIEWBOX_HEIGHT) * 100;
 				this.ingredientsAmount = data.recipe.ingredientsAmount;
 				this.baseIngredients = data.recipe.ingredients.filter(( i: Ingredient ) => {
 					return this.ingredientsAmount[ i.id ].amount;
