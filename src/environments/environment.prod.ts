@@ -1,11 +1,11 @@
 export const environment = {
 	production: true,
 	firebase  : {
-		apiKey           : 'AIzaSyC8P8bRIZQ7vlGW810_1OW-SF_N-dbgYSI',
-		authDomain       : 'angular-test-f89fd.firebaseapp.com',
-		databaseURL      : 'https://angular-test-f89fd.firebaseio.com',
-		projectId        : 'angular-test-f89fd',
-		storageBucket    : 'angular-test-f89fd.appspot.com',
-		messagingSenderId: '69097822595'
+		apiKey           : 'AIzaSyCDw5HKD20Ca7iJu1L1BSXf9CHP_3jNOI0',
+		authDomain       : 'have-a-drink-d7560.firebaseapp.com',
+		databaseURL      : 'https://have-a-drink-d7560.firebaseio.com',
+		projectId        : 'have-a-drink-d7560',
+		storageBucket    : 'have-a-drink-d7560.appspot.com',
+		messagingSenderId: '20626436274'
 	}
 };
