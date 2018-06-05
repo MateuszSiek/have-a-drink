@@ -3,6 +3,8 @@
 Visualisation with various cocktail recipes.
 Created with [Angular](https://angular.io/), [ngrx](https://github.com/ngrx), [D3.js](https://d3js.org/) and [firebase](https://firebase.google.com/)
 
+You can see it live on [haveadrink.msiek.com](http://haveadrink.msiek.com/)
+
 ## User interface
 User interface consist of two parts:
 
