@@ -62,8 +62,9 @@ export class TitleComponent implements OnInit, OnDestroy {
 			.style('transform', ( d: any, idx: number, els: BaseType[] | ArrayLike<BaseType> ) => {
 				const findInOld = oldTitleContainer.select('span.letter-' + d.letter);
 				const oldEL = findInOld.node();
-				const { x: xRel, y: yRel } = oldEL && this.getRelativePosition(els[ idx ], oldEL) || { x: 0, y: 0 };
-				const scale = oldEL ? 1 : 0;
+				const { x: xRel, y: yRel } = oldEL &&
+				this.getRelativePosition(els[ idx ] as Element, oldEL as Element) || { x: 0, y: 0 };
+				const scale = oldEL ? 1 : 0.01;
 				return `translate(${xRel}px,${yRel}px)scale(${scale})`;
 			});
 
@@ -75,7 +76,7 @@ export class TitleComponent implements OnInit, OnDestroy {
 
 			tempTitleContainer.selectAll('span')
 			.transition()
-			.duration(1500)
+			.duration(1600)
 			.style('transform', 'translate(0,0)scale(1)')
 			.style('opacity', 1)
 			.on('end', () => {
@@ -90,9 +91,9 @@ export class TitleComponent implements OnInit, OnDestroy {
 		})();
 	}
 
-	private getRelativePosition( el1: BaseType, el2: BaseType ): { x: number, y: number } {
-		const bC1 = (el1 as Element).getBoundingClientRect();
-		const bC2 = (el2 as Element).getBoundingClientRect();
+	private getRelativePosition( el1: Element, el2: Element ): { x: number, y: number } {
+		const bC1 = el1.getBoundingClientRect();
+		const bC2 = el2.getBoundingClientRect();
 		const x = bC2.left - bC1.left;
 		const y = bC1.top - bC2.top;
 		return { x, y };
