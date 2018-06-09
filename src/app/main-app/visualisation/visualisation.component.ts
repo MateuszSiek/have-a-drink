@@ -13,7 +13,7 @@ import * as d3 from 'd3';
 
 import { Observable } from 'rxjs/Observable';
 import { bindCallback } from 'rxjs/observable/bindCallback';
-import { filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+import { filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import { IngredientViewLayer, ViewData, VisualisationService } from './service/visualisation.service';
 import { D3Selection } from '../title/title.component';
@@ -26,10 +26,10 @@ const ANIM_DURRATION = 400;
 
 
 @Component({
-	selector       : 'app-visualisation',
-	templateUrl    : './visualisation.component.html',
-	styleUrls      : [ './visualisation.component.scss', './visualisation-responsive.component.scss' ],
-	providers      : [ VisualisationService ],
+	selector   : 'app-visualisation',
+	templateUrl: './visualisation.component.html',
+	styleUrls  : [ './visualisation.component.scss', './visualisation-responsive.component.scss' ],
+	providers  : [ VisualisationService ],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VisualisationComponent implements OnInit, OnDestroy {
@@ -105,11 +105,12 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 		.style('opacity', 0);
 		return this.cleanUpCurrentRender()
 		.pipe(
-			tap(() => this.setClippingMask(mask)),
 			switchMap(() => this.renderGlass(path)),
-			switchMap(() => this.renderIngredients(drinkLayers)),
-			tap(() => tempMask.remove()),
-			take(1)
+			map(() => {
+				this.renderIngredients(drinkLayers);
+				this.setClippingMask(mask);
+				tempMask.remove();
+			})
 		);
 	}
 
@@ -124,7 +125,7 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 		const pathEl: SVGPathElement = tempMask.node();
 
 		const len = pathEl.getTotalLength();
-		const points = [];
+		const points: any = [];
 		const pathSize = pathEl.getBBox();
 		for ( let i = 0; i < len; i += 1 ) {
 			const point = pathEl.getPointAtLength(i);
@@ -134,6 +135,7 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 		}
 		const polygon = points.join(', ');
 		this.svgD3Selection!.select('.g--ingredients')
+		.style('opacity', 1) // after cleanup opacity of ingredients is set to 0, putting back to 1
 		.style('clip-path', `polygon(${polygon})`)
 		.style('-webkit-clip-path', `polygon(${polygon})`);
 	}
@@ -147,10 +149,12 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 	private cleanUpCurrentRender(): Observable<void> {
 		return bindCallback(
 			( cb: () => void ) => {
-				const ingredientsView: D3Selection = this.svgD3Selection!.select('.g--ingredients g');
+				const ingredientsContainer: D3Selection = this.svgD3Selection!.select('.g--ingredients');
+				const ingredientsView: D3Selection = ingredientsContainer.select('g');
 				const ingrViewEl: SVGGElement = ingredientsView.node() as SVGGElement;
 				if ( ingrViewEl ) {
 					const callback = () => {
+						ingredientsContainer.style('opacity', 0);
 						ingredientsView.remove();
 						cb();
 					};
@@ -159,7 +163,6 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 					.duration(ANIM_DURRATION)
 					.style('transform', `scale(0,1)`)
 					.on('end', callback);
-
 				}
 				else {
 					cb();
@@ -171,34 +174,26 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 	/*
 	 * Function responsible for rendering ingredients rectangles inside `.ingredients-layers` view element in the template.
 	 * Once rectangle for every ingredient is appended to the view animation is triggered
-	 * @returns observable which is triggered once animation has finished
 	 */
-	private renderIngredients( layers: IngredientViewLayer[] ): Observable<void> {
-		return bindCallback(
-			( cb: () => void ) => {
-				const container: D3Selection = this.svgD3Selection!.select('.g--ingredients').append('g');
+	private renderIngredients( layers: IngredientViewLayer[] ): void {
+		const container: D3Selection = this.svgD3Selection!.select('.g--ingredients').append('g');
 
-				const mask: SVGPathElement = this.svgD3Selection!.select('.temp-path').node() as SVGPathElement;
-				const maskWidth = mask && mask.getBBox().width;
-				layers.forEach(( layer: IngredientViewLayer ) => { // appending ingredients rectangles to the view
-					container.append('rect')
-					.classed('ingredient-layer', true)
-					.attr('x', (VIEWBOX_WIDTH - maskWidth) / 2)
-					.attr('y', layer.y)
-					.attr('width', maskWidth)
-					.attr('height', layer.h)
-					.style('transform', `scale(0,1)`)
-					.style('transform-origin', `${VIEWBOX_WIDTH / 2}px 0px`)
-					.style('fill', layer.colour)
-					.style('opacity', 0)
-					.transition()
-					.duration(ANIM_DURRATION)
-					.style('transform', `scale(1,1)`)
-					.style('opacity', 1)
-					.on('end', cb);
-				});
-			}
-		)();
+		const mask: SVGPathElement = this.svgD3Selection!.select('.temp-path').node() as SVGPathElement;
+		const maskWidth = mask && mask.getBBox().width;
+		layers.forEach(( layer: IngredientViewLayer ) => { // appending ingredients rectangles to the view
+			container.append('rect')
+			.classed('ingredient-layer', true)
+			.attr('x', (VIEWBOX_WIDTH - maskWidth) / 2)
+			.attr('y', layer.y)
+			.attr('width', maskWidth)
+			.attr('height', layer.h)
+			.style('transform-origin', `${VIEWBOX_WIDTH / 2}px 0px`)
+			.style('fill', layer.colour)
+			.style('opacity', 0)
+			.transition()
+			.duration(ANIM_DURRATION)
+			.style('opacity', 1);
+		});
 	}
 
 	/*
@@ -218,8 +213,8 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 		)();
 	}
 
-	private pathTween( currentPath: SVGPathElement, d1: string, precision: number ): any {
-		return function (): any {
+	private pathTween( currentPath: SVGPathElement, d1: string, precision: number ): () => ( t: number ) => string {
+		return () => {
 			const newPath: SVGPathElement = currentPath.cloneNode() as SVGPathElement;
 			const n0 = currentPath.getTotalLength();
 			const n1 = (newPath.setAttribute('d', d1), newPath).getTotalLength();
@@ -243,6 +238,5 @@ export class VisualisationComponent implements OnInit, OnDestroy {
 				return t < 1 ? 'M' + points.map(( p: any ) => p(t)).join('L') : d1;
 			};
 		};
-
 	}
 }

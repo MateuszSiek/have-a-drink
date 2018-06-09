@@ -60,8 +60,9 @@ export class DrinksListComponent implements OnInit, OnDestroy {
 			this.currentDrink = drink;
 			this.mobileListVisible = false;
 			this.cdRef.detectChanges();
-			if ( this.drinksList ) {
-				this.drinksList.nativeElement.querySelector('li.active').scrollIntoView({ behavior: 'smooth' });
+			const activeItem = this.drinksList && this.drinksList.nativeElement.querySelector('li.active');
+			if ( activeItem ) {
+				activeItem.scrollIntoView({ behavior: 'smooth' });
 			}
 		});
 
