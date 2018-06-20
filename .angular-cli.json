@@ -27,9 +27,7 @@
 		"styles/styles.scss",
 		"styles/loader.scss"
 	  ],
-	  "scripts": [
-		"assets/ga.js"
-	  ],
+	  "scripts": [],
 	  "environmentSource": "environments/environment.ts",
 	  "environments": {
 		"dev": "environments/environment.ts",
