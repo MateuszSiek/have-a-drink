@@ -12,7 +12,7 @@ import { environment } from '../../environments/environment';
 import { FirebaseService } from './services/firebase.service';
 import { appRootInitialState, appRootReducers, metaReducers } from './state';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { GlobalErrorHandlerService } from './services/global-error-handler.service';
+import { GlobalErrorHandlerService, rollbarFactory, RollbarService } from './services/global-error-handler.service';
 
 const FirebaseModules = [
 	AngularFireModule.initializeApp(environment.firebase),
@@ -31,7 +31,8 @@ const FirebaseModules = [
 	],
 	providers   : [
 		FirebaseService,
-		{ provide: ErrorHandler, useClass: GlobalErrorHandlerService }
+		{ provide: ErrorHandler, useClass: GlobalErrorHandlerService },
+		{ provide: RollbarService, useFactory: rollbarFactory }
 	],
 	declarations: []
 })

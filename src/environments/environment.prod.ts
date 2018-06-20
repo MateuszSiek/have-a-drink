@@ -7,5 +7,10 @@ export const environment = {
 		projectId        : 'have-a-drink-d7560',
 		storageBucket    : 'have-a-drink-d7560.appspot.com',
 		messagingSenderId: '20626436274'
+	},
+	rollbar   : {
+		accessToken               : '0582f625a38147b5b9a9de1c809319e7',
+		captureUncaught           : true,
+		captureUnhandledRejections: true,
 	}
 };

@@ -12,5 +12,10 @@ export const environment = {
 		projectId        : 'angular-test-f89fd',
 		storageBucket    : 'angular-test-f89fd.appspot.com',
 		messagingSenderId: '69097822595'
+	},
+	rollbar   : {
+		accessToken               : '0582f625a38147b5b9a9de1c809319e7',
+		captureUncaught           : true,
+		captureUnhandledRejections: true,
 	}
 };
