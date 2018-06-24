@@ -27,7 +27,6 @@ export class LoginComponent {
 			this.router.navigate([ '/editor' ]);
 		})
 		.catch(( error: any ) => {
-			console.log(error);
 			if ( error.code === 'auth/wrong-password' ) {
 				window.alert('Wrong password.');
 			} else {

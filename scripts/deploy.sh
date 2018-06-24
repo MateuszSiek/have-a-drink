@@ -9,4 +9,4 @@ ssh -tt circleci@206.189.19.182 << EOF
 EOF
 
 gzip --best --keep --recursive --force ./dist/
-scp -r ./dist/. circleci@206.189.19.182:/var/www/$DOMAIN_NAME
+rsync -av --del dist/ circleci@206.189.19.182:/var/www/$DOMAIN_NAME

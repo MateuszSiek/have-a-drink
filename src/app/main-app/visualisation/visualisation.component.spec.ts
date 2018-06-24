@@ -20,6 +20,7 @@ import { DrinksEffects } from '../store/effects';
 import { mainAppInitialState, mainAppReducer } from '../store/reducers';
 import { AppRootState } from '../../core/state';
 import { SetCurrentDrink } from '../store/actions';
+import { of } from 'rxjs/observable/of';
 
 describe('VisualisationComponent', () => {
 	let component: VisualisationComponent;
@@ -50,7 +51,7 @@ describe('VisualisationComponent', () => {
 		storeService = TestBed.get(StoreService);
 		store = TestBed.get(Store);
 		component = fixture.componentInstance;
-		store.dispatch(new SetCurrentDrink(MockedDrinks[ 0 ]));
+		spyOn(storeService, 'getCurrentDrink').and.returnValue(of(MockedDrinks[ 0 ]));
 		fixture.detectChanges();
 	});
 

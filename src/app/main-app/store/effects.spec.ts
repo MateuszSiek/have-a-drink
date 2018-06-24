@@ -11,6 +11,13 @@ import { Load, LoadComplete, SetCurrentDrink, SetDrinkByName } from './actions';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockedDrinks } from '../../../../testing/fixtures/drinks';
 import { ActivatedRoute } from '@angular/router';
+import { LocalStorage } from '@ngx-pwa/local-storage';
+import { of } from 'rxjs/observable/of';
+
+class MockedLocalStorage {
+	public getItem = () => of(undefined);
+	public setItem = () => of(undefined);
+}
 
 describe('#DrinksEffects', () => {
 	let effects: DrinksEffects;
@@ -27,6 +34,7 @@ describe('#DrinksEffects', () => {
 			DrinksEffects,
 			{ provide: Actions, useFactory: () => new TestActions() },
 			{ provide: FirebaseService, useClass: MockFirebaseService },
+			{ provide: LocalStorage, useClass: MockedLocalStorage },
 		],
 	});
 
