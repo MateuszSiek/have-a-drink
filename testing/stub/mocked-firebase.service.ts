@@ -23,6 +23,9 @@ export class MockFirebaseService {
 	public signOut(): void {
 	}
 
+	public getLastEdited(): Observable<number> {
+		return of(Date.now());
+	}
 
 	// GLASSES
 	public getGlasses(): Observable<Glass[]> {

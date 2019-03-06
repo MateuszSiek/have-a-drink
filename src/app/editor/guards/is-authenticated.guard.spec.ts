@@ -1,5 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
 import { User } from 'firebase';
 import { of } from 'rxjs/observable/of';
 
@@ -20,6 +21,7 @@ describe('IsAuthenticatedGuard', () => {
 			]
 		});
 		firebaseService = TestBed.get(FirebaseService);
+		spyOn(TestBed.get(Router), 'navigate').and.stub();
 	});
 
 	it('should ...', inject([ IsAuthenticatedGuard ], ( guard: IsAuthenticatedGuard ) => {

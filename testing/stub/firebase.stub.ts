@@ -6,7 +6,7 @@ import { MockedGlasses } from '../fixtures/glasses';
 export const MockedUser = { user: 'test' };
 
 export const AngularFireDatabaseStub = {
-	list: ( type: 'glasses' | 'ingredients' | 'drinks' ) => {
+	list  : ( type: 'glasses' | 'ingredients' | 'drinks' ) => {
 		return {
 			snapshotChanges: () => of(
 				[
@@ -38,7 +38,22 @@ export const AngularFireDatabaseStub = {
 				]
 			),
 		};
-	}
+	},
+	object: ( type: 'lastEdited' ) => {
+		return {
+			snapshotChanges: () => of(
+				[
+					{
+						payload: {
+							val: () => Date.now(),
+							key: 'qwerty'
+						}
+					}
+				]
+			),
+			set            : () => {}
+		};
+	},
 };
 
 export const AngularFireAuthStub = {

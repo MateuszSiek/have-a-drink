@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import { AngularFireDatabase, AngularFireList, AngularFireObject } from 'angularfire2/database';
 import { SnapshotAction } from 'angularfire2/database/interfaces';
 
 import { DrinkRecipe, Glass, Ingredient, IngredientAmout } from '../models/visualisation';
@@ -28,6 +28,7 @@ export class FirebaseService {
 	private glassesRef: AngularFireList<FBGLass>;
 	private ingredientsRef: AngularFireList<FBIngredient>;
 	private drinksRef: AngularFireList<FBDrink>;
+	private lastEditedRef: AngularFireObject<number>;
 	private drinks: DrinkRecipe[] = [];
 	private drinksIds: string[] = [];
 
@@ -37,6 +38,7 @@ export class FirebaseService {
 		this.glassesRef = db.list('glasses');
 		this.ingredientsRef = db.list('ingredients');
 		this.drinksRef = db.list('drinks');
+		this.lastEditedRef = db.object('lastEdited');
 		this.afAuth.authState.subscribe(( auth: User | null ) => {
 			this.authState = auth;
 		});
@@ -57,6 +59,15 @@ export class FirebaseService {
 		return this.afAuth.auth.signOut();
 	}
 
+	public getLastEdited(): Observable<number | undefined> {
+		return this.lastEditedRef.snapshotChanges().pipe(
+			map(( changes: SnapshotAction ) => changes.payload.val())
+		);
+	}
+
+	public updateLastEditedWithLatest(): void {
+		this.lastEditedRef.set(Date.now());
+	}
 
 	// GLASSES
 	public getGlasses(): Observable<Glass[]> {
@@ -70,10 +81,12 @@ export class FirebaseService {
 
 
 	public addGlass( glass: Glass ): void {
+		this.updateLastEditedWithLatest();
 		this.glassesRef.push(glass).then(() => {}, ( err ) => {alert('Save failed, error: ' + err); });
 	}
 
 	public removeGlass( glass: Glass ): void {
+		this.updateLastEditedWithLatest();
 		this.glassesRef.remove(glass.id);
 	}
 
@@ -83,6 +96,7 @@ export class FirebaseService {
 		findDrinks.forEach(( d: DrinkRecipe ) => {
 			updateObject[ `drinks/${d.id}/glass/${glass.id}` ] = glass;
 		});
+		this.updateLastEditedWithLatest();
 		this.db.database.ref().update(updateObject).catch(err => alert('Save failed, error: ' + err));
 	}
 
@@ -96,10 +110,12 @@ export class FirebaseService {
 	}
 
 	public addIngredient( ingredient: Ingredient ): void {
+		this.updateLastEditedWithLatest();
 		this.ingredientsRef.push(ingredient).then(() => {}, ( err ) => alert('Save failed, error: ' + err));
 	}
 
 	public removeIngredient( ingredient: Ingredient ): void {
+		this.updateLastEditedWithLatest();
 		this.ingredientsRef.remove(ingredient.id);
 	}
 
@@ -111,6 +127,7 @@ export class FirebaseService {
 		findDrinks.forEach(( d: DrinkRecipe ) => {
 			updateObject[ `drinks/${d.id}/ingredients/${ingredient.id}` ] = ingredient;
 		});
+		this.updateLastEditedWithLatest();
 		this.db.database.ref().update(updateObject).catch(err => alert('Save failed, error: ' + err));
 	}
 
@@ -134,16 +151,19 @@ export class FirebaseService {
 	}
 
 	public addDrink( recipe: DrinkRecipe ): void {
+		this.updateLastEditedWithLatest();
 		this.drinksRef.push(mapDrinkRecipeToFirebase(recipe)).then(() => {}, ( err ) => {alert('Save failed, error: ' + err); });
 	}
 
 	public removeDrink( recipe: DrinkRecipe ): void {
+		this.updateLastEditedWithLatest();
 		this.drinksRef.remove(recipe.id);
 	}
 
 	public updateDrink( recipe: DrinkRecipe ): void {
 		const id = recipe.id;
 		if ( id ) {
+			this.updateLastEditedWithLatest();
 			this.drinksRef.update(id, mapDrinkRecipeToFirebase(recipe))
 			.catch(( err: any ) => alert('Save failed, error: ' + err));
 		}

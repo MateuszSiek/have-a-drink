@@ -17,7 +17,7 @@ import { DrinkRecipe } from '../../core/models/visualisation';
 import { StoreService } from '../services/store.service';
 import { BaseType } from 'd3-selection';
 
-export type D3Selection = d3.Selection<d3.BaseType, any, d3.BaseType, undefined>;
+export type D3Selection = d3.Selection<any, any, d3.BaseType, undefined>;
 
 @Component({
 	selector       : 'app-title',

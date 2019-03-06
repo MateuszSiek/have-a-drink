@@ -1,7 +1,7 @@
 @import 'abstracts';
 
 html, body {
-  background: url("../assets/parchment_background.jpg") no-repeat center center fixed;
+  background: radial-gradient(white, gainsboro);
   background-size: cover;
   margin: 0;
   color: $black;
