@@ -72,6 +72,9 @@
 		"typescript": "2.8.1",
 		"webpack-bundle-analyzer": "2.11.1"
 	},
+  "engines": {
+    "node": "<= 9.0.0"
+  },
 	"bundlesize": [
 		{
 			"path": "./dist/inline*.js",
